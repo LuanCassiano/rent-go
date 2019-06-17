@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../../database/database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -6,7 +6,7 @@ const authConfig = require('../../config/auth');
 
 const userSchema = new mongoose.Schema({
     
-    name: {
+    fullname: {
         type: String,
         required: true
     },
@@ -17,16 +17,6 @@ const userSchema = new mongoose.Schema({
     },
 
     mobile_phone: {
-        type: String,
-        required: true
-    },
-
-    cpf: {
-        type: String,
-        required: true
-    },
-
-    rg: {
         type: String,
         required: true
     },
@@ -46,11 +36,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-
-    trips: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'trip'
-    }],
 
     createdAt: {
         type: Date,
