@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "NODE_ENV=dev nodemon src/index.js",
-    "prod": "NODE_ENV=prod node src/index.js"
+    "dev": "nodemon src/index.js",
+    "prod": "node src/index.js"
   },
   "keywords": [],
   "author": "",
