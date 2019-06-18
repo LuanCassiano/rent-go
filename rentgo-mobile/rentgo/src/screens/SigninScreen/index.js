@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Animated, AsyncStorage, StatusBar } from 'react-native';
-// import api from '../../services/api';
+import { Animated, AsyncStorage, StatusBar, Image } from 'react-native';
+import api from '../../services/api';
+
+import LogoImage from '../../assets/img/logo1.png';
 
 import { 
     Container,
@@ -14,7 +16,8 @@ import {
     TextButton,
     TextHref,
     Title,
-    ErrorMessage
+    ErrorMessage,
+    Logo
 } from './styles';
 
 export default function SigninScreen(props) {
@@ -36,40 +39,38 @@ export default function SigninScreen(props) {
         }).start();
     }, []);
 
-    // async function handleSignIn() {
-    //     if(!email || !password) {
-    //         setError('Informe seu e-mail e sua senha para continuar!');
-    //         setTimeout(() => {
-    //             setError('');
-    //         }, 3000);
-    //     } else {
-    //         try {
-    //             const response = await api.post('/api/authentication', {
-    //                 email: email,
-    //                 password: password
-    //             });
+    async function handleSignIn() {
+        if(!email || !password) {
+            setError('Informe seu e-mail e sua senha para continuar!');
+            setTimeout(() => {
+                setError('');
+            }, 3000);
+        } else {
+            try {
+                const response = await api.post('/api/authentication', {
+                    email: email,
+                    password: password
+                });
     
-    //             AsyncStorage.setItem('MyStoreToken', response.data.token);
-    //             AsyncStorage.setItem('MyStoreUser', JSON.stringify(response.data.result))
+                AsyncStorage.setItem('MyStoreToken', response.data.token);
+                AsyncStorage.setItem('MyStoreUser', JSON.stringify(response.data.result))
 
-    //             goToHome();
-    //         } catch (error) {
-    //             setError('Erro ao fazer login, verifique suas credenciais!');
-    //             setTimeout(() => {
-    //                 setError('');
-    //             }, 3000);
-    //         }
-    //     }
-    // }
+                goToHome();
+            } catch (error) {
+                setError('Erro ao fazer login, verifique suas credenciais!');
+                setTimeout(() => {
+                    setError('');
+                }, 3000);
+            }
+        }
+    }
 
     return (
         <Container>
-            <StatusBar backgroundColor="#1c2331"/>
-            <Title>RENT&#38;GO</Title>
-
-            <Animated.View style={{opacity: animation}}>
+            <Animated.View style={{opacity: animation, alignItems: 'center'}}>
+                <Logo source={LogoImage}/>
                 <CardForm>
-                    <Title>Vamos lá!</Title>
+                    <Title>Bem-vindo ao Rent&#38;Go!</Title>
                     <Form>
                         <FormIcon source={require('../../assets/img/email.png')}/>
                         <FormInput 
@@ -104,7 +105,7 @@ export default function SigninScreen(props) {
                         <ErrorMessage>{error}</ErrorMessage>
                     )}
 
-                    <ButtonSubmit onPress={() => {}}>
+                    <ButtonSubmit onPress={handleSignIn}>
                         <TextButton>Entrar</TextButton>
                     </ButtonSubmit>
 

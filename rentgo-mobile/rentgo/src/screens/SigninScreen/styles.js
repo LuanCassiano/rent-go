@@ -11,6 +11,11 @@ export const Container = styled(LinearGradient).attrs({
     align-items: center;
 `;
 
+export const Logo = styled.Image`
+    width: 300px; 
+    height: 250px;
+`;
+
 export const CardForm = styled.View`
     margin: 20px 30px 20px 30px;
     background-color: #FFFFFF;
@@ -63,7 +68,7 @@ export const TextButton = styled.Text`
 export const Title = styled.Text`
     text-align: center;
     color: #3F729B;
-    font-size: 30px;
+    font-size: 16px;
     font-family: 'Quicksand-Bold';
 `;
 
