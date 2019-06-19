@@ -41,6 +41,43 @@ const driverSchema = new mongoose.Schema({
         required: true
     },
 
+    isDriver: {
+        type: Boolean,
+        default: true
+    },
+
+    mobile_verified: {
+        type: Boolean,
+        default: false
+    },
+
+    evaluation_note: {
+        type: Number,
+        default: 0
+    },
+
+    positive_ratings: {
+        type: Number,
+        default: 0
+    },
+
+    negative_ratings: {
+        type: Number,
+        default: 0
+    },
+
+    evaluation: [{
+        passenger: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user'
+        },
+
+        content: {
+            type: String,
+            required: true
+        },
+    }],
+
     createdAt: {
         type: Date,
         default: Date.now
