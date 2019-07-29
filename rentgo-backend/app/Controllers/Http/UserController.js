@@ -4,28 +4,27 @@ const User = use('App/Models/User')
 
 class UserController {
 
-	async store ({ request, response }) {
+	async store ({ request, response, auth }) {
         try {
             const data = request.only([
-                'fullname',
-                'mobile_phone',
-                'profile_image',
                 'username',
                 'email',
                 'password'
             ])
-
+            
             const user = await User.create(data)
+
+            const { email, password } = request.all()
+
+            const token = await auth.attempt(email, password)
 
             return response.json({
                 status: 'created',
-                result: user
+                result: user, 
+                token
             })
         } catch (error) {
-            return response.json({
-                status: 'not created',
-                result: error
-            })
+            return error
         }
 	}
 
@@ -38,10 +37,7 @@ class UserController {
                 result: user
             })
         } catch (error) {
-            return response.json({
-                status: 'error loading user',
-                result: error
-            })
+            return error
         }
 	}
 
@@ -50,9 +46,6 @@ class UserController {
             const user = await User.findOrFail(params.id)
             const data = request.only([
                 'username',
-                'phone',
-                'profile_image',
-                'mobile_phone'
             ])
 
             user.merge(data)
@@ -65,10 +58,7 @@ class UserController {
             })
 
         } catch (error) {
-            return response.json({
-                status: 'not updated',
-                result: error
-            })
+            return error
         }
 	}
 
