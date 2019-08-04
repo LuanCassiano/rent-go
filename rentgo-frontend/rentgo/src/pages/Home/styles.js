@@ -31,6 +31,14 @@ const useStyles = makeStyles(theme => ({
           padding: theme.spacing(6),
           paddingRight: 0,
         },
+    },
+
+    cardMedia: {
+        height: 200
+    },
+
+    title: {
+        textAlign: "center"
     }
 }))
 

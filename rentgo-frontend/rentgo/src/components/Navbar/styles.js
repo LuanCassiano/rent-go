@@ -1,38 +1,30 @@
-import { makeStyles } from '@material-ui/core/styles'
+import styled from 'styled-components';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 0,
-    },
-    menuButton: {
-      marginRight: theme.spacing(4),
-    },
-    title: {
-      flexGrow: 1,
-    },
+export const NavOption = styled.a`
+    color: #FFFFFF !important;
+    font-family: 'Quicksand';
+    font-weight: 400;
+`;
 
-    barColor: {
-        backgroundColor: '#1C2331'
-    },
+export const Header = styled.nav`
+    background-color: #1C2331 !important;
+    padding: 20px;
+`;
 
-    signButton: {
-        backgroundColor: '#3F729B'
-    },
+export const Brand = styled.a`
+    color: #FFFFFF !important; 
+    font-family: 'Quicksand';
+    font-weight: 600;
+    text-transform: uppercase;
+`;
 
-    navLink: {
-        textDecoration: 'none', 
-        textTransform: 'uppercase', 
-        color: '#FFFFFF', 
-        fontWeight: 500,
-        padding: 6,
-        marginRight: 5,
-        '&:hover': {
-            backgroundColor: '#3F729B',
-            color: '#FFFFFF',
-            padding: 6,
-            borderRadius: 5
-        }
-    }
-}))
+export const Toggler = styled.button`
 
-export default useStyles
+`;
+
+export const LinkButton = styled.button`
+    background-color: #3F729B !important;
+    color: #FFFFFF !important; 
+    font-family: 'Quicksand';
+    font-weight: 400;
+`;
