@@ -67,58 +67,51 @@ export default function SigninScreen(props) {
 
     return (
         <Container>
-            <Animated.View style={{opacity: animation, alignItems: 'center'}}>
-                <Logo source={LogoImage}/>
-                <CardForm>
-                    <Title>Bem-vindo ao Rent&#38;Go!</Title>
-                    <Form>
-                        <FormIcon source={require('../../assets/img/email.png')}/>
-                        <FormInput 
-                            placeholder="Seu e-mail" 
-                            placeholderTextColor="#1C2331"
-                            autoCapitalize="none" 
-                            autoCorrect={false} 
-                            underlineColorAndroid="transparent" 
-                            textContentType="emailAddress"
-                            value={email}
-                            onChangeText={setEmail}
-                        />
-                    </Form>
+            <Logo source={LogoImage}/>
+            <CardForm>
+                <Title>Bem-vindo ao Rent&#38;Go!</Title>
+                <Form>
+                    <FormIcon source={require('../../assets/img/email.png')}/>
+                    <FormInput 
+                        placeholder="Seu e-mail" 
+                        placeholderTextColor="#1C2331"
+                        autoCapitalize="none" 
+                        autoCorrect={false} 
+                        underlineColorAndroid="transparent" 
+                        textContentType="emailAddress"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
+                </Form>
 
-                    <Form>
-                        <FormIcon source={require('../../assets/img/lock.png')}/>
-                        <FormInput 
-                            placeholder="Sua senha" 
-                            placeholderTextColor="#1C2331"
-                            autoCapitalize="none" 
-                            autoCorrect={false} 
-                            underlineColorAndroid="transparent" 
-                            secureTextEntry  
-                            value={password}
-                            onChangeText={setPassword}
-                        />
-                    </Form>
+                <Form>
+                    <FormIcon source={require('../../assets/img/lock.png')}/>
+                    <FormInput 
+                        placeholder="Sua senha" 
+                        placeholderTextColor="#1C2331"
+                        autoCapitalize="none" 
+                        autoCorrect={false} 
+                        underlineColorAndroid="transparent" 
+                        secureTextEntry  
+                        value={password}
+                        onChangeText={setPassword}
+                    />
+                </Form>
 
-                    { !error ? (
-                        null
-                    ) : (
-                        <ErrorMessage>{error}</ErrorMessage>
-                    )}
+                { !error ? (
+                    null
+                ) : (
+                    <ErrorMessage>{error}</ErrorMessage>
+                )}
 
-                    <ButtonSubmit onPress={handleSignIn}>
-                        <TextButton>Entrar</TextButton>
-                    </ButtonSubmit>
+                <ButtonSubmit onPress={handleSignIn}>
+                    <TextButton>Entrar</TextButton>
+                </ButtonSubmit>
 
-                    <Row>
-                        <Href>
-                            <TextHref>Esqueci minha senha</TextHref>
-                        </Href>
-                        <Href onPress={() => {}}>
-                            <TextHref>Criar uma conta</TextHref>
-                        </Href>
-                    </Row>
-                </CardForm>
-            </Animated.View>
+                <Href>
+                    <TextHref>Esqueci minha senha</TextHref>
+                </Href>
+            </CardForm>
         </Container>
     );
 }

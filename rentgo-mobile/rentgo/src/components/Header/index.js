@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, AsyncStorage } from 'react-native';
+import { ActivityIndicator, AsyncStorage, TouchableOpacity, Image, View } from 'react-native';
 
 import { 
     Container,
@@ -8,60 +8,50 @@ import {
     HeaderActionButtonIcon,
     Title,
     ViewGeneric,
-    ButtonImageProfile,
-    ImageProfile
 } from './styles';
 
-// import BackIcon from '../../assets/img/left-arrow.png';
+import menuIcon from '../../assets/icons/menu.png'
+import backIcon from '../../assets/icons/back.png'
 
 export default function Header(props) {
 
-    const [profileImage, setProfileImage] = useState('');
+    goBack = () => {
+        props.onBack.goBack()
+    }
 
-    _renderBackButton = () => {
+    _renderAction = () => {
         if(props.onBack) {
             return (
-                <HeaderActionButton onPress={props.onBack}>
-                    <HeaderActionButtonIcon source={BackIcon}/>
-                </HeaderActionButton>
+                <View style={{backgroundColor: 'transparent'}}>
+                    <Content>
+                        <TouchableOpacity style={{width: 50, height: 50}} onPress={goBack}>
+                            <Image source={backIcon} style={{width: 20, height: 20, margin: 20}}/>
+                        </TouchableOpacity>
+                    </Content>
+                </View>
             )
         }
 
-        return (
-            <ViewGeneric/>
-        )
+        if(props.onDrawer) {
+            return (
+                <Container>
+                    <Content>
+                        <HeaderActionButton onPress={props.onDrawer}>
+                            <HeaderActionButtonIcon source={menuIcon}/>
+                        </HeaderActionButton>
+                        <Title>{props.title}</Title>
+                        <View>
+                            
+                        </View>
+                    </Content>
+                </Container>
+            )
+        }
     }
-
-    _renderProfileImage = () => {
-        return (
-            <ButtonImageProfile onPress={props.onSignOut}>
-                { !profileImage ? (
-                    <ActivityIndicator size="large" color="#3F729B"/>
-                ) : (
-                    <ImageProfile source={{uri: profileImage}}/>
-                )}
-            </ButtonImageProfile>
-        )
-    }
-
-    // useEffect(() => {
-    //     async function loadUserInfo() {
-    //         const info = await AsyncStorage.getItem('MyStoreUser');
-    //         const data = JSON.parse(info);
-
-    //         setProfileImage(data.profile_image)
-    //     }
-
-    //     loadUserInfo();
-    // }, [])
 
     return (
-        <Container>
-            <Content>
-                {/* { _renderBackButton()} */}
-                <Title numberOfLines={1}>{props.title}</Title>
-                {/* { _renderProfileImage()} */}
-            </Content>
-        </Container>
+        <>
+            { _renderAction()}
+        </>
     );
 }

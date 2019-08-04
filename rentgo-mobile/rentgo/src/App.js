@@ -14,7 +14,6 @@ export default function App() {
                 setLogged(true);
                 return
             }
-            console.log('data', data);
         }
 
         loadDataFromStorage();

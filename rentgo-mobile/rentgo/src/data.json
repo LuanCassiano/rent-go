@@ -1,0 +1,30 @@
+[
+    {
+        
+        "id" : 1,
+        "name" : "John Doe",
+        "profile_image": "https://firebasestorage.googleapis.com/v0/b/mystore-1e767.appspot.com/o/john-doe.jpg?alt=media&token=04ff13bb-da27-4afd-8382-348aed9d4863",
+        "rating": 4.8
+    },
+    {
+        
+        "id" : 2,
+        "name" : "Ammy Lee",
+        "profile_image": "https://firebasestorage.googleapis.com/v0/b/mystore-1e767.appspot.com/o/ammy-lee.jpg?alt=media&token=7dbd2938-bb50-4b51-a182-fe3112052325",
+        "rating": 4.7
+    },
+    {
+        
+        "id" : 3,
+        "name" : "Steve Rogers",
+        "profile_image": "https://firebasestorage.googleapis.com/v0/b/mystore-1e767.appspot.com/o/d4b990567c5b79dbc0028d83cc87da96-OmniStack%20-%20Wallpaper%201440x900.png?alt=media&token=52eede45-ee63-4e51-b114-0a47b81fb49d",
+        "rating": 4.7
+    },
+    {
+        
+        "id" : 4,
+        "name" : "Jannet Burnes",
+        "profile_image": "https://firebasestorage.googleapis.com/v0/b/mystore-1e767.appspot.com/o/ammy-lee.jpg?alt=media&token=7dbd2938-bb50-4b51-a182-fe3112052325",
+        "rating": 4.6
+    }
+]
