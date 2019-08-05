@@ -5,6 +5,23 @@ const Passenger = use('App/Models/Passenger')
 
 class PassengerController {
 
+	async show ({ response, auth }) {
+		try {
+			const passenger = await Database
+									.select('username', 'email', 'fullname', 'mobile_phone', 'profile_image')
+									.from('passengers')
+									.leftJoin('users', 'passengers.user_id', 'users.id')
+									.where('users.id', '=', auth.user.id)
+
+			return response.json({
+				status: 'ok',
+				result: passenger
+			})
+		} catch (error) {
+			return error
+		}
+	}
+
 	async store ({ request, response, auth }) {
 		try {
 			const data = request.only([

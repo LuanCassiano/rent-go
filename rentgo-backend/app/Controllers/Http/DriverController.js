@@ -9,9 +9,9 @@ class DriverController {
 		const { dist_max } = request.all()
 
 		const drivers = await Database
-								.select('fullname', 'mobile_phone')
+								.select('fullname', 'mobile_phone', 'profile_image')
 								.from('drivers')
-								.where('dist_max', '=', dist_max)
+								.where('dist_max', '>=', dist_max)
 
 		return response.json({
 			status: 'ok',
