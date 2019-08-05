@@ -35,7 +35,7 @@ export const Form = styled.View`
 
 export const FormInput = styled.TextInput`
     font-size: 16px;
-    color: #3F729B;
+    color: #1C2331;
     align-self: stretch;
     flex: 1;
     font-family: 'Quicksand-Medium';
@@ -67,7 +67,7 @@ export const TextButton = styled.Text`
 
 export const Title = styled.Text`
     text-align: center;
-    color: #3F729B;
+    color: #1C2331;
     font-size: 16px;
     font-family: 'Quicksand-Bold';
 `;

@@ -27,6 +27,6 @@ export default function Routes(isLoggedIn = false) {
         Signin: SigninScreen,
         Drawer: DrawerNavigator
     }, {
-        initialRouteName: isLoggedIn ? 'Drawer' : 'Drawer'
+        initialRouteName: isLoggedIn ? 'Drawer' : 'Signin'
     }))
 }   

@@ -29,7 +29,7 @@ export default function CardDrivers(props) {
                 <CardBody>
                     <CardImage source={{uri: item.profile_image}}/>
                     <ViewInfo>
-                        <CardTitle>{item.name}</CardTitle>
+                        <CardTitle>{item.fullname}</CardTitle>
                         <CardText>{item.rating}</CardText>
                     </ViewInfo>
                 </CardBody>
