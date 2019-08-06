@@ -5,7 +5,7 @@ import App from './App';
 export default function Root() {
     return (
         <>
-            <StatusBar backgroundColor="#1c2331" barStyle="light-content"/>
+            <StatusBar backgroundColor="#151a25" barStyle="light-content"/>
             <App />
         </>
     )

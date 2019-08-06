@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, AsyncStorage, Text } from 'react-native'
+import { Modal, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
 import { getGeoInfo } from '../../services/geo-api'
@@ -118,7 +118,7 @@ export default function HomeScreen(props) {
                         </ButtonCloseModal>
 
                         <Input 
-                            placeholder="Aonde você está ?"
+                            placeholder="Ponto de partida ?"
                             placeholderTextColor="#1C2331"
                             autoCorrect={false}
                             autoCapitalize="none"

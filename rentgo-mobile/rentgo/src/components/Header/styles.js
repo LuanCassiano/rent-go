@@ -1,7 +1,11 @@
-import styled from 'styled-components/native';
+import { Platform } from 'react-native'
+import styled from 'styled-components/native'
 
 export const Container = styled.View`
-    padding: 20px;
+    padding-top: ${Platform.OS === "ios" ? 20 : 15};
+    padding-left: ${Platform.OS === "ios" ? 20 : 15};
+    padding-right: ${Platform.OS === "ios" ? 20 : 15};
+    padding-bottom: ${Platform.OS === "ios" ? 20 : 15};
     background-color: #1C2331;
 `;
 
@@ -11,18 +15,20 @@ export const Content = styled.View`
 `;
 
 export const HeaderActionButton = styled.TouchableOpacity`
-    width: 30;
-    height: 30;
-    margin: 20px 20px 0px 10px;
+    width: 30px;
+    height: 30px;
+    margin-top: ${Platform.OS === "ios" ? 25 : 5};
+    margin-bottom: 0px;
+    margin-left: 10px;
 `;
 
 export const HeaderActionButtonIcon = styled.Image`
-    width: 30; 
-    height: 30;
+    width: 30px; 
+    height: 30px;
 `;
 
 export const Title = styled.Text`
-    margin-top: 20px;
+    margin-top: ${Platform.OS === "ios" ? 28 : 5};
     margin-right: 50px;
     color: #FFF;
     font-family: 'Quicksand-Bold';

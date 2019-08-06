@@ -43,18 +43,15 @@ export default function SigninScreen(props) {
                     email: email,
                     password: password
                 })
-    
-                console.log('resp', response)
 
                 AsyncStorage.setItem('RentGoToken', response.data.token);
 
                 goToHome()
             } catch (error) {
-                console.log('error', error.message)
-                // setError('Erro ao fazer login, verifique suas credenciais!')
-                // setTimeout(() => {
-                //     setError('')
-                // }, 3000)
+                setError('Erro ao fazer login, verifique suas credenciais!')
+                setTimeout(() => {
+                    setError('')
+                }, 3000)
             }
         }
     }

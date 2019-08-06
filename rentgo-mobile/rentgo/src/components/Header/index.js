@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, AsyncStorage, TouchableOpacity, Image, View } from 'react-native';
+import { TouchableOpacity, Image, View } from 'react-native';
 
 import { 
     Container,
@@ -12,6 +12,7 @@ import {
 
 import menuIcon from '../../assets/icons/menu.png'
 import backIcon from '../../assets/icons/back.png'
+import returnIcon from '../../assets/icons/return.png'
 
 export default function Header(props) {
 
@@ -38,6 +39,22 @@ export default function Header(props) {
                     <Content>
                         <HeaderActionButton onPress={props.onDrawer}>
                             <HeaderActionButtonIcon source={menuIcon}/>
+                        </HeaderActionButton>
+                        <Title>{props.title}</Title>
+                        <View>
+                            
+                        </View>
+                    </Content>
+                </Container>
+            )
+        }
+
+        if(props.goBack) {
+            return (
+                <Container>
+                    <Content>
+                        <HeaderActionButton onPress={props.goBack}>
+                            <HeaderActionButtonIcon source={returnIcon}/>
                         </HeaderActionButton>
                         <Title>{props.title}</Title>
                         <View>
