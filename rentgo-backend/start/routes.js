@@ -15,12 +15,13 @@ Route.group(() => {
     Route.put('/api/van/:id', 'VanController.update')
     Route.delete('/api/van/:id', 'VanController.destroy')
 
+
     Route.get('/api/passenger', 'PassengerController.show')
     Route.post('/api/passenger', 'PassengerController.store')
     Route.put('/api/passenger/:id', 'PassengerController.update')
 
     Route.get('/api/drivers', 'DriverController.index')
-    Route.get('/api/driver', 'DriverController.show')
+    Route.get('/api/driver/:id', 'DriverController.show')
     Route.post('/api/driver', 'DriverController.store')
     Route.put('/api/driver/:id', 'DriverController.update')
 }).middleware(['auth'])

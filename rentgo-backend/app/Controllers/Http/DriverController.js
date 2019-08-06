@@ -9,7 +9,7 @@ class DriverController {
 		const { dist_max } = request.all()
 
 		const drivers = await Database
-								.select('fullname', 'mobile_phone', 'profile_image')
+								.select('id','fullname', 'mobile_phone', 'profile_image')
 								.from('drivers')
 								.where('dist_max', '>=', dist_max)
 
@@ -44,13 +44,13 @@ class DriverController {
 		}
 	}
 
-	async show ({ response, auth }) {
+	async show ({ params, response }) {
 		try {
 			const driver = await Database
-										.select('id', 'users.id', 'username', 'email', 'fullname', 'mobile_phone', 'profile_image')
+										.select('username', 'email', 'fullname', 'mobile_phone', 'profile_image', 'dist_max')
 										.from('drivers')
 										.leftJoin('users', 'drivers.user_id', 'users.id')
-										.where('users.id', '=', auth.user.id)
+										.where('drivers.id', '=', params.id)
 
 			return response.json({
 				status: 'ok',
