@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'react-native';
+import React, { useEffect, useState } from 'react'
+import { StatusBar } from 'react-native'
+
+import api from '../../services/api'
 
 import { 
 	Container,
@@ -14,21 +16,30 @@ import {
 	Row,
 	TextInfo,
 	ViewGeneric
-} from './styles';
+} from './styles'
 
 import Header from '../../components/Header'
-
-import data from '../../data.json'
 
 import driverIcon from '../../assets/icons/driver.png'
 import starIcon from '../../assets/icons/star.png'
 
 export default function DriverScreen(props) {
 
+	const driverId = props.navigation.getParam('driver')
+
 	const [driver, setDriver] = useState({})
 
 	useEffect(() => {
-		setDriver(data[0])
+		async function loadDataDriver() {
+			try {
+				const response = await api.get(`/api/driver/${driverId}`)
+				setDriver(response.data.result[0])
+			} catch (error) {
+				console.log(error)
+			}
+		}
+
+		loadDataDriver()
 	}, [])
 
 	return (
@@ -44,32 +55,36 @@ export default function DriverScreen(props) {
 				<Row>
 					<ContentInfo>
 						<Icon source={driverIcon}/>
-						<Label>{driver.name}</Label>
+						<Label>{driver.fullname}</Label>
 					</ContentInfo>
 
 					<ContentInfo>
 						<Icon source={starIcon}/>
-						<Label>{driver.rating}</Label>
+						{ driver.rating ? (
+							<Label>{driver.rating}</Label>
+						) : (
+							<Label>0.0</Label>
+						)}
 					</ContentInfo>
 				</Row>
 
 				<ContentDetails>
 					<TextInfo>Viagens Realizadas</TextInfo>
-					<TextInfo>16</TextInfo>
+					<TextInfo>0</TextInfo>
 				</ContentDetails>
 
 				<Divider/>
 			
 				<ContentDetails>
 					<TextInfo>Van</TextInfo>
-					<TextInfo>3</TextInfo>
+					<TextInfo>0</TextInfo>
 				</ContentDetails>
 
 				<Divider/>
 			
 				<ContentDetails>
 					<TextInfo>Distância viajada</TextInfo>
-					<TextInfo>300km</TextInfo>
+					<TextInfo>até {driver.dist_max}km</TextInfo>
 				</ContentDetails>
 
 				<ActionButton>
@@ -77,5 +92,5 @@ export default function DriverScreen(props) {
 				</ActionButton>
 			</ViewGeneric>
 		</Container>
-	);
+	)
 }
