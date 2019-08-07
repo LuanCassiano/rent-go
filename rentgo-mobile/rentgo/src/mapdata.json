@@ -1,0 +1,17 @@
+{
+    "id": "1",
+    "type": "Feature",
+    "geometry": {
+        "type": "Point",
+        "coordinates": [
+            -48.614625,
+            -26.801477
+        ]
+    },
+    "properties": {
+        "name": "Place 1",
+        "phoneFormatted": "(202) 234-7336",
+        "addressFormatted": "33 Birchwood Drive, North Arlington",
+        "hoursFormatted": "10 AM - 9 PM"
+    }
+}

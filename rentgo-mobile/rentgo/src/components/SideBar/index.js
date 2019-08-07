@@ -32,7 +32,7 @@ export default function SideBar(props) {
         }
 
         loadDataFromStorage()
-    }, [])
+    }, [username])
 
     return (
         <Container>

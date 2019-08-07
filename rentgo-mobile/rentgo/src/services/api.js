@@ -2,7 +2,7 @@ import axios from 'axios'
 import { AsyncStorage } from 'react-native'
 
 const api = axios.create({
-    baseURL: 'http://localhost:3333'
+    baseURL: 'https://api-tcc-rentgo.herokuapp.com'
 })
 
 api.interceptors.request.use(async (config) => {

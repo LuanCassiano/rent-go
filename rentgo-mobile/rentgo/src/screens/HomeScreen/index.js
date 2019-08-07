@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Modal, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
-import { getGeoInfo } from '../../services/geo-api'
+import { getGeoInfo, getDirectionInfo } from '../../services/geo-api'
 import { getDistance } from '../../helpers/distance'
 
 import { 
@@ -61,8 +61,12 @@ export default function HomeScreen(props) {
 
     travelDistance = async () => {
         const response = await getDistance(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
+        const direction = await getDirectionInfo(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
 
         setDistance(response)
+
+        await AsyncStorage.setItem('TravelPath', JSON.stringify(direction))
+
         setModalVisible(!modalVisible)
     }
 
@@ -92,6 +96,7 @@ export default function HomeScreen(props) {
         async function loadDrivers() {
             try {
                 const response = await api.get(`/api/drivers?dist_max=${distance}`)
+                console.log('res driver', response)
                 setDriver(response.data.result)
             } catch (error) {
                 console.log(error)
