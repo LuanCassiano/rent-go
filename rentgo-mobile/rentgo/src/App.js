@@ -26,7 +26,9 @@ export default function App() {
         OneSignal.addEventListener('received', receivedPush)
         OneSignal.addEventListener('opened', openedPush)
         OneSignal.addEventListener('ids', idsPush)
+
     }, [])
+
 
     function receivedPush(push) {
         console.log('push', push)
@@ -34,6 +36,15 @@ export default function App() {
 
     function openedPush(push) {
         console.log('opened', push)
+        if(push.action.actionID === "1") {
+            console.log('viagem aceita')
+            return
+        }
+
+        if(push.action.actionID === "2") {
+            console.log('viagem recusada')
+            return
+        }
     }
 
     function idsPush(push) {
