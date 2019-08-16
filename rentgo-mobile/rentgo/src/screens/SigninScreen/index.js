@@ -43,8 +43,11 @@ export default function SigninScreen(props) {
                     email: email,
                     password: password
                 })
+                await AsyncStorage.setItem('RentGoToken', response.data.token)
+                
+                const res = await api.get('/api/passenger')
+                await AsyncStorage.setItem('RentGoUser', JSON.stringify(res.data.result[0]))
 
-                AsyncStorage.setItem('RentGoToken', response.data.token);
 
                 goToHome()
             } catch (error) {
@@ -59,50 +62,48 @@ export default function SigninScreen(props) {
     return (
         <Container>
             <Logo source={LogoImage}/>
-            <CardForm>
-                <Title>Bem-vindo ao Rent&#38;Go!</Title>
-                <Form>
-                    <FormIcon source={require('../../assets/img/email.png')}/>
-                    <FormInput 
-                        placeholder="Seu e-mail" 
-                        placeholderTextColor="#1C2331"
-                        autoCapitalize="none" 
-                        autoCorrect={false} 
-                        underlineColorAndroid="transparent" 
-                        textContentType="emailAddress"
-                        value={email}
-                        onChangeText={setEmail}
-                    />
-                </Form>
+            <Title>Bem-vindo ao Rent&#38;Go!</Title>
+            <Form>
+                <FormIcon source={require('../../assets/img/email.png')}/>
+                <FormInput 
+                    placeholder="Seu e-mail" 
+                    placeholderTextColor="#384662"
+                    autoCapitalize="none" 
+                    autoCorrect={false} 
+                    underlineColorAndroid="transparent" 
+                    textContentType="emailAddress"
+                    value={email}
+                    onChangeText={setEmail}
+                />
+            </Form>
 
-                <Form>
-                    <FormIcon source={require('../../assets/img/lock.png')}/>
-                    <FormInput 
-                        placeholder="Sua senha" 
-                        placeholderTextColor="#1C2331"
-                        autoCapitalize="none" 
-                        autoCorrect={false} 
-                        underlineColorAndroid="transparent" 
-                        secureTextEntry  
-                        value={password}
-                        onChangeText={setPassword}
-                    />
-                </Form>
+            <Form>
+                <FormIcon source={require('../../assets/img/lock.png')}/>
+                <FormInput 
+                    placeholder="Sua senha" 
+                    placeholderTextColor="#384662"
+                    autoCapitalize="none" 
+                    autoCorrect={false} 
+                    underlineColorAndroid="transparent" 
+                    secureTextEntry  
+                    value={password}
+                    onChangeText={setPassword}
+                />
+            </Form>
 
-                { !error ? (
-                    null
-                ) : (
-                    <ErrorMessage>{error}</ErrorMessage>
-                )}
+            { !error ? (
+                null
+            ) : (
+                <ErrorMessage>{error}</ErrorMessage>
+            )}
 
-                <ButtonSubmit onPress={handleSignIn}>
-                    <TextButton>Entrar</TextButton>
-                </ButtonSubmit>
+            <ButtonSubmit onPress={handleSignIn}>
+                <TextButton>Entrar</TextButton>
+            </ButtonSubmit>
 
-                <Href>
-                    <TextHref>Esqueci minha senha</TextHref>
-                </Href>
-            </CardForm>
+            <Href>
+                <TextHref>Esqueci minha senha</TextHref>
+            </Href>
         </Container>
     );
 }

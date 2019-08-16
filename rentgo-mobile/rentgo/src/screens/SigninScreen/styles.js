@@ -12,8 +12,8 @@ export const Container = styled(LinearGradient).attrs({
 `;
 
 export const Logo = styled.Image`
-    width: 300px; 
-    height: 250px;
+    width: 100px; 
+    height: 100px;
 `;
 
 export const CardForm = styled.View`
@@ -27,15 +27,14 @@ export const CardForm = styled.View`
 export const Form = styled.View`
     flex-direction: row;
     align-self: stretch;
-    background-color: #FFFFFF;
-    margin: 10px 0px 0px 0px;
-    border-radius: 30px;
-    border: 1px solid #1c2331;
+    background-color: rgba(0, 0, 0, 0.2);
+    margin: 10px 20px 0px 20px;
+    border-radius: 5px;
 `;
 
 export const FormInput = styled.TextInput`
     font-size: 16px;
-    color: #1C2331;
+    color: #FFFFFF;
     align-self: stretch;
     flex: 1;
     font-family: 'Quicksand-Medium';
@@ -51,7 +50,7 @@ export const FormIcon = styled.Image`
 export const ButtonSubmit = styled.TouchableOpacity`
     padding: 15px;
     align-self: stretch;
-    margin: 20px 10px 20px 10px;
+    margin: 20px 20px 20px 20px;
     background-color: #1c2331;
     border-radius: 30px;
     elevation: 5;
@@ -60,15 +59,15 @@ export const ButtonSubmit = styled.TouchableOpacity`
 
 export const TextButton = styled.Text`
     font-size: 16px;
-    color: #FFFFFF;
+    color: #384662;
     text-align: center;
     font-family: 'Quicksand-Medium';
 `;
 
 export const Title = styled.Text`
     text-align: center;
-    color: #1C2331;
-    font-size: 16px;
+    color: #384662;
+    font-size: 18px;
     font-family: 'Quicksand-Bold';
 `;
 
@@ -77,8 +76,8 @@ export const Href = styled.TouchableOpacity`
 `;
 
 export const TextHref = styled.Text`
-    color: #1c2331;
-    font-size: 14px;
+    color: #1C2331;
+    font-size: 16px;
     text-align: center;
     font-family: 'Quicksand-Regular';
 `;

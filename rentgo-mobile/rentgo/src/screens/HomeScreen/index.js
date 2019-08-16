@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Modal, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
-import { getGeoInfo, getDirectionInfo } from '../../services/geo-api'
+import { getGeoInfo } from '../../services/geo-api'
 import { getDistance } from '../../helpers/distance'
 
 import { 
@@ -61,11 +61,8 @@ export default function HomeScreen(props) {
 
     travelDistance = async () => {
         const response = await getDistance(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
-        const direction = await getDirectionInfo(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
-
+        // const direction = await getDirectionInfo(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
         setDistance(response)
-
-        await AsyncStorage.setItem('TravelPath', JSON.stringify(direction))
 
         setModalVisible(!modalVisible)
     }
@@ -79,25 +76,10 @@ export default function HomeScreen(props) {
     }
 
     useEffect(() => {
-        async function loadUserAuthenticated() {
-            try {
-                const response = await api.get('/api/passenger')
-                
-                await AsyncStorage.setItem('RentGoUser', JSON.stringify(response.data.result[0]))
-                
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        loadUserAuthenticated()
-    }, [])
-
-    useEffect(() => {
         async function loadDrivers() {
             try {
                 const response = await api.get(`/api/drivers?dist_max=${distance}`)
-                console.log('res driver', response)
-                setDriver(response.data.result)
+                setDriver(response.data.result.data)
             } catch (error) {
                 console.log(error)
             }
