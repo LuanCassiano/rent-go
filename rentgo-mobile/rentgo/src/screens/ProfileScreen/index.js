@@ -1,8 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Image, StatusBar, AsyncStorage, ImageBackground } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import { AsyncStorage, ScrollView } from 'react-native'
 
-import { Container } from './styles'
+import { 
+    Container,
+    ImageProfile,
+    LogoBackground,
+    LogoBackgroundContent,
+    LogoBackgroundGradient,
+    TextProfileName,
+    IconTravelInfo,
+    TextTravelInfo,
+    ViewProfileTravelContainer,
+    ViewProfileTravelContent,
+    Divider,
+    TextInfo,
+    ViewContentInfo,
+    ViewUserInfoContainer
+} from './styles'
 
 import Header from '../../components/Header'
 
@@ -11,6 +25,8 @@ export default function ProfileScreen(props) {
     const [username, setUsername] = useState('')
     const [usernameImage, setImage] = useState('')
     const [fullname, setFullname] = useState('')
+    const [email, setEmail] = useState('')
+    const [phone, setPhone] = useState('')
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
@@ -25,6 +41,8 @@ export default function ProfileScreen(props) {
             setFullname(info.fullname)
             setUsername(info.username)
             setImage(info.profile_image)
+            setEmail(info.email)
+            setPhone(info.mobile_phone)
         }
 
         loadDataFromStorage()
@@ -32,24 +50,49 @@ export default function ProfileScreen(props) {
 
     return (
         <Container>
-            <ImageBackground source={require('../../assets/img/logo.png')} style={{ width: '100%', height: 300}}>
-                <LinearGradient 
-                    style={{position: "absolute", top: 0, left: 0, width: '100%', height: 300, opacity: 0.6}}
-                    colors={['rgba(255, 255, 255, .7)', 'rgba(255, 255, 255, .7)']}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}
-                />
+            <Header 
+                title="Minha conta"
+                onDrawer={toggleDrawer}
+            />
 
-                <View style={{justifyContent: "center", alignItems: "center", flex: 1, zIndex: 9999}}>
-                    <Image source={{ uri: usernameImage }} style={{width: 80, height: 80, borderRadius: 40}}/>
-                    <Text style={{color: '#1C2331', marginTop: 10, fontSize: 16, fontFamily: 'Quicksand-Bold'}}>{username}</Text>
-                    <Text style={{color: '#1C2331', marginTop: 10, fontSize: 20, fontFamily: 'Quicksand-Bold'}}>{fullname}</Text>
-                </View>
-            </ImageBackground>
+            <ScrollView>
+                <LogoBackground source={require('../../assets/img/logo.png')}>
+                    <LogoBackgroundGradient />
+                    <LogoBackgroundContent>
+                        <ImageProfile source={{ uri: usernameImage }}/>
+                        <TextProfileName>{fullname}</TextProfileName>
+                    </LogoBackgroundContent>
+                </LogoBackground>
 
-            <View style={{padding: 20}}>
-                <Text>Ola mundo</Text>
-            </View>
+                <ViewProfileTravelContainer>
+                    <ViewProfileTravelContent>
+                        <IconTravelInfo source={require('../../assets/icons/tourist.png')}/>
+                        <TextTravelInfo count={true}>0</TextTravelInfo>
+                        <TextTravelInfo count={false}>Viagens</TextTravelInfo>
+                    </ViewProfileTravelContent>
+                </ViewProfileTravelContainer>
+
+                <ViewUserInfoContainer>
+                    <ViewContentInfo>
+                        <TextInfo>Usuário</TextInfo>
+                        <TextInfo>{username}</TextInfo>
+                    </ViewContentInfo>
+
+                    <Divider />
+
+                    <ViewContentInfo>
+                        <TextInfo>E-mail</TextInfo>
+                        <TextInfo>{email}</TextInfo>
+                    </ViewContentInfo>
+
+                    <Divider />
+
+                    <ViewContentInfo>
+                        <TextInfo>Telefone</TextInfo>
+                        <TextInfo>{phone}</TextInfo>
+                    </ViewContentInfo>
+                </ViewUserInfoContainer>
+            </ScrollView>
         </Container>
     )
 }
