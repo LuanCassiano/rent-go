@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import { Animated, AsyncStorage, StatusBar, Image } from 'react-native'
+import React, { useState } from 'react'
+import { AsyncStorage, Modal, ActivityIndicator } from 'react-native'
 import api from '../../services/api'
 
-import LogoImage from '../../assets/img/logo1.png';
+import LogoImage from '../../assets/img/logo1.png'
 
 import { 
     Container,
     ButtonSubmit,
-    CardForm,
     Form,
     FormIcon,
     FormInput,
     Href,
-    Row,
     TextButton,
     TextHref,
     Title,
-    ErrorMessage,
-    Logo
+    Logo,
+    ModalContainer,
+    ModalContent,
+    ModalTitle,
+    ErrorMessage
 } from './styles'
 
 export default function SigninScreen(props) {
@@ -25,6 +26,8 @@ export default function SigninScreen(props) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
+    const [modalVisible, setModalVisible] = useState(false)
+    const [loading, setLoading] = useState(false)
 
 
     const goToHome = () => {
@@ -32,29 +35,51 @@ export default function SigninScreen(props) {
     }
 
     async function handleSignIn() {
+        setLoading(true)
         if(!email || !password) {
+            setLoading(false)
             setError('Informe seu e-mail e sua senha para continuar!')
+            setModalVisible(true)
             setTimeout(() => {
                 setError('')
-            }, 3000)
+                setModalVisible(false)
+            }, 5000)
         } else {
             try {
                 const response = await api.post('/api/authentication', {
                     email: email,
                     password: password
                 })
-                await AsyncStorage.setItem('RentGoToken', response.data.token)
-                
-                const res = await api.get('/api/passenger')
-                await AsyncStorage.setItem('RentGoUser', JSON.stringify(res.data.result[0]))
 
+                if(response.data.token) {
+                    await AsyncStorage.setItem('RentGoToken', response.data.token)
+                    
+                    const res = await api.get('/api/passenger')
+                    await AsyncStorage.setItem('RentGoUser', JSON.stringify(res.data.result[0]))
 
-                goToHome()
-            } catch (error) {
+                    setLoading(false)
+    
+                    goToHome()
+
+                    return
+                }
+
+                setLoading(false)
                 setError('Erro ao fazer login, verifique suas credenciais!')
+                setModalVisible(true)
+
                 setTimeout(() => {
                     setError('')
-                }, 3000)
+                    setModalVisible(false)
+                }, 5000)
+            } catch (error) {
+                setLoading(false)
+                setError('Erro ao fazer login, verifique suas credenciais!')
+                setModalVisible(true)
+                setTimeout(() => {
+                    setError('')
+                    setModalVisible(false)
+                }, 5000)
             }
         }
     }
@@ -91,19 +116,26 @@ export default function SigninScreen(props) {
                 />
             </Form>
 
-            { !error ? (
-                null
-            ) : (
-                <ErrorMessage>{error}</ErrorMessage>
-            )}
-
             <ButtonSubmit onPress={handleSignIn}>
-                <TextButton>Entrar</TextButton>
+                { loading ? (
+                    <ActivityIndicator size="small" color="#FFFFFF"/>
+                ) : (
+                    <TextButton>Entrar</TextButton>
+                )}
             </ButtonSubmit>
 
             <Href>
                 <TextHref>Esqueci minha senha</TextHref>
             </Href>
+
+            <Modal animationType="fade" transparent visible={modalVisible} onRequestClose={() => {}}>
+                <ModalContainer>
+                    <ModalContent>
+                        <ModalTitle>ERRO &#128533;</ModalTitle>
+                        <ErrorMessage>{error}</ErrorMessage>
+                    </ModalContent>
+                </ModalContainer>
+            </Modal>
         </Container>
-    );
+    )
 }

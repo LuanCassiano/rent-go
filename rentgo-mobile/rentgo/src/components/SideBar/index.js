@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, TouchableOpacity, Text } from 'react-native'
 import { DrawerItems } from 'react-navigation'
 
 import { 
@@ -20,6 +20,12 @@ export default function SideBar(props) {
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
+    }
+
+    async function signOut() {
+        await AsyncStorage.clear()
+
+        props.navigation.navigate('Signin')
     }
 
     useEffect(() => {
@@ -55,6 +61,10 @@ export default function SideBar(props) {
                         fontSize: 16
                     }}
                 />
+
+                <TouchableOpacity style={{backgroundColor: '#D32F2F', borderRadius: 5, padding: 10, margin: 15}} onPress={signOut}>
+                    <Text style={{color: '#FFFFFF', textAlign: "center", fontFamily: 'Quicksand-Regular', fontSize: 16}}>Sair</Text>
+                </TouchableOpacity>
             </SideBody>
         </Container>
     )

@@ -9,6 +9,7 @@ import TravelsScreen from './screens/TravelsScreen'
 import TravelDetailsScreen from './screens/TravelDetailsScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import SettingsScreen from './screens/SettingsScreen'
+import ProfileScreen from './screens/ProfileScreen'
 
 import SideBar from './components/SideBar'
 
@@ -50,6 +51,15 @@ const SettingsNavigator = createStackNavigator({
     }
 })
 
+const ProfileNavigator = createStackNavigator({
+    Profile: ProfileScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
 const DrawerNavigator = createDrawerNavigator({
     Home: {
         screen: HomeNavigator,
@@ -72,6 +82,14 @@ const DrawerNavigator = createDrawerNavigator({
         navigationOptions: {
             drawerLabel: 'Pagamento',
             drawerIcon: <Image source={require('./assets/icons/payment.png')} style={{width: 25, height: 25}}/>
+        }
+    },
+
+    Profile: {
+        screen: ProfileNavigator,
+        navigationOptions: {
+            drawerLabel: 'Minha Conta',
+            drawerIcon: <Image source={require('./assets/icons/profile.png')} style={{width: 25, height: 25}}/>
         }
     },
 

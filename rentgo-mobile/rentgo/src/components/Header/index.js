@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, Image, View } from 'react-native';
+import React from 'react'
+import { TouchableOpacity, Image, View } from 'react-native'
 
 import { 
     Container,
     Content,
     HeaderActionButton,
     HeaderActionButtonIcon,
-    Title,
-    ViewGeneric,
-} from './styles';
+    Title
+} from './styles'
 
 import menuIcon from '../../assets/icons/menu.png'
 import backIcon from '../../assets/icons/back.png'
@@ -70,5 +69,5 @@ export default function Header(props) {
         <>
             { _renderAction()}
         </>
-    );
+    )
 }

@@ -1,5 +1,5 @@
-import styled from 'styled-components/native';
-import LinearGradient from 'react-native-linear-gradient';
+import styled from 'styled-components/native'
+import LinearGradient from 'react-native-linear-gradient'
 
 export const Container = styled(LinearGradient).attrs({
     colors: ['#1C2331', '#384662'],
@@ -90,7 +90,29 @@ export const Row = styled.View`
 export const ErrorMessage = styled.Text`
     font-family: 'Quicksand-Bold';
     font-size: 16px;
-    color: #ce2029;
+    color: #FFFFFF;
     text-align: center;
-    margin-top: 10px;
+`;
+
+export const ModalContainer = styled.View`
+    flex: 1; 
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, .6);
+`;
+
+export const ModalContent = styled.View`
+    align-items: stretch; 
+    align-self: stretch;
+    background-color: #D32F2F;
+    border-radius: 10px; 
+    padding: 20px;
+`;
+
+export const ModalTitle = styled.Text`
+    font-size: 20px; 
+    font-family: 'Quicksand-Bold'; 
+    color: #FFFFFF;
+    text-align: center;
 `;

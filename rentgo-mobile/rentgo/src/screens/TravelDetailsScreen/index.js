@@ -9,7 +9,7 @@ MapboxGL.setAccessToken('pk.eyJ1IjoibHV1YW5jYXNzaWFubyIsImEiOiJjanBzeWF4aHcwMGNy
 
 import { 
     Container
-} from './styles';
+} from './styles'
 
 import Header from '../../components/Header'
 

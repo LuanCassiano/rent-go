@@ -7,18 +7,18 @@ import OneSignal from 'react-native-onesignal'
 
 export default function App() {
 
-    const [logged, setLogged] = useState(false);
+    const [logged, setLogged] = useState(false)
 
     useEffect(() => {
         async function loadDataFromStorage() {
             const data = await AsyncStorage.getItem('RentGoToken')
             if(data) {
-                setLogged(true);
+                setLogged(true)
                 return
             }
         }
 
-        loadDataFromStorage();
+        loadDataFromStorage()
     }, [])
 
     useEffect(() => {
@@ -51,7 +51,7 @@ export default function App() {
         console.log('ids', push)
     }
 
-    const Screens = Routes(logged);
+    const Screens = Routes(logged)
 
     return (
         <Screens />

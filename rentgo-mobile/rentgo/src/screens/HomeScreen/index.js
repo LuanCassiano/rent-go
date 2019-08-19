@@ -131,5 +131,5 @@ export default function HomeScreen(props) {
                 </Container>
             </Modal>
         </>
-    );
+    )
 }
