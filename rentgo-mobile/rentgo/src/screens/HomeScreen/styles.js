@@ -26,9 +26,8 @@ export const ButtonCloseModalIcon = styled.Image`
 
 export const Input = styled.TextInput`
     padding: 15px; 
-    background-color: #FFFFFF; 
+    background-color: #E5E5E5; 
     border-radius: 5px;
-    border: 1px solid #1C2331; 
     margin: 10px 0px 20px 0px;
     font-family: 'Quicksand-Regular';
     font-size: 16px;
@@ -52,4 +51,22 @@ export const TextButton = styled.Text`
 export const ViewGeneric = styled.View`
     padding: 10px;
     flex-direction: row;
+`;
+
+export const Fab = styled.TouchableOpacity`
+    elevation: 5; 
+    position: absolute; 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 30px; 
+    align-items: center; 
+    justify-content: center; 
+    right: 20;
+    bottom: 30; 
+    background-color: #384662;
+`;
+
+export const FabIcon = styled.Image`
+    width: 20px; 
+    height: 20px;
 `;

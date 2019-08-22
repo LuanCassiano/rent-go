@@ -5,19 +5,33 @@ export const Container = styled.View`
     background-color: #FFFFFF;
 `;
 
-export const MapPointerContainer = styled.View`
-    width: 10px;
-    height: 10px;
-    align-items: center;
-    justify-content: center;
-    background-color: #FFFFFF;
-    border-radius: 5px;
+export const ViewGeneric = styled.View`
+    padding: 20px;
 `;
 
-export const MapPointerFill = styled.View`
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    background-color: #1C2331;
-    transform: { scale: 0.8 };
+export const ViewTripInfoContent = styled.View`
+    flex-direction: column; 
+    justify-content: space-between;
+`; 
+
+export const ViewTripContent2 = styled.View`
+    flex-direction: row; 
+    justify-content: space-between;
+`;
+
+export const Label = styled.Text`
+    font-family: 'Quicksand-Bold';
+    font-size: 16px;
+    color: #1C2331;
+`;
+
+export const Span = styled.Text`
+    font-family: 'Quicksand-Medium'; 
+    font-size: 14px;
+    color: #1C2331;
+`;
+
+export const Divider = styled.View`
+    border: 1px solid #E5E5E5;
+    margin: 20px 0px 20px 0px;
 `;

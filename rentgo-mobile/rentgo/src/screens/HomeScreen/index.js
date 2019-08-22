@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, AsyncStorage } from 'react-native'
+import { Modal, ActivityIndicator, View } from 'react-native'
 
 import api from '../../services/api'
 import { getGeoInfo } from '../../services/geo-api'
@@ -12,7 +12,9 @@ import {
     ButtonSubmit,
     Content,
     Input,
-    TextButton
+    TextButton,
+    Fab,
+    FabIcon
 } from './styles'
 
 import Header from '../../components/Header'
@@ -35,6 +37,7 @@ export default function HomeScreen(props) {
         longDest: null
     })
     const [distance, setDistance] = useState('')
+    const [loading, setLoading] = useState(false)
 
 
     const searchGooglePlaceOrigem = async (address) => {
@@ -60,10 +63,19 @@ export default function HomeScreen(props) {
     }
 
     travelDistance = async () => {
-        const response = await getDistance(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
-        // const direction = await getDirectionInfo(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
-        setDistance(response)
+        setModalVisible(!modalVisible)
+        setLoading(true)
+        try {
+            const response = await getDistance(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
+            setLoading(false)
+            setDistance(response)
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
+    openModal = () => {
         setModalVisible(!modalVisible)
     }
 
@@ -91,11 +103,24 @@ export default function HomeScreen(props) {
     return (
         <>
             <Header 
-                title="Rent&#38;Go"
+                title="RentGo"
                 onDrawer={toggleDrawer}
             />
 
-            <CardDriver driver={drivers} navigation={props.navigation}/>
+            { loading ? 
+            (
+                <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                    <ActivityIndicator size="large" color="#1C2331"/>
+                </View>
+            ) 
+                : 
+            (
+                <CardDriver driver={drivers} navigation={props.navigation}/>
+            )}
+
+            <Fab onPress={openModal}>
+                <FabIcon source={require('../../assets/icons/tourist.png')}/>
+            </Fab>
 
             <Modal animationType="fade" transparent visible={modalVisible} onRequestClose={() => {}}>
                 <Container>

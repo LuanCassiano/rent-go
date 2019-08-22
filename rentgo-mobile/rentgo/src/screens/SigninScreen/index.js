@@ -87,7 +87,7 @@ export default function SigninScreen(props) {
     return (
         <Container>
             <Logo source={LogoImage}/>
-            <Title>Bem-vindo ao Rent&#38;Go!</Title>
+            <Title>Bem-vindo ao RentGo!</Title>
             <Form>
                 <FormIcon source={require('../../assets/img/email.png')}/>
                 <FormInput 
