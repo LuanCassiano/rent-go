@@ -3,9 +3,9 @@ import { AsyncStorage } from 'react-native'
 import Routes from './routes'
 
 import OneSignal from 'react-native-onesignal'
+import CodePush from 'react-native-code-push'
 
-
-export default function App() {
+function App() {
 
     const [logged, setLogged] = useState(false)
 
@@ -35,7 +35,6 @@ export default function App() {
     }
 
     function openedPush(push) {
-        console.log('opened', push)
         if(push.action.actionID === "1") {
             console.log('viagem aceita')
             return
@@ -57,3 +56,8 @@ export default function App() {
         <Screens />
     )
 }
+
+
+export default CodePush({
+    checkFrequency: CodePush.CheckFrequency.ON_APP_RESUME
+})(App)

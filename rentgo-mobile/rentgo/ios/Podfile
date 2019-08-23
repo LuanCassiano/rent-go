@@ -36,6 +36,8 @@ target 'rentgo' do
 
   pod 'react-native-onesignal', :path => '../node_modules/react-native-onesignal'
 
+  pod 'CodePush', :path => '../node_modules/react-native-code-push'
+
   post_install do |installer|
     installer.pods_project.targets.each do |target|
       if target.name == "React"
