@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, ActivityIndicator, View } from 'react-native'
+import { Modal, ActivityIndicator, View, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
 import { getGeoInfo } from '../../services/geo-api'
@@ -52,6 +52,7 @@ export default function HomeScreen(props) {
     }
 
     const searchGooglePlaceDestiny = async (address) => {
+
         const response = await getGeoInfo({
             street: address,
         })
@@ -67,8 +68,10 @@ export default function HomeScreen(props) {
         setLoading(true)
         try {
             const response = await getDistance(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
-            setLoading(false)
             setDistance(response)
+            await AsyncStorage.setItem('origem', addressOrigem)
+            await AsyncStorage.setItem('destino', addressDestiny)
+            setLoading(false)
             
         } catch (error) {
             console.log(error)
@@ -99,6 +102,18 @@ export default function HomeScreen(props) {
 
         loadDrivers()
     }, [distance])
+
+    useEffect(() => {
+        async function loadDataFromStorage() {
+            const travelOrigin = await AsyncStorage.getItem('origem')
+            setAddressOrigem(travelOrigin)
+
+            const travelDestination = await AsyncStorage.getItem('destino')
+            setAddressDestiny(travelDestination)
+        }
+
+        loadDataFromStorage()
+    }, [modalVisible])
 
     return (
         <>

@@ -29,6 +29,10 @@ export default function DriverScreen(props) {
 
 	const [driver, setDriver] = useState({})
 
+	goToTravelConfirmation = () => {
+		props.navigation.navigate('TravelConfirmation')
+	}
+
 	useEffect(() => {
 		async function loadDataDriver() {
 			try {
@@ -87,7 +91,7 @@ export default function DriverScreen(props) {
 					<TextInfo>até {driver.dist_max}km</TextInfo>
 				</ContentDetails>
 
-				<ActionButton>
+				<ActionButton onPress={goToTravelConfirmation}>
 					<ActionButtonText>Selecionar motorista</ActionButtonText>
 				</ActionButton>
 			</ViewGeneric>
