@@ -23,6 +23,11 @@ buildscript {
 
 allprojects {
     repositories {
+        configurations.all {
+            resolutionStrategy {
+                force "com.squareup.okhttp3:okhttp:3.9.1"
+            }
+        }
         mavenLocal()
         google()
         jcenter()
