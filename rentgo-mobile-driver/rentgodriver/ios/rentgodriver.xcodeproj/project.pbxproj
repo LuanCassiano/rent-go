@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* rentgodriverTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* rentgodriverTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
@@ -20,6 +19,11 @@
 		620244551BD1059F0752DF93 /* libPods-rentgodriver.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AEF0E321C3EE263C03C60D7 /* libPods-rentgodriver.a */; };
 		8BCBC2B6EFEE396D0DBCE342 /* libPods-rentgodriver-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F37608F574BC1A55047D82C /* libPods-rentgodriver-tvOS.a */; };
 		DA69A545248C75307A4AE8E4 /* libPods-rentgodriverTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C27F5C20D23BE59EF2BD5D3E /* libPods-rentgodriverTests.a */; };
+		29465AD7D856476AA12142FF /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89B291FC6A6742E294824977 /* Quicksand-Bold.ttf */; };
+		85265F60B8FE435DA7D3A5F1 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA1690844C814874A25B87F6 /* Quicksand-Light.ttf */; };
+		7690DFFAFC6E4D539A00D005 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 869935CCA3FF478D94C5A593 /* Quicksand-Medium.ttf */; };
+		EE04348C05D34351A278D736 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EE776352184F4961AAA68A5E /* Quicksand-Regular.ttf */; };
+		AFC0768EC03D4DB59131EE67 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9637DD097C70435EB6C5B816 /* Quicksand-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +71,11 @@
 		DA8F7C91D5BCE60D5559D51B /* Pods-rentgodriverTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rentgodriverTests.release.xcconfig"; path = "Target Support Files/Pods-rentgodriverTests/Pods-rentgodriverTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		89B291FC6A6742E294824977 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; name = "Quicksand-Bold.ttf"; path = "../src/assets/fonts/Quicksand-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FA1690844C814874A25B87F6 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; name = "Quicksand-Light.ttf"; path = "../src/assets/fonts/Quicksand-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		869935CCA3FF478D94C5A593 /* Quicksand-Medium.ttf */ = {isa = PBXFileReference; name = "Quicksand-Medium.ttf"; path = "../src/assets/fonts/Quicksand-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EE776352184F4961AAA68A5E /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; name = "Quicksand-Regular.ttf"; path = "../src/assets/fonts/Quicksand-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9637DD097C70435EB6C5B816 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; name = "Quicksand-SemiBold.ttf"; path = "../src/assets/fonts/Quicksand-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +174,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				99F6AEF018404517375E4880 /* Pods */,
+				758EC0F49D8D42CCA568FF2A /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -197,6 +207,19 @@
 			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		758EC0F49D8D42CCA568FF2A /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				89B291FC6A6742E294824977 /* Quicksand-Bold.ttf */,
+				FA1690844C814874A25B87F6 /* Quicksand-Light.ttf */,
+				869935CCA3FF478D94C5A593 /* Quicksand-Medium.ttf */,
+				EE776352184F4961AAA68A5E /* Quicksand-Regular.ttf */,
+				9637DD097C70435EB6C5B816 /* Quicksand-SemiBold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -285,7 +308,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 940;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -338,6 +361,11 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				29465AD7D856476AA12142FF /* Quicksand-Bold.ttf in Resources */,
+				85265F60B8FE435DA7D3A5F1 /* Quicksand-Light.ttf in Resources */,
+				7690DFFAFC6E4D539A00D005 /* Quicksand-Medium.ttf in Resources */,
+				EE04348C05D34351A278D736 /* Quicksand-Regular.ttf in Resources */,
+				AFC0768EC03D4DB59131EE67 /* Quicksand-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

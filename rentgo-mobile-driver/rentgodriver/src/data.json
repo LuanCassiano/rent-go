@@ -1,0 +1,72 @@
+{
+    "vans": [
+        {
+            "id": 1,
+            "model": "Modelo 1",
+            "color": "Cinza",
+            "plate": "NDW4465",
+            "amount_passenger": 18,
+            "details": "Van com televisão, água. Proibido consumo de bebidas alcoólicas",
+            "photo_van": "https://firebasestorage.googleapis.com/v0/b/rentgo-4d177.appspot.com/o/van1.jpeg?alt=media&token=0547d1c7-b38b-4c9e-8d9d-9a64444c90dc"
+        },
+        {
+            "id": 2,
+            "model": "Modelo 1",
+            "color": "Cinza",
+            "plate": "NDW4465",
+            "amount_passenger": 14,
+            "details": "Van com televisão, água. Proibido consumo de bebidas alcoólicas",
+            "photo_van": "https://firebasestorage.googleapis.com/v0/b/rentgo-4d177.appspot.com/o/van1.jpeg?alt=media&token=0547d1c7-b38b-4c9e-8d9d-9a64444c90dc"
+        },
+        {
+            "id": 3,
+            "model": "Modelo 1",
+            "color": "Cinza",
+            "plate": "NDW4465",
+            "amount_passenger": 15,
+            "details": "Van com televisão, água. Proibido consumo de bebidas alcoólicas",
+            "photo_van": "https://firebasestorage.googleapis.com/v0/b/rentgo-4d177.appspot.com/o/van1.jpeg?alt=media&token=0547d1c7-b38b-4c9e-8d9d-9a64444c90dc"
+        },
+        {
+            "id": 4,
+            "model": "Modelo 1",
+            "color": "Cinza",
+            "plate": "NDW4465",
+            "amount_passenger": 20,
+            "details": "Van com televisão, água. Proibido consumo de bebidas alcoólicas",
+            "photo_van": "https://firebasestorage.googleapis.com/v0/b/rentgo-4d177.appspot.com/o/van1.jpeg?alt=media&token=0547d1c7-b38b-4c9e-8d9d-9a64444c90dc"
+        },
+        {
+            "id": 5,
+            "model": "Modelo 1",
+            "color": "Cinza",
+            "plate": "NDW4465",
+            "amount_passenger": 16,
+            "details": "Van com televisão, água. Proibido consumo de bebidas alcoólicas",
+            "photo_van": "https://firebasestorage.googleapis.com/v0/b/rentgo-4d177.appspot.com/o/van1.jpeg?alt=media&token=0547d1c7-b38b-4c9e-8d9d-9a64444c90dc"
+        }
+    ],
+
+    "trips": [
+        {
+            "id": 1,
+            "origin": "Rua Andorinhas, 300 - Curitiba, PR",
+            "destination": "Rua Ivern, 1968, - Penha, SC"
+        },
+        {
+            "id": 2,
+            "origin": "Rua Ciro de Castro, 250 - Curitiba, PR",
+            "destination": "Rua Inácio Francisco de Souza, 1597, - Penha, SC"    
+        },
+        {
+            "id": 3,
+            "origin": "Rua dos Navegantes, 133 - Curitiba, PR",
+            "destination": "Rua Teste, 1968, - Guaratuba, PR"  
+        },
+        {
+            "id": 4,
+            "origin": "Rua Andorinhas, 300 - Curitiba, PR",
+            "destination": "Rua das Armações, 188, - Antonina, PR"
+        }
+    ]
+}
