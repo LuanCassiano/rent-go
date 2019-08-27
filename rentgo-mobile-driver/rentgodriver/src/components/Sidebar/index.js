@@ -30,7 +30,7 @@ export default function SideBar(props) {
 
     useEffect(() => {
         async function loadDataFromStorage() {
-            const data = await AsyncStorage.getItem('RentGoUser')
+            const data = await AsyncStorage.getItem('RentGoDriver')
             const info = JSON.parse(data)
 
             setUsername(info.username)
@@ -44,9 +44,9 @@ export default function SideBar(props) {
         <Container>
             <SideHeader>
                 <SideHeaderContent>
-                    {/* <SideHeaderImage source={{ uri: usernameImage }}/> */}
+                    <SideHeaderImage source={{ uri: usernameImage }}/>
                     <SideHeaderInfo>
-                        <SideHeaderUsername>Driver</SideHeaderUsername>
+                        <SideHeaderUsername>{username}</SideHeaderUsername>
                         <SideHeaderUserRating>0.0</SideHeaderUserRating>
                     </SideHeaderInfo>
                 </SideHeaderContent>

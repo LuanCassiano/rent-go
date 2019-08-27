@@ -8,6 +8,7 @@ import TravelsScreen from './screens/TravelsScreen'
 import TravelDetailsScreen from './screens/TravelDetailsScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import VanScreen from './screens/VanScreen'
 
 import Sidebar from './components/Sidebar'
 
@@ -48,6 +49,15 @@ const ProfileNavigator = createStackNavigator({
     }
 })
 
+const VanNavigator = createStackNavigator({
+    Van: VanScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
 const DrawerNavigator = createDrawerNavigator({
     Home: {
         screen: HomeNavigator,
@@ -57,11 +67,19 @@ const DrawerNavigator = createDrawerNavigator({
         }
     },
 
+    Vans: {
+        screen: VanNavigator,
+        navigationOptions: {
+            drawerLabel: 'Minhas Vans',
+            drawerIcon: <Image source={require('./assets/icons/van.png')} style={{width: 25, height: 25}}/>
+        }
+    },
+
     Travels: {
         screen: TravelsNavigator,
         navigationOptions: {
             drawerLabel: 'Minhas viagens',
-            // drawerIcon: <Image source={require('./assets/icons/tourist.png')} style={{width: 25, height: 25}}/>
+            drawerIcon: <Image source={require('./assets/icons/places.png')} style={{width: 25, height: 25}}/>
         }
     },
 
@@ -69,7 +87,7 @@ const DrawerNavigator = createDrawerNavigator({
         screen: ProfileNavigator,
         navigationOptions: {
             drawerLabel: 'Minha Conta',
-            // drawerIcon: <Image source={require('./assets/icons/profile.png')} style={{width: 25, height: 25}}/>
+            drawerIcon: <Image source={require('./assets/icons/profile.png')} style={{width: 25, height: 25}}/>
         }
     },
 
@@ -77,7 +95,7 @@ const DrawerNavigator = createDrawerNavigator({
         screen: SettingsNavigator,
         navigationOptions: {
             drawerLabel: 'Configurações',
-            // drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
+            drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
         }
     }
 }, {

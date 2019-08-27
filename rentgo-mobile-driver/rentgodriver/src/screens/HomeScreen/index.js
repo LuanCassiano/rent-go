@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, View, Text, Image } from 'react-native'
+import { FlatList } from 'react-native'
 
 import Header from '../../components/Header'
 import Slider from '../../components/Slider'
@@ -9,7 +9,13 @@ import data from '../../data.json'
 import { 
     Container,
     Label,
-    ViewGeneric
+    CardInfo,
+    CardInfoContent,
+    CardInfoMedia,
+    Paragraph,
+    Row,
+    Section,
+    ViewCenter
 } from './styles';
 
 export default function HomeScreen(props) {
@@ -21,36 +27,36 @@ export default function HomeScreen(props) {
     return (
         <Container>
             <Header 
-                title="RentGo"
+                title="RentGo Driver"
                 onDrawer={toggleDrawer}
             />
 
-            <View style={{backgroundColor: '#FFFFFF', padding: 20, marginBottom: 20}}>
+            <Section>
                 <Label>Informações Gerais</Label>
 
-                <View style={{flexDirection: "row"}}>
-                    <View style={{width: '45%', height: 200, backgroundColor: '#384662', marginRight: 30, padding: 20, borderRadius: 5}}>
-                        <View style={{alignItems: "center"}}>
-                            <Image source={require('../../assets/icons/van.png')} style={{width: 50, height: 50}}/>
-                        </View>
-                        <View style={{marginTop: 20}}>
-                            <Text style={{textAlign: "center", color: '#FFFFFF', fontFamily: 'Quicksand-Bold', fontSize: 14}}>0</Text>
-                            <Text style={{textAlign: "center", color: '#FFFFFF', fontFamily: 'Quicksand-Bold', fontSize: 16}}>Viagens realizadas</Text>
-                        </View>
-                    </View>
-                    <View style={{width: '45%', height: 200, backgroundColor: '#384662', padding: 20, borderRadius: 5}}>
-                        <View style={{alignItems: "center"}}>
-                            <Image source={require('../../assets/icons/road.png')} style={{width: 50, height: 50}}/>
-                        </View>
-                        <View style={{marginTop: 20}}>
-                            <Text style={{textAlign: "center", color: '#FFFFFF', fontFamily: 'Quicksand-Bold', fontSize: 14}}>0 km</Text>
-                            <Text style={{textAlign: "center", color: '#FFFFFF', fontFamily: 'Quicksand-Bold', fontSize: 16}}>Distância percorrida</Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
+                <Row>
+                    <CardInfo>
+                        <ViewCenter>
+                            <CardInfoMedia source={require('../../assets/icons/myvan.png')}/>
+                        </ViewCenter>
+                        <CardInfoContent>
+                            <Paragraph>0</Paragraph>
+                            <Paragraph isMargin={true}>Viagens realizadas</Paragraph>
+                        </CardInfoContent>
+                    </CardInfo>
+                    <CardInfo>
+                        <ViewCenter>
+                            <CardInfoMedia source={require('../../assets/icons/road.png')}/>
+                        </ViewCenter>
+                        <CardInfoContent>
+                            <Paragraph>0 km</Paragraph>
+                            <Paragraph isMargin={true}>Distância percorrida</Paragraph>
+                        </CardInfoContent>
+                    </CardInfo>
+                </Row>
+            </Section>
 
-            <View style={{backgroundColor: '#FFFFFF', padding: 20, marginBottom: 20}}>
+            <Section>
                 <Label>Suas Vans</Label>
 
                 <FlatList 
@@ -60,9 +66,9 @@ export default function HomeScreen(props) {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => <Slider vans={item}/>}
                 />
-            </View>
+            </Section>
 
-            <View style={{backgroundColor: '#FFFFFF', padding: 20, marginBottom: 20}}>
+            <Section>
                 <Label>Últimas viagens</Label>
 
                 <FlatList 
@@ -72,7 +78,7 @@ export default function HomeScreen(props) {
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => <Slider trips={item}/>}
                 />
-            </View>
+            </Section>
         </Container>
     )
 }
