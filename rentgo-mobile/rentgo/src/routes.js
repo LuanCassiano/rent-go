@@ -10,12 +10,14 @@ import TravelDetailsScreen from './screens/TravelDetailsScreen'
 import PaymentScreen from './screens/PaymentScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import TravelConfirmationScreen from './screens/TravelConfirmationScreen'
 
 import SideBar from './components/SideBar'
 
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
-    Driver: DriverScreen
+    Driver: DriverScreen,
+    TravelConfirmation: TravelConfirmationScreen
 }, {
     headerMode: 'none',
     defaultNavigationOptions: {
