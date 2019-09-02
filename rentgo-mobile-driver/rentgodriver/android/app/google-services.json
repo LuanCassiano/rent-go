@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "376294118292",
+    "firebase_url": "https://rentgo-4d177.firebaseio.com",
+    "project_id": "rentgo-4d177",
+    "storage_bucket": "rentgo-4d177.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:376294118292:android:d30dac96853cf4fd",
+        "android_client_info": {
+          "package_name": "com.rentgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "376294118292-a40u4jm2an15f0tq8nd6ic5p151vfn84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNFZIQORdeMqvNR5BUW5dXajEqAZk79KA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "376294118292-a40u4jm2an15f0tq8nd6ic5p151vfn84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

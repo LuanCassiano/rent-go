@@ -1,5 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FlatList } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
+
+import api from '../../services/api'
 
 import Header from '../../components/Header'
 import Slider from '../../components/Slider'
@@ -20,9 +23,37 @@ import {
 
 export default function HomeScreen(props) {
 
+    const [vans, setVans] = useState([])
+
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
     }
+
+    useEffect(() => {
+        async function loadVans() {
+            const data = await AsyncStorage.getItem('RentGoDriver')
+            const info = JSON.parse(data)
+
+            const response = await api.get(`/api/van?driver=${info.id}`)
+            setVans(response.data.result)
+        }
+
+        loadVans()
+    }, [vans])
+
+    useEffect(() => {
+        async function createPlayerNotify() {
+            const notificationId = await AsyncStorage.getItem('OneSignalId')
+
+            const res = await api.post('/api/notification', {
+                player_id: notificationId
+            })
+
+            console.log('response', res)
+        }
+
+        createPlayerNotify()
+    }, [])
 
     return (
         <Container>
@@ -61,7 +92,7 @@ export default function HomeScreen(props) {
 
                 <FlatList 
                     keyExtractor={item => String(item.id)}
-                    data={data.vans}
+                    data={vans}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => <Slider vans={item}/>}

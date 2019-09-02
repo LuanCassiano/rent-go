@@ -115,6 +115,20 @@ export default function HomeScreen(props) {
         loadDataFromStorage()
     }, [modalVisible])
 
+    useEffect(() => {
+        async function createPlayerNotify() {
+            const notificationId = await AsyncStorage.getItem('OneSignalId')
+
+            const res = await api.post('/api/notification', {
+                player_id: notificationId
+            })
+
+            console.log('response', res)
+        }
+
+        createPlayerNotify()
+    }, [])
+
     return (
         <>
             <Header 

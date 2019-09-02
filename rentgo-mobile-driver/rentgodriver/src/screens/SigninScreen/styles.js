@@ -54,7 +54,7 @@ export const ButtonSubmit = styled.TouchableOpacity`
     background-color: #384662;
     border-radius: 30px;
     elevation: 5;
-    box-shadow: 5px 5px 5px #BCBCBC;
+    box-shadow: 5px 5px 5px #333333;
 `;
 
 export const TextButton = styled.Text`

@@ -46,8 +46,10 @@ function App() {
         }
     }
 
-    function idsPush(push) {
+    async function idsPush(push) {
         console.log('ids', push)
+
+        await AsyncStorage.setItem('OneSignalId', push.userId)
     }
 
     const Screens = Routes(logged)
