@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Modal, Text, ScrollView, TouchableOpacity, FlatList, Image } from 'react-native'
+import { Modal, Text, ScrollView, TouchableOpacity, FlatList, Image, View } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import api from '../../services/api'
 
@@ -12,7 +12,12 @@ import {
     ModalContainer,
     ModalContent,
     ButtonCloseModal,
-    Input
+    Input,
+    CardVanContainer,
+    CardVanContent,
+    CardVanInfo,
+    CardVanMedia,
+    H2
 } from './styles'
 
 export default function VanScreen(props) {
@@ -24,6 +29,7 @@ export default function VanScreen(props) {
     const [passengers, setPassengers] = useState('')
     const [details, setDetails] = useState('')
     const [driverId, setDriverId] = useState(null)
+    const [vans, setVans] = useState([])
 
     openModal = () => {
         setModalVisible(!modalVisible)
@@ -33,12 +39,27 @@ export default function VanScreen(props) {
         setModalVisible(!modalVisible)
     }
 
+    _renderVans = (item) => {
+        return (
+            <View style={{padding: 20}}>
+                <CardVanContainer>
+                    <CardVanContent>
+                        <CardVanMedia source={{ uri: item.photo_van }}/>
+                        <CardVanInfo>
+                            <H2>{item.model}</H2>
+                            <H2>{item.color}</H2>
+                        </CardVanInfo>
+                    </CardVanContent>
+                </CardVanContainer>
+            </View>
+        )
+    }
+
     async function handleSubmitVan() {
         const numPassenger = parseInt(passengers)
-        console.log(numPassenger)
 
         try {
-            const response = await api.post(`/api/van?driver=${driverId}`, {
+            await api.post(`/api/van?driver=${driverId}`, {
                 model: model,
                 color: color,
                 plate: plate,
@@ -46,7 +67,7 @@ export default function VanScreen(props) {
                 details: details
             })
 
-            console.log('response', response)
+            setModalVisible(!modalVisible)
         } catch (error) {
             console.log(error.messages)
         }
@@ -63,11 +84,26 @@ export default function VanScreen(props) {
         loadDataFromStorage()
     }, [])
 
+    useEffect(() => {
+        async function loadVans() {
+            const response = await api.get(`/api/van?driver=${driverId}&page=1`)
+            setVans(response.data.result.data)
+        }
+
+        loadVans()
+    }, [vans, driverId])
+
     return (
         <Container>
             <Header 
                 title="Suas Vans"
                 onDrawer={() => {}}
+            />
+
+            <FlatList 
+                keyExtractor={item => String(item.id)}
+                data={vans}
+                renderItem={({ item }) => _renderVans(item)}
             />
 
             <Fab onPress={openModal}>

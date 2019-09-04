@@ -51,3 +51,33 @@ export const Input = styled.TextInput`
     font-size: 16px;
     color: #000000;
 `;
+
+export const CardVanContainer = styled.TouchableOpacity`
+    width: 100%;
+    height: 100px;
+    border-radius: 5px; 
+    background-color: #384662; 
+    margin-right: 20px; 
+    padding: 20px; 
+    elevation: 5;
+`;
+
+export const CardVanContent = styled.View`
+    flex-direction: row;
+`;
+
+export const CardVanMedia = styled.Image`
+    width: 60px;
+    height: 60px; 
+    border-radius: 30px;
+`;
+
+export const CardVanInfo = styled.View`
+    margin: 0px 0px 0px 20px;
+`;
+
+export const H2 = styled.Text`
+    font-family: 'Quicksand-Bold';
+    font-size: 20px;
+    color: #FFFFFF;
+`;
