@@ -54,7 +54,8 @@ export default function SigninScreen(props) {
                 if(response.data.token) {
                     await AsyncStorage.setItem('RentGoToken', response.data.token)
                     
-                    const res = await api.get('/api/passenger')
+                    const res = await api.get('/api/passenger-auth')
+
                     await AsyncStorage.setItem('RentGoUser', JSON.stringify(res.data.result[0]))
 
                     setLoading(false)

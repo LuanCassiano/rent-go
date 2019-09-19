@@ -40,7 +40,7 @@ export const ImageProfile = styled.Image`
 export const TextProfileName = styled.Text`
     color: #1C2331; 
     margin-top: 10px; 
-    font-size: 20px; 
+    font-size: 14px; 
     font-family: 'Quicksand-Bold';
 `;
 
@@ -82,7 +82,7 @@ export const TextInfo = styled.Text`
 `;
 
 export const Divider = styled.View`
-    border: 1px solid #E5E5E5;
+    border: 1px solid #1C2331;
     margin-top: 20px;
     margin-bottom: 20px;
 `;

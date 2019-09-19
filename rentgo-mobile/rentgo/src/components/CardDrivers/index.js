@@ -1,18 +1,17 @@
 import React from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, Image, View, Text } from 'react-native'
 
 import { 
     Container,
     Card,
     CardBody,
-    CardAction,
-    CardActionText,
     CardFooter,
     CardImage,
     CardText,
     CardTitle,
     Label,
-    ViewInfo
+    ViewInfo,
+    Row
 } from './styles'
 
 export default function CardDrivers(props) {
@@ -27,22 +26,27 @@ export default function CardDrivers(props) {
 
     _renderCards = (item) => {
         return (
-            <Card>
+            <Card onPress={() => goToDriverInfo(item.id)}>
                 <CardBody>
-                    <CardImage source={{uri: item.profile_image}}/>
                     <ViewInfo>
-                        <CardTitle>{item.fullname}</CardTitle>
+                        <Row>
+                            <Image source={require('../../assets/icons/driver.png')} style={{width: 18, height: 18, marginTop: 6}}/>
+                            <CardTitle>{item.fullname}</CardTitle>
+                        </Row>
                         { item.rating ? (
                             <CardText>{item.rating}</CardText>
                         ) : (
-                            <CardText>0.0</CardText>
+                            <Row>
+                                <Image source={require('../../assets/icons/star.png')} style={{width: 15, height: 15}}/>
+                                <CardText>0.0</CardText>
+                            </Row>
                         )}
                     </ViewInfo>
+                    <CardImage source={{uri: item.profile_image}}/>
                 </CardBody>
                 <CardFooter>
-                    <CardAction onPress={() => goToDriverInfo(item.id)}>
-                        <CardActionText>Mais detalhes</CardActionText>
-                    </CardAction>
+                    <CardText>Viagens</CardText>
+                    <CardText>408</CardText>
                 </CardFooter>
             </Card>
         )
@@ -55,7 +59,6 @@ export default function CardDrivers(props) {
                 keyExtractor={(item) => String(item.id)}
                 data={props.driver}
                 renderItem={({ item }) => _renderCards(item)}
-                numColumns={2}
             />
         </Container>
     )
