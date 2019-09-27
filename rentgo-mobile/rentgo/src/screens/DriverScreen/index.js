@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StatusBar } from 'react-native'
+import { StatusBar, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
 
@@ -29,7 +29,8 @@ export default function DriverScreen(props) {
 
 	const [driver, setDriver] = useState({})
 
-	goToTravelConfirmation = () => {
+	goToTravelConfirmation = async () => {
+		await AsyncStorage.setItem('RentGoDriver', JSON.stringify(driver))
 		props.navigation.navigate('TravelConfirmation')
 	}
 

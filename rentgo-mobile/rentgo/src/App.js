@@ -35,6 +35,7 @@ function App() {
     }
 
     function openedPush(push) {
+        console.log('pushssss', push)
         if(push.action.actionID === "1") {
             console.log('viagem aceita')
             return

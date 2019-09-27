@@ -59,7 +59,9 @@ export default function TravelsScreen(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
-            const response = await api.get(`/api/passenger-trips`)
+            const response = await api.get(`/api/passenger-trips?page=1`)
+
+            console.tron.log('travels', response)
             setTrips(response.data.result.data)
         }
 

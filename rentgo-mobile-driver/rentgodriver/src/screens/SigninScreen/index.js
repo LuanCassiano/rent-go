@@ -69,7 +69,7 @@ export default function SigninScreen(props) {
                     goToHome()
 
                     return
-                }
+                // }
 
                 // setLoading(false)
                 // setError('Erro ao fazer login, verifique suas credenciais!')

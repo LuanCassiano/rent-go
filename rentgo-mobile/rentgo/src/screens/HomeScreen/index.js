@@ -30,6 +30,7 @@ export default function HomeScreen(props) {
     const [addressDestiny, setAddressDestiny] = useState('')
     const [distance, setDistance] = useState('')
     const [loading, setLoading] = useState(false)
+    const [page, setPage] = useState(1)
 
     travelDistance = async () => {
         setModalVisible(!modalVisible)
@@ -104,6 +105,7 @@ export default function HomeScreen(props) {
 
         createPlayerNotify()
     }, [])
+
 
     return (
         <>

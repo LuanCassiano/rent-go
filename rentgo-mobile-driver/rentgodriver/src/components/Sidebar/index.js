@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, TouchableOpacity, Text } from 'react-native'
 import { DrawerItems } from 'react-navigation'
 
+import api from '../../services/api'
+
 import { 
     Container,
     SideHeader,
@@ -28,17 +30,17 @@ export default function SideBar(props) {
         props.navigation.navigate('Signin')
     }
 
-    useEffect(() => {
-        async function loadDataFromStorage() {
-            const data = await AsyncStorage.getItem('RentGoDriver')
-            const info = JSON.parse(data)
+    // useEffect(() => {
+    //     async function getDriverAuth() {
+    //         const response = await api.get('/api/driver-auth')
+    //         const info = JSON.parse(data)
 
-            setUsername(info.username)
-            setImage(info.profile_image)
-        }
+    //         // setUsername(info.username)
+    //         // setImage(info.profile_image)
+    //     }
 
-        loadDataFromStorage()
-    }, [username])
+    //     loadDataFromStorage()
+    // }, [username])
 
     return (
         <Container>

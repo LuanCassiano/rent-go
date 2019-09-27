@@ -42,17 +42,19 @@ export default function HomeScreen(props) {
         loadVans()
     }, [vans])
 
-    // useEffect(() => {
-    //     async function createPlayerNotify() {
-    //         const notificationId = await AsyncStorage.getItem('OneSignalId')
+    useEffect(() => {
+        async function createPlayerNotify() {
+            const notificationId = await AsyncStorage.getItem('OneSignalId')
 
-    //         const res = await api.post('/api/notification', {
-    //             player_id: notificationId
-    //         })
-    //     }
+            const res = await api.post('/api/notification', {
+                player_id: notificationId
+            })
+            
+            console.log('res', res)
+        }
 
-    //     createPlayerNotify()
-    // }, [])
+        createPlayerNotify()
+    }, [])
 
     return (
         <Container>

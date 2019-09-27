@@ -11,6 +11,7 @@
     "@mapbox/mapbox-sdk": "^0.6.0",
     "@mapbox/react-native-mapbox-gl": "https://github.com/nitaliano/react-native-mapbox-gl/tarball/master",
     "@mapbox/store-locator-react-native": "0.0.1",
+    "@react-native-community/datetimepicker": "^2.0.0",
     "@turf/along": "^6.0.1",
     "@turf/circle": "^6.0.1",
     "@turf/helpers": "^6.1.4",
@@ -24,6 +25,7 @@
     "react-native-linear-gradient": "^2.5.4",
     "react-native-onesignal": "^3.3.2",
     "react-navigation": "^3.11.0",
+    "reactotron-react-native": "^3.6.5",
     "styled-components": "^4.3.1"
   },
   "devDependencies": {
