@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, AsyncStorage, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, AsyncStorage, TextInput, TouchableOpacity, Image, ScrollView } from 'react-native'
+import api from '../../services/api'
 
 import MapboxGL from '@mapbox/react-native-mapbox-gl'
 MapboxGL.setAccessToken('pk.eyJ1IjoibHV1YW5jYXNzaWFubyIsImEiOiJjanBzeWF4aHcwMGNyM3dwYTYzeTlsY2VmIn0.ReacoepEj0J0hJpbyHogYQ')
 
 import { 
-    Container 
+    Content,
+    Form,
+    FormInput,
+    ImageDriver,
+    Label,
+    Row,
+    TextDriverName,
+    ButtonSubmit,
+    ButtonText
 } from './styles'
 
-import api from '../../services/api'
+import Container from '../../components/Container'
+import Header from '../../components/Header'
 
-export default function TravelConfirmation() {
+export default function TravelConfirmation(props) {
 
     const [origin, setOrigin] = useState('')
     const [driverId, setDriverId] = useState(null)
@@ -20,6 +30,9 @@ export default function TravelConfirmation() {
     const [travelDate, setTravelDate] = useState('')
     const [numberPassengers, setNumberPassengers] = useState('')
 
+    goBack = () => {
+        props.navigation.goBack()
+    }
 
     useEffect(() => {
         async function loadDataFromStorage() {
@@ -55,103 +68,101 @@ export default function TravelConfirmation() {
                 travel_price : 1200.00
             })
 
-            console.log('travel response', response)
+            console.tron.log('travel response', response)
         } catch (error) {
             
         }
     }
 
     return (
-        <Container>
-            <MapboxGL.MapView
-                centerCoordinate={[-49.340435,-25.471456]}
-                styleURL={MapboxGL.StyleURL.Light}
-                style={{ width: '100%', height: 300 }}
-                zoomLevel={6}
-            >
-                {/* <MapboxGL.ShapeSource id="line" shape={route}>
-                    <MapboxGL.LineLayer 
-                        id="routeFill"
-                        style={{
-                            lineWidth: 3,
-                            lineCap: MapboxGL.LineCap.Round,
-                            lineJoin: MapboxGL.LineJoin.Round,
-                            lineColor: '#1C2331',
-                            lineOpacity: 1
-                        }}
-                        belowLayerID="originInnerCircle"
-                    />
-                </MapboxGL.ShapeSource> */}
-            </MapboxGL.MapView>
+        <Container noPadding={false}>
+            <Header 
+                title="Confirmar viagem"
+                goBack={goBack}
+            />
+            <ScrollView>
+                <MapboxGL.MapView
+                    centerCoordinate={[-49.340435,-25.471456]}
+                    styleURL={MapboxGL.StyleURL.Light}
+                    style={{ width: '100%', height: 300 }}
+                    zoomLevel={6}
+                >
+                    {/* <MapboxGL.ShapeSource id="line" shape={route}>
+                        <MapboxGL.LineLayer 
+                            id="routeFill"
+                            style={{
+                                lineWidth: 3,
+                                lineCap: MapboxGL.LineCap.Round,
+                                lineJoin: MapboxGL.LineJoin.Round,
+                                lineColor: '#1C2331',
+                                lineOpacity: 1
+                            }}
+                            belowLayerID="originInnerCircle"
+                        />
+                    </MapboxGL.ShapeSource> */}
+                </MapboxGL.MapView>
 
-            <View style={{padding: 20}}>
+                <Content>
 
-                <View style={{flexDirection: "row"}}>
-                    <Image source={{uri: profileImage}} style={{width: 60, height: 60, borderRadius: 30}}/>
-                    <Text style={{margin: 15}}>{driverName}</Text>
-                </View>
+                    <Row>
+                        <ImageDriver source={{uri: profileImage}} />
+                        <TextDriverName>{driverName}</TextDriverName>
+                    </Row>
 
 
-                <Text style={{marginTop: 20, marginBottom: 10}}>Origem</Text>
-                <View style={{flexDirection: 'row', alignSelf: "stretch", borderRadius: 5, backgroundColor: '#E5E5E5'}}>
-                    <TextInput 
-                        placeholder="Origem"
-                        placeholderTextColor="#1C2331"
-                        value={origin}
-                        editable={false}  
-                        style={{fontSize: 16, color: '#1C2331', alignSelf: "stretch", flex: 1, marginLeft: 20}}
-                    />
-                </View>
+                    <Label>Origem</Label>
+                    <Form>
+                        <FormInput 
+                            placeholder="Origem"
+                            placeholderTextColor="#E5E9F0"
+                            value={origin}
+                            editable={false}  
+                        />
+                    </Form>
 
-                <Text style={{marginTop: 20, marginBottom: 10}}>Destino</Text>
-                <View style={{flexDirection: 'row', alignSelf: "stretch", borderRadius: 5, backgroundColor: '#E5E5E5'}}>
-                    <TextInput 
-                        placeholder="Origem"
-                        placeholderTextColor="#1C2331"
-                        value={destination}
-                        editable={false}  
-                        style={{fontSize: 16, color: '#1C2331', alignSelf: "stretch", flex: 1, marginLeft: 20}}
-                    />
-                </View>
+                    <Label>Destino</Label>
+                    <Form>
+                        <FormInput 
+                            placeholder="Origem"
+                            placeholderTextColor="#E5E9F0"
+                            value={destination}
+                            editable={false}  
+                        />
+                    </Form>
 
-                <Text style={{marginTop: 20, marginBottom: 10}}>Data de ida</Text>
-                <View style={{flexDirection: 'row', alignSelf: "stretch", borderRadius: 5, backgroundColor: '#E5E5E5'}}>
-                    <TextInput 
-                        placeholder="Data ida"
-                        placeholderTextColor="#1C2331"
-                        style={{fontSize: 16, color: '#1C2331', alignSelf: "stretch", flex: 1, marginLeft: 20}}
-                        value={travelDate}
-                        onChangeText={setTravelDate}
-                    />
-                </View>
+                    <Label>Data de ida</Label>
+                    <Form>
+                        <FormInput 
+                            placeholder="Data ida"
+                            placeholderTextColor="#E5E9F0"
+                            value={travelDate}
+                            onChangeText={setTravelDate}
+                        />
+                    </Form>
 
-                <Text style={{marginTop: 20, marginBottom: 10}}>Data de volta</Text>
-                <View style={{flexDirection: 'row', alignSelf: "stretch", borderRadius: 5, backgroundColor: '#E5E5E5'}}>
-                    <TextInput 
-                        placeholder="Data volta"
-                        placeholderTextColor="#1C2331"
-                        style={{fontSize: 16, color: '#1C2331', alignSelf: "stretch", flex: 1, marginLeft: 20}}
-                    />
-                </View>
+                    <Label>Data de volta</Label>
+                    <Form>
+                        <FormInput 
+                            placeholder="Data volta"
+                            placeholderTextColor="#E5E9F0"
+                        />
+                    </Form>
 
-                <Text style={{marginTop: 20, marginBottom: 10}}>Quantidade de passageiros</Text>
-                <View style={{flexDirection: 'row', alignSelf: "stretch", borderRadius: 5, backgroundColor: '#E5E5E5'}}>
-                    <TextInput 
-                        placeholder="Passageiros"
-                        placeholderTextColor="#1C2331"
-                        style={{fontSize: 16, color: '#1C2331', alignSelf: "stretch", flex: 1, marginLeft: 20}}
-                        value={numberPassengers}
-                        onChangeText={setNumberPassengers}
-                    />
-                </View>
+                    <Label>Quantidade de passageiros</Label>
+                    <Form>
+                        <FormInput 
+                            placeholder="Passageiros"
+                            placeholderTextColor="#E5E9F0"
+                            value={numberPassengers}
+                            onChangeText={setNumberPassengers}
+                        />
+                    </Form>
 
-                <View style={{marginTop: 20}}>
-                    <TouchableOpacity onPress={travelSolicitation} style={{backgroundColor: '#1C2331', flex: 1, justifyContent: "center", alignItems: "center", borderRadius: 30, padding: 15}}>
-                        <Text style={{color: '#FFFFFF'}}>Solicitar viagem</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-
+                    <ButtonSubmit onPress={travelSolicitation}>
+                        <ButtonText>Solicitar viagem</ButtonText>
+                    </ButtonSubmit>
+                </Content>
+            </ScrollView>
         </Container>
     )
 }

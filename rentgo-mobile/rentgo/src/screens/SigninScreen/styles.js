@@ -34,7 +34,7 @@ export const Form = styled.View`
 
 export const FormInput = styled.TextInput`
     font-size: 16px;
-    color: #FFFFFF;
+    color: #E5E9F0;
     align-self: stretch;
     flex: 1;
     font-family: 'Quicksand-Medium';
@@ -59,14 +59,14 @@ export const ButtonSubmit = styled.TouchableOpacity`
 
 export const TextButton = styled.Text`
     font-size: 16px;
-    color: #384662;
+    color: #E5E9F0;
     text-align: center;
     font-family: 'Quicksand-Medium';
 `;
 
 export const Title = styled.Text`
     text-align: center;
-    color: #384662;
+    color: #E5E9F0;
     font-size: 18px;
     font-family: 'Quicksand-Bold';
 `;
@@ -76,7 +76,7 @@ export const Href = styled.TouchableOpacity`
 `;
 
 export const TextHref = styled.Text`
-    color: #1C2331;
+    color: #E5E9F0;
     font-size: 16px;
     text-align: center;
     font-family: 'Quicksand-Regular';

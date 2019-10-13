@@ -19,7 +19,7 @@ import {
 import Header from '../../components/Header'
 import Container from '../../components/Container'
 
-export default function TravelsScreen(props) {
+export default function TravelRequests(props) {
 
     const [trips, setTrips] = useState([])
 
@@ -50,7 +50,7 @@ export default function TravelsScreen(props) {
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'finished' && <TextInfo>Finalizada</TextInfo> }
+                        { item.travel_status === 'waiting_driver' && <TextInfo>Solicitada</TextInfo> }
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -59,7 +59,7 @@ export default function TravelsScreen(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
-            const response = await api.get(`/api/passenger-trips?page=1&status=finished`)
+            const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
             setTrips(response.data.result.data)
         }
 

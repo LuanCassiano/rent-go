@@ -126,7 +126,7 @@ export default function HomeScreen(props) {
             )}
 
             <Fab onPress={openModal}>
-                <FabIcon source={require('../../assets/icons/tourist.png')}/>
+                <FabIcon source={require('../../assets/icons/destination.png')}/>
             </Fab>
 
             <Modal animationType="fade" transparent visible={modalVisible} onRequestClose={() => {}}>

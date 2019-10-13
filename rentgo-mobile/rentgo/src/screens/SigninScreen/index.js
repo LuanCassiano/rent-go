@@ -93,7 +93,7 @@ export default function SigninScreen(props) {
                 <FormIcon source={require('../../assets/img/email.png')}/>
                 <FormInput 
                     placeholder="Seu e-mail" 
-                    placeholderTextColor="#384662"
+                    placeholderTextColor="#E5E9F0"
                     autoCapitalize="none" 
                     autoCorrect={false} 
                     underlineColorAndroid="transparent" 
@@ -107,7 +107,7 @@ export default function SigninScreen(props) {
                 <FormIcon source={require('../../assets/img/lock.png')}/>
                 <FormInput 
                     placeholder="Sua senha" 
-                    placeholderTextColor="#384662"
+                    placeholderTextColor="#E5E9F0"
                     autoCapitalize="none" 
                     autoCorrect={false} 
                     underlineColorAndroid="transparent" 
@@ -119,7 +119,7 @@ export default function SigninScreen(props) {
 
             <ButtonSubmit onPress={handleSignIn}>
                 { loading ? (
-                    <ActivityIndicator size="small" color="#FFFFFF"/>
+                    <ActivityIndicator size="small" color="#E5E9F0"/>
                 ) : (
                     <TextButton>Entrar</TextButton>
                 )}

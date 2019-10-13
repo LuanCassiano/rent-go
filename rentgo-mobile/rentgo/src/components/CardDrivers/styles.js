@@ -13,7 +13,7 @@ export const Container = styled(LinearGradient).attrs({
 export const Card = styled.TouchableOpacity`
     flex: 1;
     border-radius: 5px;
-    background-color: #F2F4F7;
+    background-color: #E5E9F0;
     margin: 20px 10px 10px 10px;
     elevation: 5;
     shadowOffset: {  width: 10;  height: 10  };

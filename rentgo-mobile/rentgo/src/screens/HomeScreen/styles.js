@@ -69,6 +69,6 @@ export const Fab = styled.TouchableOpacity`
 `;
 
 export const FabIcon = styled.Image`
-    width: 20px; 
-    height: 20px;
+    width: 25px; 
+    height: 25px;
 `;

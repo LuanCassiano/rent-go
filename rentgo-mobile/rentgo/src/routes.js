@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
-import { createAppContainer, createDrawerNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation'
+import { createAppContainer, createDrawerNavigator, createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation'
 
 import HomeScreen from './screens/HomeScreen'
 import DriverScreen from './screens/DriverScreen'
@@ -11,8 +11,10 @@ import PaymentScreen from './screens/PaymentScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import TravelConfirmationScreen from './screens/TravelConfirmationScreen'
+import TravelRequests from './screens/TravelRequests'
 
 import SideBar from './components/SideBar'
+import TabBar from './components/TabBar'
 
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
@@ -27,6 +29,16 @@ const HomeNavigator = createStackNavigator({
 
 const TravelsNavigator = createStackNavigator({
     Travels: TravelsScreen,
+    TravelDetails: TravelDetailsScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+const TravelRequestsNavigator = createStackNavigator({
+    TravelRequests: TravelRequests,
     TravelDetails: TravelDetailsScreen
 }, {
     headerMode: 'none',
@@ -62,6 +74,18 @@ const ProfileNavigator = createStackNavigator({
     }
 })
 
+const TabTravels = createBottomTabNavigator({
+    Travels: {
+        screen: TravelsNavigator,
+    },
+
+    TravelRequests: {
+        screen: TravelRequestsNavigator
+    }
+}, {
+    tabBarComponent: TabBar
+})
+
 const DrawerNavigator = createDrawerNavigator({
     Home: {
         screen: HomeNavigator,
@@ -72,7 +96,7 @@ const DrawerNavigator = createDrawerNavigator({
     },
 
     Travels: {
-        screen: TravelsNavigator,
+        screen: TabTravels,
         navigationOptions: {
             drawerLabel: 'Minhas viagens',
             drawerIcon: <Image source={require('./assets/icons/tourist.png')} style={{width: 25, height: 25}}/>
@@ -101,7 +125,7 @@ const DrawerNavigator = createDrawerNavigator({
             drawerLabel: 'Configurações',
             drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
         }
-    }
+    },
 }, {
     drawerPosition: 'left',
     contentComponent: SideBar
