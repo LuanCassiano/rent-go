@@ -19,6 +19,7 @@ export default function SideBar(props) {
 
     const [username, setUsername] = useState('')
     const [usernameImage, setImage] = useState('')
+    const [rating, setRating] = useState('')
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
@@ -30,17 +31,23 @@ export default function SideBar(props) {
         props.navigation.navigate('Signin')
     }
 
-    // useEffect(() => {
-    //     async function getDriverAuth() {
-    //         const response = await api.get('/api/driver-auth')
-    //         const info = JSON.parse(data)
+    useEffect(() => {
+        async function getDriverAuth() {
+            const data = await AsyncStorage.getItem('RentGoDriver')
+            const info = JSON.parse(data)
+            
+            const response = await api.get(`/api/driver/${info.id}`)
 
-    //         // setUsername(info.username)
-    //         // setImage(info.profile_image)
-    //     }
+            setRating(response.data.driver[0].rating)
+            setUsername(info.username)
+            setImage(info.profile_image)
+            setDriverId(info.id)
 
-    //     loadDataFromStorage()
-    // }, [username])
+
+        }
+
+        getDriverAuth()
+    }, [])
 
     return (
         <Container>
@@ -49,7 +56,7 @@ export default function SideBar(props) {
                     <SideHeaderImage source={{ uri: usernameImage }}/>
                     <SideHeaderInfo>
                         <SideHeaderUsername>{username}</SideHeaderUsername>
-                        <SideHeaderUserRating>0.0</SideHeaderUserRating>
+                        <SideHeaderUserRating>{rating}</SideHeaderUserRating>
                     </SideHeaderInfo>
                 </SideHeaderContent>
             </SideHeader>

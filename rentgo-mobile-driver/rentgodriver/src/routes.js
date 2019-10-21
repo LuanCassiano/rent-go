@@ -1,6 +1,6 @@
 import React from 'react'
 import { Image } from 'react-native'
-import { createAppContainer, createDrawerNavigator, createStackNavigator, createSwitchNavigator } from 'react-navigation'
+import { createAppContainer, createDrawerNavigator, createStackNavigator, createSwitchNavigator, createBottomTabNavigator } from 'react-navigation'
 
 import HomeScreen from './screens/HomeScreen'
 import SigninScreen from './screens/SigninScreen'
@@ -9,8 +9,10 @@ import TravelDetailsScreen from './screens/TravelDetailsScreen'
 import SettingsScreen from './screens/SettingsScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import VanScreen from './screens/VanScreen'
+import TravelScheduledScreen from './screens/TravelScheduled'
 
 import Sidebar from './components/Sidebar'
+import TabBar from './components/TabBar'
 
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
@@ -23,6 +25,16 @@ const HomeNavigator = createStackNavigator({
 
 const TravelsNavigator = createStackNavigator({
     Travels: TravelsScreen,
+    TravelDetails: TravelDetailsScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+const TravelScheduledNavigator = createStackNavigator({
+    TravelRequests: TravelScheduledScreen,
     TravelDetails: TravelDetailsScreen
 }, {
     headerMode: 'none',
@@ -58,6 +70,17 @@ const VanNavigator = createStackNavigator({
     }
 })
 
+const TabTravles = createBottomTabNavigator({
+    Travels: {
+        screen: TravelsNavigator,
+    },
+    TravelsScheduled: {
+        screen: TravelScheduledNavigator
+    }
+}, {
+    tabBarComponent: TabBar
+})
+
 const DrawerNavigator = createDrawerNavigator({
     Home: {
         screen: HomeNavigator,
@@ -76,7 +99,7 @@ const DrawerNavigator = createDrawerNavigator({
     },
 
     Travels: {
-        screen: TravelsNavigator,
+        screen: TabTravles,
         navigationOptions: {
             drawerLabel: 'Minhas viagens',
             drawerIcon: <Image source={require('./assets/icons/places.png')} style={{width: 25, height: 25}}/>

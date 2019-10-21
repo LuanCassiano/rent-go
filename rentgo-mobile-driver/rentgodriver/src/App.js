@@ -45,7 +45,6 @@ function App () {
     }
 
     async function idsPush(push) {
-        console.log('ids', push)
 
         await AsyncStorage.setItem('OneSignalId', push.userId)
     }

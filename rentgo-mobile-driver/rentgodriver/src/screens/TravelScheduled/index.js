@@ -20,7 +20,7 @@ import {
 import Header from '../../components/Header'
 import Container from '../../components/Container'
 
-export default function TravelsScreen(props) {
+export default function TravelScheduled(props) {
 
     const [trips, setTrips] = useState([])
 
@@ -35,6 +35,7 @@ export default function TravelsScreen(props) {
     }
 
     _renderItem = (item) => {
+        console.log('item', item)
         return (
             <CardTravel onPress={() => goToTravelDetails(item.id)}>
                 <CardTravelBody>
@@ -51,7 +52,7 @@ export default function TravelsScreen(props) {
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'finished' && <TextInfo>Finalizada</TextInfo> }
+                        { item.travel_status === 'waiting_driver' && <TextInfo>Solicitada</TextInfo> }
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -60,12 +61,14 @@ export default function TravelsScreen(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
-            const response = await api.get(`/api/passenger-trips?page=1&status=finished`)
+            const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
             setTrips(response.data.result.data)
         }
 
         loadUserTrips()
     }, [trips])
+
+    console.log('afs sddf ', trips)
 
     return (
         <>
@@ -74,7 +77,7 @@ export default function TravelsScreen(props) {
                 onDrawer={toggleDrawer}
             />
             <Container>
-                <Title>Viagens finalizadas</Title>
+                <Title>Viagens agendadas</Title>
 
                 <FlatList 
                     keyExtractor={item => String(item.id)}

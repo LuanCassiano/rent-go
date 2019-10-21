@@ -7,8 +7,6 @@ import api from '../../services/api'
 import Header from '../../components/Header'
 import Slider from '../../components/Slider'
 
-import data from '../../data.json'
-
 import { 
     Container,
     Label,
@@ -24,33 +22,41 @@ import {
 export default function HomeScreen(props) {
 
     const [vans, setVans] = useState([])
+    const [driver, setDriver] = useState([])
+    const [tripAmount, setTripAmount] = useState(0)
+    const [trips, setTrips] = useState([])
+    const [positiveNotes, setNotes] = useState(0)
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
     }
 
     useEffect(() => {
-        async function loadVans() {
+        async function loadDriverInfo() {
             const data = await AsyncStorage.getItem('RentGoDriver')
             const info = JSON.parse(data)
 
-            const response = await api.get(`/api/van?driver=${info.id}`)
-            setVans(response.data.result.data)
+            const response = await api.get(`/api/driver/${info.id}`)
+            console.log(response.data.driver[0])
+            setDriver(response.data.driver[0])
 
+            setTripAmount(response.data.driver[0].trip.length)
+            setVans(response.data.driver[0].vans)
+            setTrips(response.data.driver[0].trip)
+            setNotes(response.data.driver[0].positive_notes)
         }
 
-        loadVans()
-    }, [vans])
+        loadDriverInfo()
+    }, [])
 
     useEffect(() => {
         async function createPlayerNotify() {
             const notificationId = await AsyncStorage.getItem('OneSignalId')
 
-            const res = await api.post('/api/notification', {
+            await api.post('/api/notification', {
                 player_id: notificationId
             })
             
-            console.log('res', res)
         }
 
         createPlayerNotify()
@@ -72,7 +78,7 @@ export default function HomeScreen(props) {
                             <CardInfoMedia source={require('../../assets/icons/myvan.png')}/>
                         </ViewCenter>
                         <CardInfoContent>
-                            <Paragraph>0</Paragraph>
+                            <Paragraph>{tripAmount}</Paragraph>
                             <Paragraph isMargin={true}>Viagens realizadas</Paragraph>
                         </CardInfoContent>
                     </CardInfo>
@@ -81,8 +87,8 @@ export default function HomeScreen(props) {
                             <CardInfoMedia source={require('../../assets/icons/road.png')}/>
                         </ViewCenter>
                         <CardInfoContent>
-                            <Paragraph>0 km</Paragraph>
-                            <Paragraph isMargin={true}>Distância percorrida</Paragraph>
+                            <Paragraph>{positiveNotes}</Paragraph>
+                            <Paragraph isMargin={true}>Avaliações Positivas</Paragraph>
                         </CardInfoContent>
                     </CardInfo>
                 </Row>
@@ -105,7 +111,7 @@ export default function HomeScreen(props) {
 
                 <FlatList 
                     keyExtractor={item => String(item.id)}
-                    data={data.trips}
+                    data={trips}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => <Slider trips={item}/>}
