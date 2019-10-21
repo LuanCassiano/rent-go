@@ -73,7 +73,7 @@ export default function HomeScreen(props) {
         async function loadDrivers() {
             try {
                 const response = await api.get(`/api/driver?dist_max=${distance}&page=1&status=available`)
-                setDriver(response.data.result.data)
+                setDriver(response.data.drivers.data)
             } catch (error) {
                 console.log(error)
             }
@@ -137,8 +137,8 @@ export default function HomeScreen(props) {
                         </ButtonCloseModal>
 
                         <Input 
-                            placeholder="Ponto de partida ?"
-                            placeholderTextColor="#E5E9F0"
+                            placeholder="Origem da viagem"
+                            placeholderTextColor="#1C2331"
                             autoCorrect={false}
                             autoCapitalize="none"
                             onChangeText={setAddressOrigem}
@@ -146,8 +146,8 @@ export default function HomeScreen(props) {
                         />
 
                         <Input 
-                            placeholder="Qual seu destino ?"
-                            placeholderTextColor="#E5E9F0"
+                            placeholder="Destino da viagem"
+                            placeholderTextColor="#1C2331"
                             autoCorrect={false}
                             autoCapitalize="none"
                             onChangeText={setAddressDestiny}

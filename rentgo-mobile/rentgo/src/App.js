@@ -5,6 +5,8 @@ import Routes from './routes'
 import OneSignal from 'react-native-onesignal'
 import CodePush from 'react-native-code-push'
 
+import './config/ReactotronConfig'
+
 function App() {
 
     const [logged, setLogged] = useState(false)
