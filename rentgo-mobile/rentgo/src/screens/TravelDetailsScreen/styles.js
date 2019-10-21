@@ -22,16 +22,16 @@ export const ViewTripContent2 = styled.View`
 export const Label = styled.Text`
     font-family: 'Quicksand-Bold';
     font-size: 16px;
-    color: #1C2331;
+    color: #E5E9F0;
 `;
 
 export const Span = styled.Text`
     font-family: 'Quicksand-Medium'; 
     font-size: 14px;
-    color: #1C2331;
+    color: #E5E9F0;
 `;
 
 export const Divider = styled.View`
-    border: 1px solid #E5E5E5;
+    border: 1px solid #E5E9F0;
     margin: 20px 0px 20px 0px;
 `;

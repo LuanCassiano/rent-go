@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { AsyncStorage, ScrollView } from 'react-native'
+import { AsyncStorage, ScrollView, View, Text, Image } from 'react-native'
 
-import { 
-    Container,
+import {
     ImageProfile,
     LogoBackground,
     LogoBackgroundContent,
@@ -19,6 +18,7 @@ import {
 } from './styles'
 
 import Header from '../../components/Header'
+import Container from '../../components/Container'
 
 export default function ProfileScreen(props) {
 
@@ -49,50 +49,54 @@ export default function ProfileScreen(props) {
     }, [username])
 
     return (
-        <Container>
+        <>
             <Header 
                 title="Minha conta"
                 onDrawer={toggleDrawer}
             />
+            <Container noPadding={false}>
+                <ScrollView>
+                    <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                        <View style={{flex: 1, alignItems: "center", justifyContent: "center", width: 120, height: 120, borderRadius: 60, backgroundColor: '#E5E9F0', position: "relative", top: 50, left: 0, right: 0, bottom: 0, zIndex: 9999}}>
+                            <ImageProfile source={{ uri: usernameImage }}/>
+                        </View>
+                    </View>
 
-            <ScrollView>
-                <LogoBackground source={require('../../assets/img/logo.png')}>
-                    <LogoBackgroundGradient />
-                    <LogoBackgroundContent>
-                        <ImageProfile source={{ uri: usernameImage }}/>
-                        <TextProfileName>{fullname}</TextProfileName>
-                    </LogoBackgroundContent>
-                </LogoBackground>
+                    <View style={{padding: 20}}>
+                        <View style={{flex: 1, backgroundColor: '#E5E9F0', padding: 20, borderRadius: 10, top: -20, left: 0, right: 0, bottom: 0, position: "relative"}}>
+                            <View style={{marginTop: 40}}>
+                                <View style={{flex: 1, alignItems: "center"}}>
+                                    <TextProfileName>{fullname}</TextProfileName>
+                                </View>
 
-                <ViewProfileTravelContainer>
-                    <ViewProfileTravelContent>
-                        <IconTravelInfo source={require('../../assets/icons/tourist.png')}/>
-                        <TextTravelInfo count={true}>0</TextTravelInfo>
-                        <TextTravelInfo count={false}>Viagens</TextTravelInfo>
-                    </ViewProfileTravelContent>
-                </ViewProfileTravelContainer>
+                                <View style={{flex: 1, alignItems:  "center", backgroundColor: '#1C2331', padding: 20, marginLeft: -20, marginRight: -20, marginBottom: 10, marginTop: 10}}>
+                                    <View style={{flexDirection: "row"}}>
+                                        <View style={{flexDirection: "column"}}>
+                                            <Text style={{color: '#FFFFFF', textAlign: "center"}}>0</Text>
+                                            <Text style={{color: '#FFFFFF', fontSize: 12}}>Viagens</Text>
+                                        </View>
+                                    </View>
+                                </View>
 
-                <ViewUserInfoContainer>
-                    <ViewContentInfo>
-                        <TextInfo>Usuário</TextInfo>
-                        <TextInfo>{username}</TextInfo>
-                    </ViewContentInfo>
-
-                    <Divider />
-
-                    <ViewContentInfo>
-                        <TextInfo>E-mail</TextInfo>
-                        <TextInfo>{email}</TextInfo>
-                    </ViewContentInfo>
-
-                    <Divider />
-
-                    <ViewContentInfo>
-                        <TextInfo>Telefone</TextInfo>
-                        <TextInfo>{phone}</TextInfo>
-                    </ViewContentInfo>
-                </ViewUserInfoContainer>
-            </ScrollView>
-        </Container>
+                                <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                                    <TextProfileName>Usuário</TextProfileName>
+                                    <TextProfileName>{username}</TextProfileName>
+                                </View>
+                                <Divider />
+                                <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                                    <TextProfileName>E-mail</TextProfileName>
+                                    <TextProfileName>{email}</TextProfileName>
+                                </View>
+                                <Divider />
+                                <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                                    <TextProfileName>Telefone</TextProfileName>
+                                    <TextProfileName>{phone}</TextProfileName>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
+            </Container>
+        </>
     )
 }

@@ -36,11 +36,9 @@ export const H2 = styled.Text`
 `;
 
 export const CardTripContainer = styled.TouchableOpacity`
-    width: 300px;
-    height: 150px; 
     border-radius: 5px; 
     background-color: #384662; 
-    margin-right: 10px; 
+    margin-right: 20px; 
     elevation: 5; 
     margin-bottom: 20px;
 `;

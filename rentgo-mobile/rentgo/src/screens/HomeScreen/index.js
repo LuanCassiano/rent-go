@@ -28,46 +28,25 @@ export default function HomeScreen(props) {
     const [drivers, setDriver] = useState([])
     const [addressOrigem, setAddressOrigem] = useState('')
     const [addressDestiny, setAddressDestiny] = useState('')
-    const [coordinatesOrigem, setCoordOrigem] = useState({
-        lattOrigem: null,
-        longOrigem: null
-    })
-    const [coordinatesDestiny, setCoordDestiny] = useState({
-        lattDest: null,
-        longDest: null
-    })
     const [distance, setDistance] = useState('')
     const [loading, setLoading] = useState(false)
-
-
-    const searchGooglePlaceOrigem = async (address) => {
-        const response = await getGeoInfo({
-            street: address,
-        })
-
-        setCoordOrigem({
-            lattOrigem: response[1],
-            longOrigem: response[0]
-        })
-    }
-
-    const searchGooglePlaceDestiny = async (address) => {
-
-        const response = await getGeoInfo({
-            street: address,
-        })
-
-        setCoordDestiny({
-            lattDest: response[1],
-            longDest: response[0]
-        })
-    }
+    const [page, setPage] = useState(1)
 
     travelDistance = async () => {
         setModalVisible(!modalVisible)
         setLoading(true)
         try {
-            const response = await getDistance(coordinatesOrigem.lattOrigem, coordinatesOrigem.longOrigem, coordinatesDestiny.lattDest, coordinatesDestiny.longDest)
+
+            const responseOrigem = await getGeoInfo({
+                street: addressOrigem
+            })
+
+            const responseDestination = await getGeoInfo({
+                street: addressDestiny
+            })
+
+            const response = await getDistance(responseOrigem[1], responseOrigem[0], responseDestination[1], responseDestination[0])
+
             setDistance(response)
             await AsyncStorage.setItem('origem', addressOrigem)
             await AsyncStorage.setItem('destino', addressDestiny)
@@ -93,7 +72,7 @@ export default function HomeScreen(props) {
     useEffect(() => {
         async function loadDrivers() {
             try {
-                const response = await api.get(`/api/drivers?dist_max=${distance}`)
+                const response = await api.get(`/api/driver?dist_max=${distance}&page=1&status=available`)
                 setDriver(response.data.result.data)
             } catch (error) {
                 console.log(error)
@@ -115,6 +94,19 @@ export default function HomeScreen(props) {
         loadDataFromStorage()
     }, [modalVisible])
 
+    useEffect(() => {
+        async function createPlayerNotify() {
+            const notificationId = await AsyncStorage.getItem('OneSignalId')
+
+            const res = await api.post('/api/notification', {
+                player_id: notificationId
+            })
+        }
+
+        createPlayerNotify()
+    }, [])
+
+
     return (
         <>
             <Header 
@@ -124,8 +116,8 @@ export default function HomeScreen(props) {
 
             { loading ? 
             (
-                <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                    <ActivityIndicator size="large" color="#1C2331"/>
+                <View style={{flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: '#1C2331'}}>
+                    <ActivityIndicator size="large" color="#E5E9F0"/>
                 </View>
             ) 
                 : 
@@ -134,7 +126,7 @@ export default function HomeScreen(props) {
             )}
 
             <Fab onPress={openModal}>
-                <FabIcon source={require('../../assets/icons/tourist.png')}/>
+                <FabIcon source={require('../../assets/icons/destination.png')}/>
             </Fab>
 
             <Modal animationType="fade" transparent visible={modalVisible} onRequestClose={() => {}}>
@@ -146,21 +138,19 @@ export default function HomeScreen(props) {
 
                         <Input 
                             placeholder="Ponto de partida ?"
-                            placeholderTextColor="#1C2331"
+                            placeholderTextColor="#E5E9F0"
                             autoCorrect={false}
                             autoCapitalize="none"
                             onChangeText={setAddressOrigem}
-                            onEndEditing={(e) => searchGooglePlaceOrigem(e.nativeEvent.text)}
                             value={addressOrigem}
                         />
 
                         <Input 
                             placeholder="Qual seu destino ?"
-                            placeholderTextColor="#1C2331"
+                            placeholderTextColor="#E5E9F0"
                             autoCorrect={false}
                             autoCapitalize="none"
                             onChangeText={setAddressDestiny}
-                            onEndEditing={(e) => searchGooglePlaceDestiny(e.nativeEvent.text)}
                             value={addressDestiny}
                         />
 

@@ -6,7 +6,7 @@ export const Container = styled.View`
     padding-left: ${Platform.OS === "ios" ? 20 : 15};
     padding-right: ${Platform.OS === "ios" ? 20 : 15};
     padding-bottom: ${Platform.OS === "ios" ? 20 : 15};
-    background-color: #1C2331;
+    background-color: #151a25;
 `;
 
 export const Content = styled.View`
@@ -30,7 +30,7 @@ export const HeaderActionButtonIcon = styled.Image`
 export const Title = styled.Text`
     margin-top: ${Platform.OS === "ios" ? 28 : 5};
     margin-right: 50px;
-    color: #FFF;
+    color: #E5E9F0;
     font-family: 'Quicksand-Bold';
     text-align: center;
     font-size: 20px;

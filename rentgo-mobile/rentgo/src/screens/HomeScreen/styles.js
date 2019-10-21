@@ -10,7 +10,7 @@ export const Container = styled.View`
 export const Content = styled.View`
     align-items: stretch;
     align-self: stretch;
-    background-color: #FFFFFF;
+    background-color: #E5E9F0;
     border-radius: 10px;
     padding: 20px;
 `;
@@ -26,11 +26,13 @@ export const ButtonCloseModalIcon = styled.Image`
 
 export const Input = styled.TextInput`
     padding: 15px; 
-    background-color: #E5E5E5; 
+    background-color: #E5E9F0; 
     border-radius: 5px;
     margin: 10px 0px 20px 0px;
+    border: 1px solid #1C2331;
     font-family: 'Quicksand-Regular';
     font-size: 16px;
+    color: #1C2331;
 `;
 
 export const ButtonSubmit = styled.TouchableOpacity`
@@ -43,7 +45,7 @@ export const ButtonSubmit = styled.TouchableOpacity`
 
 export const TextButton = styled.Text`
     text-align: center;
-    color: #FFFFFF;
+    color: #E5E9F0;
     font-family: 'Quicksand-Bold';
     font-size: 16px;
 `;
@@ -63,10 +65,10 @@ export const Fab = styled.TouchableOpacity`
     justify-content: center; 
     right: 20;
     bottom: 30; 
-    background-color: #384662;
+    background-color: #E5E9F0;
 `;
 
 export const FabIcon = styled.Image`
-    width: 20px; 
-    height: 20px;
+    width: 25px; 
+    height: 25px;
 `;

@@ -1,10 +1,5 @@
 import styled from 'styled-components/native'
 
-export const Container = styled.ScrollView`
-    flex: 1;
-    background-color: #FFFFFF;
-`;
-
 export const DriverProfileImage = styled.ImageBackground`
     width: 100%;
     height: 300px;
@@ -32,7 +27,7 @@ export const Icon = styled.Image`
 export const Label = styled.Text`
     font-family: 'Quicksand-Medium'; 
     font-size: 22;
-    color: #1C2331; 
+    color: #E5E9F0; 
     margin-top: 10;
     margin-left: 10;
 `;
@@ -45,11 +40,11 @@ export const ContentDetails = styled.View`
 export const TextInfo = styled.Text`
     font-family: 'Quicksand-Medium'; 
     font-size: 16;
-    color: #1C2331; 
+    color: #E5E9F0; 
 `;
 
 export const Divider = styled.View`
-    border: 1px solid #E5E5E5;
+    border: 1px solid #E5E9F0;
     margin-top: 20px;
     margin-bottom: 20px;
 `;
@@ -67,6 +62,6 @@ export const ActionButton = styled.TouchableOpacity`
 export const ActionButtonText = styled.Text`
     font-family: 'Quicksand-Medium'; 
     font-size: 16;
-    color: #FFFFFF; 
+    color: #E5E9F0; 
     text-align: center;
 `;

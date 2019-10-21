@@ -7,8 +7,7 @@ import api from '../../services/api'
 
 MapboxGL.setAccessToken('pk.eyJ1IjoibHV1YW5jYXNzaWFubyIsImEiOiJjanBzeWF4aHcwMGNyM3dwYTYzeTlsY2VmIn0.ReacoepEj0J0hJpbyHogYQ')
 
-import { 
-    Container,
+import {
     Divider,
     Label,
     Span,
@@ -18,6 +17,7 @@ import {
 } from './styles'
 
 import Header from '../../components/Header'
+import Container from '../../components/Container'
 
 export default function TravelDetails(props) {
 
@@ -133,7 +133,7 @@ export default function TravelDetails(props) {
     }, [])
 
     return (
-        <Container>
+        <Container noPadding={false}>
             <Header 
                 title="Detalhes da viagem"
                 goBack={goBack}

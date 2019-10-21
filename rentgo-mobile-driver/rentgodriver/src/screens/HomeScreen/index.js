@@ -1,78 +1,122 @@
-import React from 'react'
-import { FlatList, View, Text, Image } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { FlatList } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage'
+
+import api from '../../services/api'
 
 import Header from '../../components/Header'
 import Slider from '../../components/Slider'
 
-import data from '../../data.json'
-
 import { 
     Container,
     Label,
-    ViewGeneric
+    CardInfo,
+    CardInfoContent,
+    CardInfoMedia,
+    Paragraph,
+    Row,
+    Section,
+    ViewCenter
 } from './styles';
 
 export default function HomeScreen(props) {
+
+    const [vans, setVans] = useState([])
+    const [driver, setDriver] = useState([])
+    const [tripAmount, setTripAmount] = useState(0)
+    const [trips, setTrips] = useState([])
+    const [positiveNotes, setNotes] = useState(0)
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
     }
 
+    useEffect(() => {
+        async function loadDriverInfo() {
+            const data = await AsyncStorage.getItem('RentGoDriver')
+            const info = JSON.parse(data)
+
+            const response = await api.get(`/api/driver/${info.id}`)
+            console.log(response.data.driver[0])
+            setDriver(response.data.driver[0])
+
+            setTripAmount(response.data.driver[0].trip.length)
+            setVans(response.data.driver[0].vans)
+            setTrips(response.data.driver[0].trip)
+            setNotes(response.data.driver[0].positive_notes)
+        }
+
+        loadDriverInfo()
+    }, [])
+
+    useEffect(() => {
+        async function createPlayerNotify() {
+            const notificationId = await AsyncStorage.getItem('OneSignalId')
+
+            await api.post('/api/notification', {
+                player_id: notificationId
+            })
+            
+        }
+
+        createPlayerNotify()
+    }, [])
+
     return (
         <Container>
             <Header 
-                title="RentGo"
+                title="RentGo Driver"
                 onDrawer={toggleDrawer}
             />
 
-            <View style={{backgroundColor: '#FFFFFF', padding: 20, marginBottom: 20}}>
+            <Section>
                 <Label>Informações Gerais</Label>
 
-                <View style={{flexDirection: "row"}}>
-                    <View style={{width: '45%', height: 200, backgroundColor: '#384662', marginRight: 30, padding: 20, borderRadius: 5}}>
-                        <View style={{alignItems: "center"}}>
-                            <Image source={require('../../assets/icons/van.png')} style={{width: 50, height: 50}}/>
-                        </View>
-                        <View style={{marginTop: 20}}>
-                            <Text style={{textAlign: "center", color: '#FFFFFF', fontFamily: 'Quicksand-Bold', fontSize: 14}}>0</Text>
-                            <Text style={{textAlign: "center", color: '#FFFFFF', fontFamily: 'Quicksand-Bold', fontSize: 16}}>Viagens realizadas</Text>
-                        </View>
-                    </View>
-                    <View style={{width: '45%', height: 200, backgroundColor: '#384662', padding: 20, borderRadius: 5}}>
-                        <View style={{alignItems: "center"}}>
-                            <Image source={require('../../assets/icons/road.png')} style={{width: 50, height: 50}}/>
-                        </View>
-                        <View style={{marginTop: 20}}>
-                            <Text style={{textAlign: "center", color: '#FFFFFF', fontFamily: 'Quicksand-Bold', fontSize: 14}}>0 km</Text>
-                            <Text style={{textAlign: "center", color: '#FFFFFF', fontFamily: 'Quicksand-Bold', fontSize: 16}}>Distância percorrida</Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
+                <Row>
+                    <CardInfo>
+                        <ViewCenter>
+                            <CardInfoMedia source={require('../../assets/icons/myvan.png')}/>
+                        </ViewCenter>
+                        <CardInfoContent>
+                            <Paragraph>{tripAmount}</Paragraph>
+                            <Paragraph isMargin={true}>Viagens realizadas</Paragraph>
+                        </CardInfoContent>
+                    </CardInfo>
+                    <CardInfo>
+                        <ViewCenter>
+                            <CardInfoMedia source={require('../../assets/icons/road.png')}/>
+                        </ViewCenter>
+                        <CardInfoContent>
+                            <Paragraph>{positiveNotes}</Paragraph>
+                            <Paragraph isMargin={true}>Avaliações Positivas</Paragraph>
+                        </CardInfoContent>
+                    </CardInfo>
+                </Row>
+            </Section>
 
-            <View style={{backgroundColor: '#FFFFFF', padding: 20, marginBottom: 20}}>
+            <Section>
                 <Label>Suas Vans</Label>
 
                 <FlatList 
                     keyExtractor={item => String(item.id)}
-                    data={data.vans}
+                    data={vans}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => <Slider vans={item}/>}
                 />
-            </View>
+            </Section>
 
-            <View style={{backgroundColor: '#FFFFFF', padding: 20, marginBottom: 20}}>
+            <Section>
                 <Label>Últimas viagens</Label>
 
                 <FlatList 
                     keyExtractor={item => String(item.id)}
-                    data={data.trips}
+                    data={trips}
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     renderItem={({ item }) => <Slider trips={item}/>}
                 />
-            </View>
+            </Section>
         </Container>
     )
 }

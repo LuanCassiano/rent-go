@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { AsyncStorage, TouchableOpacity, Text } from 'react-native'
 import { DrawerItems } from 'react-navigation'
 
+import api from '../../services/api'
+
 import { 
     Container,
     SideHeader,
@@ -17,6 +19,7 @@ export default function SideBar(props) {
 
     const [username, setUsername] = useState('')
     const [usernameImage, setImage] = useState('')
+    const [rating, setRating] = useState('')
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
@@ -29,25 +32,31 @@ export default function SideBar(props) {
     }
 
     useEffect(() => {
-        async function loadDataFromStorage() {
-            const data = await AsyncStorage.getItem('RentGoUser')
+        async function getDriverAuth() {
+            const data = await AsyncStorage.getItem('RentGoDriver')
             const info = JSON.parse(data)
+            
+            const response = await api.get(`/api/driver/${info.id}`)
 
+            setRating(response.data.driver[0].rating)
             setUsername(info.username)
             setImage(info.profile_image)
+            setDriverId(info.id)
+
+
         }
 
-        loadDataFromStorage()
-    }, [username])
+        getDriverAuth()
+    }, [])
 
     return (
         <Container>
             <SideHeader>
                 <SideHeaderContent>
-                    {/* <SideHeaderImage source={{ uri: usernameImage }}/> */}
+                    <SideHeaderImage source={{ uri: usernameImage }}/>
                     <SideHeaderInfo>
-                        <SideHeaderUsername>Driver</SideHeaderUsername>
-                        <SideHeaderUserRating>0.0</SideHeaderUserRating>
+                        <SideHeaderUsername>{username}</SideHeaderUsername>
+                        <SideHeaderUserRating>{rating}</SideHeaderUserRating>
                     </SideHeaderInfo>
                 </SideHeaderContent>
             </SideHeader>
