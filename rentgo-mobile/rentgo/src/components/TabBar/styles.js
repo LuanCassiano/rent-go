@@ -17,14 +17,14 @@ export const Tab = styled.TouchableOpacity`
 `;
 
 export const TabText = styled.Text`
-    font-size: 12px;
+    font-size: 10px;
     margin-bottom: 10px;
-    font-family: ${props => props.isActive === true ? 'Quicksand-Bold' : 'Quicksand-Regular'};
+    font-family: 'Quicksand-Regular';
     color: ${props => props.isActive === true ? '#E5E9F0' : '#384662'};
 `;
 
 export const TabIcon = styled.Image`
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     margin: 5px 5px 0px 5px;
 `;

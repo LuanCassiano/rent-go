@@ -7,6 +7,8 @@ import api from '../../services/api'
 import Header from '../../components/Header'
 import Slider from '../../components/Slider'
 
+import OneSignal from 'react-native-onesignal'
+
 import { 
     Container,
     Label,
@@ -61,6 +63,20 @@ export default function HomeScreen(props) {
 
         createPlayerNotify()
     }, [])
+
+    useEffect(() => {
+        // OneSignal.addEventListener('received', receivedPush)
+        OneSignal.addEventListener('opened', openedPush)
+    }, [])
+
+    // function receivedPush(push) {
+    //     console.log('push', push)
+    //     console.log('props comp', props)
+    // }
+
+    async function openedPush(push) {
+        props.navigation.navigate('TravelRequests')
+    }
 
     return (
         <Container>

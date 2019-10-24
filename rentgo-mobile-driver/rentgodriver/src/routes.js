@@ -16,6 +16,7 @@ import TabBar from './components/TabBar'
 
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
+    TravelRequests: TravelScheduledScreen,
 }, {
     headerMode: 'none',
     defaultNavigationOptions: {

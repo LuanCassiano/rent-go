@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { AsyncStorage } from 'react-native'
 import Routes from './routes'
 
-import OneSignal from 'react-native-onesignal'
 import CodePush from 'react-native-code-push'
+
+import OneSignal from 'react-native-onesignal'
 
 import './config/ReactotronConfig'
 
@@ -26,7 +27,6 @@ function App() {
     useEffect(() => {
         OneSignal.init('cfa8c730-c144-4d30-92b2-ed85393ff03f')
         OneSignal.addEventListener('received', receivedPush)
-        OneSignal.addEventListener('opened', openedPush)
         OneSignal.addEventListener('ids', idsPush)
 
     }, [])
@@ -34,19 +34,6 @@ function App() {
 
     function receivedPush(push) {
         console.log('push', push)
-    }
-
-    function openedPush(push) {
-        console.log('pushssss', push)
-        if(push.action.actionID === "1") {
-            console.log('viagem aceita')
-            return
-        }
-
-        if(push.action.actionID === "2") {
-            console.log('viagem recusada')
-            return
-        }
     }
 
     async function idsPush(push) {

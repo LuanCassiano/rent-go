@@ -22,6 +22,8 @@ import CardDriver from '../../components/CardDrivers'
 
 import closeIcon from '../../assets/icons/closemenu.png'
 
+import OneSignal from 'react-native-onesignal'
+
 export default function HomeScreen(props) {
 
     const [modalVisible, setModalVisible] = useState(true)
@@ -106,6 +108,17 @@ export default function HomeScreen(props) {
         createPlayerNotify()
     }, [])
 
+    useEffect(() => {
+        OneSignal.addEventListener('opened', openedPush)
+    }, [])
+
+    async function openedPush(push) {
+        if(push.action.type === 0) {
+            props.navigation.navigate('Payment', {
+                data: push.notification.payload.additionalData
+            })
+        }
+    }
 
     return (
         <>
