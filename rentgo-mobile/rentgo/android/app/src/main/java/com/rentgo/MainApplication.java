@@ -3,6 +3,7 @@ package com.rentgo;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.webview.RNCWebViewPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
         new CodePush(BuildConfig.CODEPUSH_KEY, getApplicationContext(), BuildConfig.DEBUG),
+        new RNCWebViewPackage(),
         new ReactNativeOneSignalPackage(),
         new RCTMGLPackage(),
         new LinearGradientPackage(),

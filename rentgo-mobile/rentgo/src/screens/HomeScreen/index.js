@@ -22,6 +22,8 @@ import CardDriver from '../../components/CardDrivers'
 
 import closeIcon from '../../assets/icons/closemenu.png'
 
+import OneSignal from 'react-native-onesignal'
+
 export default function HomeScreen(props) {
 
     const [modalVisible, setModalVisible] = useState(true)
@@ -73,7 +75,7 @@ export default function HomeScreen(props) {
         async function loadDrivers() {
             try {
                 const response = await api.get(`/api/driver?dist_max=${distance}&page=1&status=available`)
-                setDriver(response.data.result.data)
+                setDriver(response.data.drivers.data)
             } catch (error) {
                 console.log(error)
             }
@@ -106,6 +108,17 @@ export default function HomeScreen(props) {
         createPlayerNotify()
     }, [])
 
+    useEffect(() => {
+        OneSignal.addEventListener('opened', openedPush)
+    }, [])
+
+    async function openedPush(push) {
+        if(push.action.type === 0) {
+            props.navigation.navigate('Payment', {
+                data: push.notification.payload.additionalData
+            })
+        }
+    }
 
     return (
         <>
@@ -137,8 +150,8 @@ export default function HomeScreen(props) {
                         </ButtonCloseModal>
 
                         <Input 
-                            placeholder="Ponto de partida ?"
-                            placeholderTextColor="#E5E9F0"
+                            placeholder="Origem da viagem"
+                            placeholderTextColor="#1C2331"
                             autoCorrect={false}
                             autoCapitalize="none"
                             onChangeText={setAddressOrigem}
@@ -146,8 +159,8 @@ export default function HomeScreen(props) {
                         />
 
                         <Input 
-                            placeholder="Qual seu destino ?"
-                            placeholderTextColor="#E5E9F0"
+                            placeholder="Destino da viagem"
+                            placeholderTextColor="#1C2331"
                             autoCorrect={false}
                             autoCapitalize="none"
                             onChangeText={setAddressDestiny}

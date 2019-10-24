@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, ActivityIndicator, View } from 'react-native'
 
 import api from '../../services/api'
 
-import { 
+import {
     Title,
     Content,
     CardTravel,
@@ -22,6 +22,8 @@ import Container from '../../components/Container'
 export default function TravelsScreen(props) {
 
     const [trips, setTrips] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     goToTravelDetails = (tripId) => {
         props.navigation.navigate('TravelDetails', {
@@ -32,6 +34,16 @@ export default function TravelsScreen(props) {
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
     }
+
+    const refreshControl = async () => {
+        setRefresh(true)
+        setLoading(true)
+        const response = await api.get(`/api/passenger-trips?page=1&status=scheduled`)
+        setTrips(response.data.result.data)
+        setRefresh(false)
+        setLoading(false)
+    }
+
 
     _renderItem = (item) => {
         return (
@@ -46,11 +58,11 @@ export default function TravelsScreen(props) {
                         <TextInfo>{item.destination}</TextInfo>
                     </CardTravelDetailsDestiny>
 
-                    <Divider/>
+                    <Divider />
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'finished' && <TextInfo>Finalizada</TextInfo> }
+                        {item.travel_status === 'finished' && <TextInfo>Finalizada</TextInfo>}
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -59,27 +71,39 @@ export default function TravelsScreen(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
+            setLoading(true)
             const response = await api.get(`/api/passenger-trips?page=1&status=finished`)
             setTrips(response.data.result.data)
+            setLoading(false)
         }
 
         loadUserTrips()
-    }, [trips])
+    }, [])
 
     return (
         <>
-            <Header 
+            <Header
                 title="Minhas viagens"
                 onDrawer={toggleDrawer}
             />
             <Container>
-                <Title>Histórico de viagens</Title>
+                {loading === true ? (
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        <ActivityIndicator size="large" color="#E5E9F0" />
+                    </View>
+                ) : (
+                        <>
+                            <Title>Viagens finalizadas</Title>
 
-                <FlatList 
-                    keyExtractor={item => String(item.id)}
-                    data={trips}
-                    renderItem={({ item }) => _renderItem(item)}
-                />
+                            <FlatList
+                                keyExtractor={item => String(item.id)}
+                                data={trips}
+                                renderItem={({ item }) => _renderItem(item)}
+                                onRefresh={refreshControl}
+                                refreshing={refresh}
+                            />
+                        </>
+                    )}
             </Container>
         </>
     )

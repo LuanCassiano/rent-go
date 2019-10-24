@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, ActivityIndicator, View } from 'react-native'
 
 import api from '../../services/api'
 
-import { 
+import {
     Title,
     Content,
     CardTravel,
@@ -22,15 +22,26 @@ import Container from '../../components/Container'
 export default function TravelRequests(props) {
 
     const [trips, setTrips] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
-    goToTravelDetails = (tripId) => {
+    const goToTravelDetails = (tripId) => {
         props.navigation.navigate('TravelDetails', {
             tripId: tripId
         })
     }
 
-    toggleDrawer = () => {
+    const toggleDrawer = () => {
         props.navigation.toggleDrawer()
+    }
+
+    const refreshControl = async () => {
+        setRefresh(true)
+        setLoading(true)
+        const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
+        setTrips(response.data.result.data)
+        setRefresh(false)
+        setLoading(false)
     }
 
     _renderItem = (item) => {
@@ -46,11 +57,11 @@ export default function TravelRequests(props) {
                         <TextInfo>{item.destination}</TextInfo>
                     </CardTravelDetailsDestiny>
 
-                    <Divider/>
+                    <Divider />
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'waiting_driver' && <TextInfo>Solicitada</TextInfo> }
+                        {item.travel_status === 'waiting_driver' && <TextInfo>Solicitada</TextInfo>}
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -59,27 +70,39 @@ export default function TravelRequests(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
+            setLoading(true)
             const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
             setTrips(response.data.result.data)
+            setLoading(false)
         }
 
         loadUserTrips()
-    }, [trips])
+    }, [])
 
     return (
         <>
-            <Header 
+            <Header
                 title="Minhas viagens"
                 onDrawer={toggleDrawer}
             />
             <Container>
-                <Title>Histórico de viagens</Title>
+                {loading === true ? (
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        <ActivityIndicator size="large" color="#E5E9F0" />
+                    </View>
+                ) : (
+                    <>
+                        <Title>Viagens solicitadas</Title>
 
-                <FlatList 
-                    keyExtractor={item => String(item.id)}
-                    data={trips}
-                    renderItem={({ item }) => _renderItem(item)}
-                />
+                        <FlatList
+                            keyExtractor={item => String(item.id)}
+                            data={trips}
+                            renderItem={({ item }) => _renderItem(item)}
+                            onRefresh={refreshControl}
+                            refreshing={refresh}
+                        />
+                    </>
+                )}
             </Container>
         </>
     )

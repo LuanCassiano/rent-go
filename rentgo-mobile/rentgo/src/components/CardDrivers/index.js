@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FlatList, Image, View, Text } from 'react-native'
 
-import { 
+import {
     Container,
     Card,
     CardBody,
@@ -13,6 +13,7 @@ import {
     ViewInfo,
     Row
 } from './styles'
+import api from '../../services/api'
 
 export default function CardDrivers(props) {
 
@@ -30,19 +31,15 @@ export default function CardDrivers(props) {
                 <CardBody>
                     <ViewInfo>
                         <Row>
-                            <Image source={require('../../assets/icons/driver.png')} style={{width: 18, height: 18, marginTop: 6}}/>
+                            <Image source={require('../../assets/icons/driver.png')} style={{ width: 18, height: 18, marginTop: 6 }} />
                             <CardTitle>{item.fullname}</CardTitle>
                         </Row>
-                        { item.rating ? (
+                        <Row>
+                            <Image source={require('../../assets/icons/star.png')} style={{ width: 15, height: 15 }} />
                             <CardText>{item.rating}</CardText>
-                        ) : (
-                            <Row>
-                                <Image source={require('../../assets/icons/star.png')} style={{width: 15, height: 15}}/>
-                                <CardText>0.0</CardText>
-                            </Row>
-                        )}
+                        </Row>
                     </ViewInfo>
-                    <CardImage source={{uri: item.profile_image}}/>
+                    <CardImage source={{ uri: item.profile_image }} />
                 </CardBody>
                 <CardFooter>
                     <CardText>Viagens</CardText>
@@ -55,7 +52,7 @@ export default function CardDrivers(props) {
     return (
         <Container>
             <Label>Motoristas Disponíveis</Label>
-            <FlatList 
+            <FlatList
                 keyExtractor={(item) => String(item.id)}
                 data={props.driver}
                 renderItem={({ item }) => _renderCards(item)}

@@ -12,6 +12,9 @@ import SettingsScreen from './screens/SettingsScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import TravelConfirmationScreen from './screens/TravelConfirmationScreen'
 import TravelRequests from './screens/TravelRequests'
+import TravelScheduled from './screens/TravelScheduled'
+import TravelCanceled from './screens/TravelCanceled'
+import TravelInProgress from './screens/TravelInProgress'
 
 import SideBar from './components/SideBar'
 import TabBar from './components/TabBar'
@@ -19,7 +22,8 @@ import TabBar from './components/TabBar'
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
     Driver: DriverScreen,
-    TravelConfirmation: TravelConfirmationScreen
+    TravelConfirmation: TravelConfirmationScreen,
+    Payment: PaymentScreen
 }, {
     headerMode: 'none',
     defaultNavigationOptions: {
@@ -37,6 +41,18 @@ const TravelsNavigator = createStackNavigator({
     }
 })
 
+TravelsNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
+
 const TravelRequestsNavigator = createStackNavigator({
     TravelRequests: TravelRequests,
     TravelDetails: TravelDetailsScreen
@@ -46,6 +62,84 @@ const TravelRequestsNavigator = createStackNavigator({
         gesturesEnabled: false
     }
 })
+
+TravelRequestsNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
+
+const TravelScheduledNavigator = createStackNavigator({
+    TravelScheduled: TravelScheduled,
+    TravelDetails: TravelDetailsScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+TravelScheduledNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
+
+const TravelCanceledNavigator = createStackNavigator({
+    TravelCanceled: TravelCanceled,
+    TravelDetails: TravelDetailsScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+TravelCanceledNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
+
+const TravelInProgressNavigator = createStackNavigator({
+    TravelInProgress: TravelInProgress,
+    TravelDetails: TravelDetailsScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+TravelInProgressNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
 
 const PaymentNavigator = createStackNavigator({
     Payment: PaymentScreen
@@ -75,12 +169,24 @@ const ProfileNavigator = createStackNavigator({
 })
 
 const TabTravels = createBottomTabNavigator({
+    TravelRequests: {
+        screen: TravelRequestsNavigator
+    },
+    
+    TravelsScheduled: {
+        screen: TravelScheduledNavigator
+    },
+
+    TravleInProgress: {
+        screen: TravelInProgressNavigator
+    },
+
     Travels: {
         screen: TravelsNavigator,
     },
 
-    TravelRequests: {
-        screen: TravelRequestsNavigator
+    TravelsCanceled: {
+        screen: TravelCanceledNavigator
     }
 }, {
     tabBarComponent: TabBar
