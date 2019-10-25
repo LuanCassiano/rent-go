@@ -218,13 +218,13 @@ const DrawerNavigator = createDrawerNavigator({
         }
     },
 
-    Settings: {
-        screen: SettingsNavigator,
-        navigationOptions: {
-            drawerLabel: 'Configurações',
-            drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
-        }
-    }
+    // Settings: {
+    //     screen: SettingsNavigator,
+    //     navigationOptions: {
+    //         drawerLabel: 'Configurações',
+    //         drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
+    //     }
+    // }
 }, {
     drawerPosition: 'left',
     contentComponent: Sidebar

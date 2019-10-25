@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, View, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import api from '../../services/api'
 
-import { 
+import {
     Title,
     Content,
     CardTravel,
@@ -23,6 +23,8 @@ import Container from '../../components/Container'
 export default function TravelScheduled(props) {
 
     const [trips, setTrips] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     goToTravelDetails = (tripId) => {
         props.navigation.navigate('TravelDetails', {
@@ -33,6 +35,17 @@ export default function TravelScheduled(props) {
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
+    }
+
+    const refreshControl = async () => {
+        setRefresh(true)
+        setLoading(true)
+        const data = await AsyncStorage.getItem('RentGoDriver')
+        const info = JSON.parse(data)
+        const response = await api.get(`/api/driver-trips?status=scheduled&driver=${info.id}`)
+        setTrips(response.data.result)
+        setRefresh(false)
+        setLoading(false)
     }
 
     _renderItem = (item) => {
@@ -48,11 +61,11 @@ export default function TravelScheduled(props) {
                         <TextInfo>{item.destination}</TextInfo>
                     </CardTravelDetailsDestiny>
 
-                    <Divider/>
+                    <Divider />
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'scheduled' && <TextInfo>Agendada</TextInfo> }
+                        {item.travel_status === 'scheduled' && <TextInfo>Agendada</TextInfo>}
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -61,8 +74,10 @@ export default function TravelScheduled(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
-            const response = await api.get(`/api/driver-trips?page=1&status=scheduled`)
-            setTrips(response.data.result.data)
+            const data = await AsyncStorage.getItem('RentGoDriver')
+            const info = JSON.parse(data)
+            const response = await api.get(`/api/driver-trips?status=scheduled&driver=${info.id}`)
+            setTrips(response.data.result)
         }
 
         loadUserTrips()
@@ -70,18 +85,28 @@ export default function TravelScheduled(props) {
 
     return (
         <>
-            <Header 
+            <Header
                 title="Minhas viagens"
                 onDrawer={toggleDrawer}
             />
             <Container>
-                <Title>Viagens agendadas</Title>
+                {loading === true ? (
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        <ActivityIndicator size="large" color="#384662" />
+                    </View>
+                ) : (
+                        <>
+                            <Title>Viagens agendadas</Title>
 
-                <FlatList 
-                    keyExtractor={item => String(item.id)}
-                    data={trips}
-                    renderItem={({ item }) => _renderItem(item)}
-                />
+                            <FlatList
+                                keyExtractor={item => String(item.id)}
+                                data={trips}
+                                renderItem={({ item }) => _renderItem(item)}
+                                onRefresh={refreshControl}
+                                refreshing={refresh}
+                            />
+                        </>
+                    )}
             </Container>
         </>
     )

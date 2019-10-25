@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, ActivityIndicator, View } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import api from '../../services/api'
 
-import { 
+import {
     Title,
     Content,
     CardTravel,
@@ -23,6 +23,8 @@ import Container from '../../components/Container'
 export default function TravelsScreen(props) {
 
     const [trips, setTrips] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     goToTravelDetails = (tripId) => {
         props.navigation.navigate('TravelDetails', {
@@ -32,6 +34,17 @@ export default function TravelsScreen(props) {
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
+    }
+
+    const refreshControl = async () => {
+        setRefresh(true)
+        setLoading(true)
+        const data = await AsyncStorage.getItem('RentGoDriver')
+        const info = JSON.parse(data)
+        const response = await api.get(`/api/driver-trips?status=finished&driver=${info.id}`)
+        setTrips(response.data.result)
+        setRefresh(false)
+        setLoading(false)
     }
 
     _renderItem = (item) => {
@@ -47,11 +60,11 @@ export default function TravelsScreen(props) {
                         <TextInfo>{item.destination}</TextInfo>
                     </CardTravelDetailsDestiny>
 
-                    <Divider/>
+                    <Divider />
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'finished' && <TextInfo>Finalizada</TextInfo> }
+                        {item.travel_status === 'finished' && <TextInfo>Finalizada</TextInfo>}
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -60,8 +73,10 @@ export default function TravelsScreen(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
-            const response = await api.get(`/api/driver-trips?page=1&status=finished`)
-            setTrips(response.data.result.data)
+            const data = await AsyncStorage.getItem('RentGoDriver')
+            const info = JSON.parse(data)
+            const response = await api.get(`/api/driver-trips?status=finished&driver=${info.id}`)
+            setTrips(response.data.result)
         }
 
         loadUserTrips()
@@ -69,18 +84,28 @@ export default function TravelsScreen(props) {
 
     return (
         <>
-            <Header 
+            <Header
                 title="Minhas viagens"
                 onDrawer={toggleDrawer}
             />
             <Container>
-                <Title>Viagens finalizadas</Title>
+                {loading === true ? (
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        <ActivityIndicator size="large" color="#384662" />
+                    </View>
+                ) : (
+                        <>
+                            <Title>Viagens finalizadas</Title>
 
-                <FlatList 
-                    keyExtractor={item => String(item.id)}
-                    data={trips}
-                    renderItem={({ item }) => _renderItem(item)}
-                />
+                            <FlatList
+                                keyExtractor={item => String(item.id)}
+                                data={trips}
+                                renderItem={({ item }) => _renderItem(item)}
+                                onRefresh={refreshControl}
+                                refreshing={refresh}
+                            />
+                        </>
+                    )}
             </Container>
         </>
     )
