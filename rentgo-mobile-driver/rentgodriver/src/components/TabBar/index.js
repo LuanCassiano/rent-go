@@ -31,8 +31,11 @@ export default function TabBar(props) {
     return (
         <Container>
             <Content>
-                { _renderTab(null, null, 'Finalizadas', 'Travels')}
+                { _renderTab(null, null, 'Solicitadas', 'TravelRequests')}
                 { _renderTab(null, null, 'Agendadas', 'TravelsScheduled')}
+                { _renderTab(null, null, 'Em andamento', 'TravelInProgress')}
+                { _renderTab(null, null, 'Finalizadas', 'Travels')}
+                { _renderTab(null, null, 'Canceladas', 'TravelsCanceled')}
             </Content>
         </Container>
     )

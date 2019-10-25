@@ -20,7 +20,7 @@ import {
 import Header from '../../components/Header'
 import Container from '../../components/Container'
 
-export default function TravelsScreen(props) {
+export default function TravelsCAnceled(props) {
 
     const [trips, setTrips] = useState([])
 
@@ -51,7 +51,7 @@ export default function TravelsScreen(props) {
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'finished' && <TextInfo>Finalizada</TextInfo> }
+                        { item.travel_status === 'canceled' && <TextInfo>Cancelada</TextInfo> }
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -60,7 +60,7 @@ export default function TravelsScreen(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
-            const response = await api.get(`/api/driver-trips?page=1&status=finished`)
+            const response = await api.get(`/api/driver-trips?page=1&status=canceled`)
             setTrips(response.data.result.data)
         }
 
@@ -74,7 +74,7 @@ export default function TravelsScreen(props) {
                 onDrawer={toggleDrawer}
             />
             <Container>
-                <Title>Viagens finalizadas</Title>
+                <Title>Viagens canceladas</Title>
 
                 <FlatList 
                     keyExtractor={item => String(item.id)}

@@ -10,6 +10,10 @@ import SettingsScreen from './screens/SettingsScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import VanScreen from './screens/VanScreen'
 import TravelScheduledScreen from './screens/TravelScheduled'
+import TravelnProgressScreen from './screens/TravelInProgress'
+import TravelsCanceledScreen from './screens/TravelsCanceled'
+import TravelsScheduledScreen from './screens/TravelScheduled'
+import TravelRequestsScreen from './screens/TravelRequests'
 
 import Sidebar from './components/Sidebar'
 import TabBar from './components/TabBar'
@@ -34,8 +38,20 @@ const TravelsNavigator = createStackNavigator({
     }
 })
 
+TravelsNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
+
 const TravelScheduledNavigator = createStackNavigator({
-    TravelRequests: TravelScheduledScreen,
+    TravelScheduled: TravelsScheduledScreen,
     TravelDetails: TravelDetailsScreen
 }, {
     headerMode: 'none',
@@ -43,6 +59,84 @@ const TravelScheduledNavigator = createStackNavigator({
         gesturesEnabled: false
     }
 })
+
+TravelScheduledNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
+
+const TravelsCanceledNavigator = createStackNavigator({
+    TravelsCanceled: TravelsCanceledScreen,
+    TravelDetails: TravelDetailsScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+TravelsCanceledNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
+
+const TravelInProgressNavigator = createStackNavigator({
+    TravelInProgress: TravelnProgressScreen,
+    TravelDetails: TravelDetailsScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+TravelInProgressNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
+
+const TravelRequestsNavigator = createStackNavigator({
+    TravelRequests: TravelRequestsScreen,
+    TravelDetails: TravelDetailsScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+TravelRequestsNavigator.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true
+
+    if(navigation.state.index > 0) {
+        tabBarVisible = false
+    }
+
+    return {
+        tabBarVisible
+    }
+}
 
 const SettingsNavigator = createStackNavigator({
     Settings: SettingsScreen
@@ -72,11 +166,20 @@ const VanNavigator = createStackNavigator({
 })
 
 const TabTravles = createBottomTabNavigator({
-    Travels: {
-        screen: TravelsNavigator,
+    TravelRequests: {
+        screen: TravelRequestsNavigator
     },
     TravelsScheduled: {
         screen: TravelScheduledNavigator
+    },
+    TravelInProgress: {
+        screen: TravelInProgressNavigator
+    },
+    Travels: {
+        screen: TravelsNavigator,
+    },
+    TravelsCanceled: {
+        screen: TravelsCanceledNavigator
     }
 }, {
     tabBarComponent: TabBar

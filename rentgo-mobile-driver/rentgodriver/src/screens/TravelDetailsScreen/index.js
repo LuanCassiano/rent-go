@@ -18,6 +18,8 @@ import Container from '../../components/Container'
 
 export default function TravelDetails(props) {
 
+    const travelStatus = props.navigation.getParam('travel')
+
     const [loading, setLoading] = useState(false)
     const [tripDetails, setTripDetails] = useState([])
 
@@ -34,7 +36,7 @@ export default function TravelDetails(props) {
             },
             data: {
                 "app_id": 'cfa8c730-c144-4d30-92b2-ed85393ff03f',
-                "data" : item,
+                "data": item,
                 "contents": {
                     "en": "Sua viagem foi aceita, realize o pagamento"
                 },
@@ -60,6 +62,71 @@ export default function TravelDetails(props) {
     rejectTravel = async (id) => {
         await api.put(`/api/trip/${id}`, {
             travel_status: 'canceled'
+        })
+    }
+
+    const startTravel = async (item) => {
+
+        await axios({
+            method: 'POST',
+            url: 'https://onesignal.com/api/v1/notifications',
+            headers: {
+                'Authorization': 'Basic OGZmMjllNWUtNzliNC00ZjEzLWI1ODUtMGNjOGNiYWM2NGYy'
+            },
+            data: {
+                "app_id": 'cfa8c730-c144-4d30-92b2-ed85393ff03f',
+                "data": item,
+                "contents": {
+                    "en": "Sua viagem foi iniciada"
+                },
+                "headings": {
+                    "en": "RentGo"
+                },
+                "include_player_ids": [`${item.passenger.user.notification.player_id}`],
+                "buttons": [
+                    {
+                        "id": "1",
+                        "text": "Visualizar"
+                    }
+                ]
+
+            }
+        })
+
+        await api.put(`/api/trip/${item.id}`, {
+            travel_status: 'in_progress'
+        })
+    }
+
+    const finishTravel = async (item) => {
+        await axios({
+            method: 'POST',
+            url: 'https://onesignal.com/api/v1/notifications',
+            headers: {
+                'Authorization': 'Basic OGZmMjllNWUtNzliNC00ZjEzLWI1ODUtMGNjOGNiYWM2NGYy'
+            },
+            data: {
+                "app_id": 'cfa8c730-c144-4d30-92b2-ed85393ff03f',
+                "data": item,
+                "contents": {
+                    "en": "Viagem finalizada. Avalie o motorista"
+                },
+                "headings": {
+                    "en": "RentGo"
+                },
+                "include_player_ids": [`${item.passenger.user.notification.player_id}`],
+                "buttons": [
+                    {
+                        "id": "1",
+                        "text": "Avaliar"
+                    }
+                ]
+
+            }
+        })
+
+        await api.put(`/api/trip/${item.id}`, {
+            travel_status: 'finished'
         })
     }
 
@@ -103,12 +170,24 @@ export default function TravelDetails(props) {
                 <Divider />
 
                 <ViewTripContent2>
-                    <TouchableOpacity style={{ padding: 20, borderRadius: 5, backgroundColor: '#00C851' }} onPress={() => acceptTravel(item)}>
-                        <Span>Aceitar</Span>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{ padding: 20, borderRadius: 5, backgroundColor: '#ff4444' }} onPress={() => rejectTravel(item.id)}>
-                        <Span>Recusar</Span>
-                    </TouchableOpacity>
+
+                    {travelStatus === "waiting" &&
+                        <TouchableOpacity style={{ padding: 20, borderRadius: 5, backgroundColor: '#00C851' }} onPress={() => acceptTravel(item)}>
+                            <Span>Aceitar</Span>
+                        </TouchableOpacity>
+                    }
+
+                    {travelStatus === "scheduled" &&
+                        <TouchableOpacity style={{ padding: 20, borderRadius: 5, backgroundColor: '#00C851' }} onPress={() => startTravel(item)}>
+                            <Span>Iniciar viagem</Span>
+                        </TouchableOpacity>
+                    }
+
+                    {travelStatus === "progress" &&
+                        <TouchableOpacity style={{ padding: 20, borderRadius: 5, backgroundColor: '#00C851' }} onPress={() => finishTravel(item)}>
+                            <Span>Finalizar</Span>
+                        </TouchableOpacity>
+                    }
                 </ViewTripContent2>
             </ViewGeneric>
         )
