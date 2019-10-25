@@ -9,10 +9,16 @@ import {
     TabText, 
 } from './styles'
 
-// import locationIcon from '../../assets/icons/location.png'
-// import locationUnselectedIcon from '../../assets/icons/locationUnselected.png'
-// import inProgressIcon from '../../assets/icons/inProgress.png'
-// import inProgressUnselectedIcon from '../../assets/icons/inProgressUnselected.png'
+import requestIcon from '../../assets/icons/progress.png'
+import requestSelectedIcon from '../../assets/icons/progressSelected.png'
+import scheduledIcon from '../../assets/icons/calendar.png'
+import scheduledSelectedIcon from '../../assets/icons/calendarSelected.png'
+import inProgressIcon from '../../assets/icons/tracking.png'
+import inProgressSelectedIcon from '../../assets/icons/trackingSelected.png'
+import finishedIcon from '../../assets/icons/location.png'
+import finishedSelectedIcon from '../../assets/icons/locationSelected.png'
+import canceledIcon from '../../assets/icons/cancel.png'
+import canceledSelectedIcon from '../../assets/icons/cancelSelected.png'
 
 export default function TabBar(props) {
     
@@ -31,11 +37,11 @@ export default function TabBar(props) {
     return (
         <Container>
             <Content>
-                { _renderTab(null, null, 'Solicitadas', 'TravelRequests')}
-                { _renderTab(null, null, 'Agendadas', 'TravelsScheduled')}
-                { _renderTab(null, null, 'Em andamento', 'TravelInProgress')}
-                { _renderTab(null, null, 'Finalizadas', 'Travels')}
-                { _renderTab(null, null, 'Canceladas', 'TravelsCanceled')}
+                { _renderTab(requestIcon, requestSelectedIcon, 'Solicitadas', 'TravelRequests')}
+                { _renderTab(scheduledIcon, scheduledSelectedIcon, 'Agendadas', 'TravelsScheduled')}
+                { _renderTab(inProgressIcon, inProgressSelectedIcon, 'Em andamento', 'TravelInProgress')}
+                { _renderTab(finishedIcon, finishedSelectedIcon, 'Finalizadas', 'Travels')}
+                { _renderTab(canceledIcon, canceledSelectedIcon, 'Canceladas', 'TravelsCanceled')}
             </Content>
         </Container>
     )

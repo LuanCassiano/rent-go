@@ -38,7 +38,7 @@ export default function SideBar(props) {
             
             const response = await api.get(`/api/driver/${info.id}`)
 
-            setRating(response.data.driver[0].rating)
+            setRating(response.data.media)
             setUsername(info.username)
             setImage(info.profile_image)
             setDriverId(info.id)
@@ -56,7 +56,7 @@ export default function SideBar(props) {
                     <SideHeaderImage source={{ uri: usernameImage }}/>
                     <SideHeaderInfo>
                         <SideHeaderUsername>{username}</SideHeaderUsername>
-                        <SideHeaderUserRating>{rating}</SideHeaderUserRating>
+                        <SideHeaderUserRating>Nota: {rating}</SideHeaderUserRating>
                     </SideHeaderInfo>
                 </SideHeaderContent>
             </SideHeader>

@@ -39,13 +39,15 @@ export default function HomeScreen(props) {
             const info = JSON.parse(data)
 
             const response = await api.get(`/api/driver/${info.id}`)
-            console.log(response.data.driver[0])
             setDriver(response.data.driver[0])
 
             setTripAmount(response.data.driver[0].trip.length)
             setVans(response.data.driver[0].vans)
             setTrips(response.data.driver[0].trip)
-            setNotes(response.data.driver[0].positive_notes)
+            setNotes(response.data.positive)
+
+            const travelsFinished = await api.get(`/api/driver-trips?status=finished`)
+            setTripAmount(travelsFinished.data.result.length)
         }
 
         loadDriverInfo()
@@ -100,7 +102,7 @@ export default function HomeScreen(props) {
                     </CardInfo>
                     <CardInfo>
                         <ViewCenter>
-                            <CardInfoMedia source={require('../../assets/icons/road.png')}/>
+                            <CardInfoMedia source={require('../../assets/icons/positive.png')}/>
                         </ViewCenter>
                         <CardInfoContent>
                             <Paragraph>{positiveNotes}</Paragraph>
