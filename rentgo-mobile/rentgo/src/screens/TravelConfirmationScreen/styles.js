@@ -26,7 +26,7 @@ export const Label = styled.Text`
     margin-bottom: 10px; 
     color: #E5E9F0; 
     font-family: 'Quicksand-Regular'; 
-    font-size: 14px;
+    font-size: ${props => props.margin === true ? 18 : 14};
 `;
 
 export const Form = styled.View`

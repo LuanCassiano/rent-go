@@ -52,6 +52,8 @@ export default function HomeScreen(props) {
 
             setDistance(response)
 
+            await AsyncStorage.setItem('travelDistance', response)
+
             await AsyncStorage.setItem('origem', addressOrigem)
             await AsyncStorage.setItem('destino', addressDestiny)
             
@@ -117,10 +119,20 @@ export default function HomeScreen(props) {
 
     async function openedPush(push) {
 
-        console.tron.log('chama na notification', push)
+        if(push.notification.payload.actionButtons[0].text === "Visualizar") {
+            props.navigation.navigate('TravelInProgress', {
+                data: push.notification.payload.additionalData
+            })
+        }
 
         if(push.notification.payload.actionButtons[0].text === "Realizar pagamento") {
             props.navigation.navigate('Payment', {
+                data: push.notification.payload.additionalData
+            })
+        }
+
+        if(push.notification.payload.actionButtons[0].text === "Avaliar") {
+            props.navigation.navigate('Rating', {
                 data: push.notification.payload.additionalData
             })
         }

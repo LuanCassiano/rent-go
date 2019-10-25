@@ -67,7 +67,9 @@ export default function TravelConfirmation(props) {
 
             setDistance(info.dist_max)
 
-            const price = info.dist_max * info.value_per_kilometer
+            const distance = await AsyncStorage.getItem('travelDistance')
+
+            const price = distance * info.value_per_kilometer
             setPrice(price)
 
             setDriverName(info.fullname)
@@ -293,7 +295,7 @@ export default function TravelConfirmation(props) {
                                 />
                             </Form>
 
-                            <Label>Valor total da viagem: {travelPrice}</Label>
+                            <Label margin={true}>Valor total da viagem: {travelPrice}</Label>
 
                             <ButtonSubmit onPress={travelSolicitation}>
                                 <ButtonText>Solicitar viagem</ButtonText>

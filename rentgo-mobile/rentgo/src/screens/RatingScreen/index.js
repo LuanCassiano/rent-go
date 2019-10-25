@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { View, Text, TouchableOpacity, Image } from 'react-native'
+import api from '../../services/api'
 
 import {
     Content
@@ -8,7 +9,9 @@ import {
 import Container from '../../components/Container'
 import Header from '../../components/Header'
 
-export default function RatingScreen() {
+export default function RatingScreen(props) {
+
+    const info = props.navigation.getParam('data')
 
     const [rating1, setRating1] = useState(false)
     const [rating2, setRating2] = useState(false)
@@ -17,10 +20,11 @@ export default function RatingScreen() {
     const [rating5, setRating5] = useState(false)
     const [note, setNote] = useState(0)
 
+    const toggleDrawer = () => {
+        props.navigation.toggleDrawer()
+    }
+
     const noteSelected = (note) => {
-
-        console.tron.log('note', note)
-
         switch (note) {
             case 1:
                 setRating1(true)
@@ -72,11 +76,28 @@ export default function RatingScreen() {
         }
     }
 
+    const avaliate = async () => {
+
+        try {
+            await api.post('/api/driver-rating', {
+                passenger_id: info.passenger.id,
+                driver_id: info.driver_id,
+                travel_done: info.id,
+                note: note
+            })
+
+            props.navigation.navigate('Home')
+
+        } catch (error) {
+            console.tron.log('ih deu erro', error)
+        }
+    }
+
     return (
         <Container noPadding={false}>
             <Header
                 title="Avaliação do motorista"
-                onDrawer={() => { }}
+                onDrawer={toggleDrawer}
             />
 
             <Content>
@@ -86,7 +107,7 @@ export default function RatingScreen() {
                     </View>
 
                     <View style={{ marginBottom: 20, marginTop: 20 }}>
-                        <Text style={{ fontSize: 20, fontFamily: 'Quicksand-Bold', textAlign: 'center', color: '#1C2331' }}>Avalie a sua viagem com o motorista Teste</Text>
+                        <Text style={{ fontSize: 20, fontFamily: 'Quicksand-Bold', textAlign: 'center', color: '#1C2331' }}>Avalie a sua viagem</Text>
                     </View>
 
                     <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
@@ -110,6 +131,12 @@ export default function RatingScreen() {
                             <Image source={rating5 === false ? require('../../assets/icons/starRating.png') : require('../../assets/icons/starRatingSelected.png')} style={{ width: 30, height: 30 }} />
                         </TouchableOpacity>
                     </View>
+
+                    {note !== 0 &&
+                        <TouchableOpacity onPress={avaliate} style={{ backgroundColor: '#1c2331', padding: 20, borderRadius: 30, marginTop: 20 }}>
+                            <Text style={{ color: '#e5e9f0', textAlign: 'center', fontSize: 16, fontFamily: 'Quicksand-Bold' }}>Avaliar</Text>
+                        </TouchableOpacity>
+                    }
                 </View>
             </Content>
         </Container>

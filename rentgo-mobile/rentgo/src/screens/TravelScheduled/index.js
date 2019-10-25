@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, View, ActivityIndicator } from 'react-native'
+import { FlatList, View, ActivityIndicator, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
 
-import { 
+import {
     Title,
     Content,
     CardTravel,
@@ -38,8 +38,10 @@ export default function TravelScheduled(props) {
     const refreshControl = async () => {
         setRefresh(true)
         setLoading(true)
-        const response = await api.get(`/api/passenger-trips?page=1&status=scheduled`)
-        setTrips(response.data.result.data)
+        const data = await AsyncStorage.getItem('RentGoUser')
+        const info = JSON.parse(data)
+        const response = await api.get(`/api/passenger-trips?status=scheduled&passenger=${info.id}`)
+        setTrips(response.data.result)
         setRefresh(false)
         setLoading(false)
     }
@@ -57,11 +59,11 @@ export default function TravelScheduled(props) {
                         <TextInfo>{item.destination}</TextInfo>
                     </CardTravelDetailsDestiny>
 
-                    <Divider/>
+                    <Divider />
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'scheduled' && <TextInfo>Agendada</TextInfo> }
+                        {item.travel_status === 'scheduled' && <TextInfo>Agendada</TextInfo>}
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -71,8 +73,10 @@ export default function TravelScheduled(props) {
     useEffect(() => {
         async function loadUserTrips() {
             setLoading(true)
-            const response = await api.get(`/api/passenger-trips?page=1&status=scheduled`)
-            setTrips(response.data.result.data)
+            const data = await AsyncStorage.getItem('RentGoUser')
+            const info = JSON.parse(data)
+            const response = await api.get(`/api/passenger-trips?status=scheduled&passenger=${info.id}`)
+            setTrips(response.data.result)
             setLoading(false)
         }
 
@@ -81,28 +85,28 @@ export default function TravelScheduled(props) {
 
     return (
         <>
-            <Header 
+            <Header
                 title="Minhas viagens"
                 onDrawer={toggleDrawer}
             />
             <Container>
-            {loading === true ? (
+                {loading === true ? (
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <ActivityIndicator size="large" color="#E5E9F0" />
                     </View>
                 ) : (
-                    <>
-                        <Title>Viagens agendadas</Title>
+                        <>
+                            <Title>Viagens agendadas</Title>
 
-                        <FlatList
-                            keyExtractor={item => String(item.id)}
-                            data={trips}
-                            renderItem={({ item }) => _renderItem(item)}
-                            onRefresh={refreshControl}
-                            refreshing={refresh}
-                        />
-                    </>
-                )}
+                            <FlatList
+                                keyExtractor={item => String(item.id)}
+                                data={trips}
+                                renderItem={({ item }) => _renderItem(item)}
+                                onRefresh={refreshControl}
+                                refreshing={refresh}
+                            />
+                        </>
+                    )}
             </Container>
         </>
     )

@@ -83,12 +83,12 @@ export default function DriverScreen(props) {
 						</ContentInfo>
 
 						<ContentInfo>
-							<Icon source={starIcon} />
+							{/* <Icon source={starIcon} />
 							{driver.rating ? (
 								<Label>{driver.rating}</Label>
 							) : (
 									<Label>0.0</Label>
-								)}
+								)} */}
 						</ContentInfo>
 					</Row>
 

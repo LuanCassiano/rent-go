@@ -24,7 +24,9 @@ const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
     Driver: DriverScreen,
     TravelConfirmation: TravelConfirmationScreen,
-    Payment: PaymentScreen
+    Payment: PaymentScreen,
+    TravelInProgress: TravelInProgress,
+    Rating: RatingScreen 
 }, {
     headerMode: 'none',
     defaultNavigationOptions: {
@@ -226,21 +228,13 @@ const DrawerNavigator = createDrawerNavigator({
         }
     },
 
-    Settings: {
-        screen: SettingsNavigator,
-        navigationOptions: {
-            drawerLabel: 'Configurações',
-            drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
-        }
-    },
-
-    Rating: {
-        screen: RatingScreen,
-        navigationOptions: {
-            drawerLabel: 'Avaliações',
-            
-        }
-    }
+    // Settings: {
+    //     screen: SettingsNavigator,
+    //     navigationOptions: {
+    //         drawerLabel: 'Configurações',
+    //         drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
+    //     }
+    // }
 }, {
     drawerPosition: 'left',
     contentComponent: SideBar

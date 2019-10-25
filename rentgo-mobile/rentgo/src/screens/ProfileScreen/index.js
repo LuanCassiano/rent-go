@@ -3,18 +3,8 @@ import { AsyncStorage, ScrollView, View, Text, Image } from 'react-native'
 
 import {
     ImageProfile,
-    LogoBackground,
-    LogoBackgroundContent,
-    LogoBackgroundGradient,
     TextProfileName,
-    IconTravelInfo,
-    TextTravelInfo,
-    ViewProfileTravelContainer,
-    ViewProfileTravelContent,
     Divider,
-    TextInfo,
-    ViewContentInfo,
-    ViewUserInfoContainer
 } from './styles'
 
 import Header from '../../components/Header'

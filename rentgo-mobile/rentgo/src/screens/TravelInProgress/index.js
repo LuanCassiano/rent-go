@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, ActivityIndicator, View } from 'react-native'
+import { FlatList, ActivityIndicator, View, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
 
@@ -38,8 +38,10 @@ export default function TravelInProgress() {
     const refreshControl = async () => {
         setRefresh(true)
         setLoading(true)
-        const response = await api.get(`/api/passenger-trips?page=1&status=scheduled`)
-        setTrips(response.data.result.data)
+        const data = await AsyncStorage.getItem('RentGoUser')
+        const info = JSON.parse(data)
+        const response = await api.get(`/api/passenger-trips?status=in_progress&passenger=${info.id}`)
+        setTrips(response.data.result)
         setRefresh(false)
         setLoading(false)
     }
@@ -71,8 +73,11 @@ export default function TravelInProgress() {
     useEffect(() => {
         async function loadUserTrips() {
             setLoading(true)
-            const response = await api.get(`/api/passenger-trips?page=1&status=in_progress`)
-            setTrips(response.data.result.data)
+
+            const data = await AsyncStorage.getItem('RentGoUser')
+            const info = JSON.parse(data)
+            const response = await api.get(`/api/passenger-trips?status=in_progress&passenger=${info.id}`)
+            setTrips(response.data.result)
             setLoading(false)
         }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, ActivityIndicator, View } from 'react-native'
+import { FlatList, ActivityIndicator, View, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
 
@@ -38,8 +38,10 @@ export default function TravelRequests(props) {
     const refreshControl = async () => {
         setRefresh(true)
         setLoading(true)
-        const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
-        setTrips(response.data.result.data)
+        const data = await AsyncStorage.getItem('RentGoUser')
+        const info = JSON.parse(data)
+        const response = await api.get(`/api/passenger-trips?status=waiting_driver&passenger=${info.id}`)
+        setTrips(response.data.result)
         setRefresh(false)
         setLoading(false)
     }
@@ -71,8 +73,10 @@ export default function TravelRequests(props) {
     useEffect(() => {
         async function loadUserTrips() {
             setLoading(true)
-            const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
-            setTrips(response.data.result.data)
+            const data = await AsyncStorage.getItem('RentGoUser')
+            const info = JSON.parse(data)
+            const response = await api.get(`/api/passenger-trips?status=waiting_driver&passenger=${info.id}`)
+            setTrips(response.data.result)
             setLoading(false)
         }
 
@@ -91,18 +95,18 @@ export default function TravelRequests(props) {
                         <ActivityIndicator size="large" color="#E5E9F0" />
                     </View>
                 ) : (
-                    <>
-                        <Title>Viagens solicitadas</Title>
+                        <>
+                            <Title>Viagens solicitadas</Title>
 
-                        <FlatList
-                            keyExtractor={item => String(item.id)}
-                            data={trips}
-                            renderItem={({ item }) => _renderItem(item)}
-                            onRefresh={refreshControl}
-                            refreshing={refresh}
-                        />
-                    </>
-                )}
+                            <FlatList
+                                keyExtractor={item => String(item.id)}
+                                data={trips}
+                                renderItem={({ item }) => _renderItem(item)}
+                                onRefresh={refreshControl}
+                                refreshing={refresh}
+                            />
+                        </>
+                    )}
             </Container>
         </>
     )
