@@ -37,6 +37,7 @@ export default function HomeScreen(props) {
     travelDistance = async () => {
         setModalVisible(!modalVisible)
         setLoading(true)
+
         try {
 
             const responseOrigem = await getGeoInfo({
@@ -50,8 +51,10 @@ export default function HomeScreen(props) {
             const response = await getDistance(responseOrigem[1], responseOrigem[0], responseDestination[1], responseDestination[0])
 
             setDistance(response)
+
             await AsyncStorage.setItem('origem', addressOrigem)
             await AsyncStorage.setItem('destino', addressDestiny)
+            
             setLoading(false)
             
         } catch (error) {
@@ -113,7 +116,10 @@ export default function HomeScreen(props) {
     }, [])
 
     async function openedPush(push) {
-        if(push.action.type === 0) {
+
+        console.tron.log('chama na notification', push)
+
+        if(push.notification.payload.actionButtons[0].text === "Realizar pagamento") {
             props.navigation.navigate('Payment', {
                 data: push.notification.payload.additionalData
             })

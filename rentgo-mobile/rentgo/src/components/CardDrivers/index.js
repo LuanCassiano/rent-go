@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { FlatList, Image, View, Text } from 'react-native'
+import React from 'react'
+import { FlatList, Image } from 'react-native'
 
 import {
     Container,
@@ -13,7 +13,6 @@ import {
     ViewInfo,
     Row
 } from './styles'
-import api from '../../services/api'
 
 export default function CardDrivers(props) {
 
@@ -23,6 +22,10 @@ export default function CardDrivers(props) {
         nav.navigate('Driver', {
             driver: driverId
         })
+    }
+
+    showPicker = () => {
+        setVisible(true)
     }
 
     _renderCards = (item) => {
@@ -52,6 +55,7 @@ export default function CardDrivers(props) {
     return (
         <Container>
             <Label>Motoristas Disponíveis</Label>
+
             <FlatList
                 keyExtractor={(item) => String(item.id)}
                 data={props.driver}

@@ -15,6 +15,7 @@ import TravelRequests from './screens/TravelRequests'
 import TravelScheduled from './screens/TravelScheduled'
 import TravelCanceled from './screens/TravelCanceled'
 import TravelInProgress from './screens/TravelInProgress'
+import RatingScreen from './screens/RatingScreen'
 
 import SideBar from './components/SideBar'
 import TabBar from './components/TabBar'
@@ -232,6 +233,14 @@ const DrawerNavigator = createDrawerNavigator({
             drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
         }
     },
+
+    Rating: {
+        screen: RatingScreen,
+        navigationOptions: {
+            drawerLabel: 'Avaliações',
+            
+        }
+    }
 }, {
     drawerPosition: 'left',
     contentComponent: SideBar

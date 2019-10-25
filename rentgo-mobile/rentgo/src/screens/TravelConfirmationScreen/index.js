@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { View, ActivityIndicator, AsyncStorage, ScrollView } from 'react-native'
+import { View, ActivityIndicator, AsyncStorage, ScrollView, Modal, Text, TouchableOpacity } from 'react-native'
 import axios from 'axios'
 import api from '../../services/api'
+import DateTimePicker from "react-native-modal-datetime-picker"
+import moment from 'moment'
 
 import MapboxGL from '@mapbox/react-native-mapbox-gl'
 MapboxGL.setAccessToken('pk.eyJ1IjoibHV1YW5jYXNzaWFubyIsImEiOiJjanBzeWF4aHcwMGNyM3dwYTYzeTlsY2VmIn0.ReacoepEj0J0hJpbyHogYQ')
@@ -32,9 +34,15 @@ export default function TravelConfirmation(props) {
     const [numberPassengers, setNumberPassengers] = useState('')
     const [loading, setLoading] = useState(false)
     const [centerCoords, setCenterCoords] = useState([])
-    const [tripDetails, setTripDetails] = useState([])
-
+    const [dateVisible, setDateVisible] = useState(false)
+    const [timeVisible, setTimeVisible] = useState(false)
+    const [dateTravel, setDateTravel] = useState('')
+    const [travelTime, setTravelTime] = useState('')
     const [route, setRoute] = useState({})
+    const [travelPrice, setPrice] = useState(0)
+    const [traveDistance, setDistance] = useState(0)
+    const [passengerId, setId] = useState(0)
+    const [modalVisible, setModalVisible] = useState(false)
 
     goBack = () => {
         props.navigation.goBack()
@@ -52,6 +60,15 @@ export default function TravelConfirmation(props) {
 
             const data = await AsyncStorage.getItem('RentGoDriver')
             const info = JSON.parse(data)
+
+            const dataPassenger = await AsyncStorage.getItem('RentGoUser')
+            const infoData = JSON.parse(dataPassenger)
+            setId(infoData.id)
+
+            setDistance(info.dist_max)
+
+            const price = info.dist_max * info.value_per_kilometer
+            setPrice(price)
 
             setDriverName(info.fullname)
             setProfileImage(info.profile_image)
@@ -102,23 +119,65 @@ export default function TravelConfirmation(props) {
         loadDataFromStorage()
     }, [])
 
+    onInputFocus = () => {
+        setDateVisible(true)
+    }
+
+    onInputTimeFocus = () => {
+        setTimeVisible(true)
+    }
+
+    onDateUnselected = () => {
+        setDateVisible(false)
+    }
+
+    onTimeUnselected = () => {
+        setTimeVisible(false)
+    }
+
+    onDateSelected = (date) => {
+
+        setDateTravel(date)
+        const newDate = moment(date).format('DD/MM/YYYY')
+
+        setTravelDate(newDate)
+    }
+
+    onTimeSelected = (time) => {
+
+        const newTime = moment(time).format('HH:mm:ss')
+        setTravelTime(newTime)
+    }
+
     async function travelSolicitation() {
         const passengers = parseInt(numberPassengers)
+
+        const formatDate = moment(dateTravel).format("YYYY-MM-DD")
+
+        const dataXunxada = formatDate + " " + travelTime
 
         try {
             await api.post('/api/trip', {
                 origin: origin,
                 destination: destination,
-                travel_date: travelDate,
+                travel_date: dataXunxada,
                 number_passengers: passengers,
-                travel_distance: 206,
-                passenger_id: 1,
+                travel_distance: traveDistance,
+                passenger_id: passengerId,
                 driver_id: driverId,
-                travel_price: 1200.00
+                travel_price: travelPrice
             })
-        } catch (error) {
 
+            setModalVisible(true)
+
+        } catch (error) {
+            console.tron.log('error', error)
         }
+    }
+
+    modalController = () => {
+        setModalVisible(false)
+        props.navigation.navigate('Home')
     }
 
     return (
@@ -189,7 +248,30 @@ export default function TravelConfirmation(props) {
                                     placeholder="Data ida"
                                     placeholderTextColor="#E5E9F0"
                                     value={travelDate}
-                                    onChangeText={setTravelDate}
+                                    onFocus={onInputFocus}
+                                />
+
+                                <DateTimePicker
+                                    isVisible={dateVisible}
+                                    onConfirm={onDateSelected}
+                                    onCancel={onDateUnselected}
+                                />
+                            </Form>
+
+                            <Label>Horário de saída</Label>
+                            <Form>
+                                <FormInput
+                                    placeholder="Horário de saída"
+                                    placeholderTextColor="#E5E9F0"
+                                    value={travelTime}
+                                    onFocus={onInputTimeFocus}
+                                />
+
+                                <DateTimePicker
+                                    isVisible={timeVisible}
+                                    onConfirm={onTimeSelected}
+                                    onCancel={onTimeUnselected}
+                                    mode="time"
                                 />
                             </Form>
 
@@ -211,9 +293,24 @@ export default function TravelConfirmation(props) {
                                 />
                             </Form>
 
+                            <Label>Valor total da viagem: {travelPrice}</Label>
+
                             <ButtonSubmit onPress={travelSolicitation}>
                                 <ButtonText>Solicitar viagem</ButtonText>
                             </ButtonSubmit>
+
+                            <Modal animationType="fade" transparent visible={modalVisible} onRequestClose={() => {}}>
+                                <View style={{flex: 1, justifyContent: "center", backgroundColor: 'rbga(0, 0, 0, 0.5)', padding: 20}}>
+                                    <View style={{alignItems: 'stretch', alignSelf: 'stretch', backgroundColor: '#e5e9f0', borderRadius: 10, padding: 20}}>
+                                        <Text style={{fontFamily: 'Quicksand-Bold', fontSize: 20, color: '#1C2331', textAlign: 'center', marginBottom: 20}}>RentGo</Text>
+                                        <Text style={{fontFamily: 'Quicksand-Medium', fontSize: 16, color: '#1C2331', textAlign: 'center', marginBottom: 20}}>Sua viagem foi solicitada com sucesso.</Text>
+                                    
+                                        <TouchableOpacity style={{padding: 15, borderRadius: 30, backgroundColor: '#1c2331'}} onPress={modalController}>
+                                            <Text style={{fontFamily: 'Quicksand-Medium', fontSize: 16, color: '#e5e9f0', textAlign: 'center'}}>Fechar</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
                         </Content>
                     </ScrollView>
                 )}
