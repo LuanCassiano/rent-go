@@ -39,6 +39,10 @@ export default function VanScreen(props) {
         setModalVisible(!modalVisible)
     }
 
+    toggleDrawer = () => {
+        props.navigation.toggleDrawer()
+    }
+
     _renderVans = (item) => {
         return (
             <View style={{padding: 20}}>
@@ -97,7 +101,7 @@ export default function VanScreen(props) {
         <Container>
             <Header 
                 title="Suas Vans"
-                onDrawer={() => {}}
+                onDrawer={toggleDrawer}
             />
 
             <FlatList 

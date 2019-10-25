@@ -17,9 +17,9 @@ export const Tab = styled.TouchableOpacity`
 `;
 
 export const TabText = styled.Text`
-    font-size: 12px;
+    font-size: 10px;
     margin-bottom: 10px;
-    font-family: ${props => props.isActive === true ? 'Quicksand-Bold' : 'Quicksand-Regular'};
+    font-family: 'Quicksand-Regular';
     color: ${props => props.isActive === true ? '#1C2331' : '#E5E9F0'};
 `;
 

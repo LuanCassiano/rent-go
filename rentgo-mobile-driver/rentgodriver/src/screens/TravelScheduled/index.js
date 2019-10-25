@@ -26,7 +26,8 @@ export default function TravelScheduled(props) {
 
     goToTravelDetails = (tripId) => {
         props.navigation.navigate('TravelDetails', {
-            tripId: tripId
+            tripId: tripId,
+            travel: "scheduled"
         })
     }
 
@@ -51,7 +52,7 @@ export default function TravelScheduled(props) {
 
                     <CardTravelFooter>
                         <Label>Status: </Label>
-                        { item.travel_status === 'waiting_driver' && <TextInfo>Solicitada</TextInfo> }
+                        { item.travel_status === 'scheduled' && <TextInfo>Agendada</TextInfo> }
                     </CardTravelFooter>
                 </CardTravelBody>
             </CardTravel>
@@ -60,7 +61,7 @@ export default function TravelScheduled(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
-            const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
+            const response = await api.get(`/api/driver-trips?page=1&status=scheduled`)
             setTrips(response.data.result.data)
         }
 
