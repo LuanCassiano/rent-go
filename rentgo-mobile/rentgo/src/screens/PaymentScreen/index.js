@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { WebView } from 'react-native-webview'
+import api from '../../services/api'
 import axios from 'axios'
 
 import { Content, Form, FormInput, ButtonSubmit, TextButton } from './styles'
@@ -14,6 +15,9 @@ export default function PaymentScreen(props) {
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
     const [link, setLink] = useState(null)
+    const [action, setAction] = useState(false)
+    const [driverId, setDriverId] = useState(0)
+    const [passengerId, setPassengerId] = useState(0)
 
     const onDrawer = () => {
         props.navigation.toggleDrawer()
@@ -22,10 +26,14 @@ export default function PaymentScreen(props) {
     useEffect(() => {
         const info = props.navigation.getParam('data')
 
-        if(info) {
+        console.tron.log('info', info)
+
+        if (info) {
             setName(info.passenger.fullname)
             setPrice(info.travel_price)
-            return 
+            setDriverId(info.driver_id)
+            setPassengerId(info.passenger.id)
+            return
         }
     }, [])
 
@@ -74,22 +82,12 @@ export default function PaymentScreen(props) {
         }
     }
 
-    return (
-        <Container noPadding={false}>
-            <Header
-                title="Pagamento"
-                onDrawer={onDrawer}
-            />
+    _renderContent = () => {
 
-            {link !== null ? (
-                <View style={{ flex: 1 }}>
-                    <WebView
-                        source={{ uri: link }}
-                        startInLoadingState={true}
-                        style={{ width: '100%' }}
-                    />
-                </View>
-            ) : (
+        console.tron.log('link', link)
+
+        if (link === null) {
+            return (
                 <Content>
                     <Form>
                         <FormInput
@@ -130,7 +128,60 @@ export default function PaymentScreen(props) {
                         <TextButton>Pagar</TextButton>
                     </ButtonSubmit>
                 </Content>
-            )}
+            )
+        }
+
+        if (link !== null) {
+            return (
+                <View style={{ flex: 1 }}>
+                    <WebView
+                        source={{ uri: link }}
+                        startInLoadingState={true}
+                        style={{ width: '100%' }}
+                        onNavigationStateChange={navState => {
+                            if (navState.url.startsWith('https://api-rentgopaypal.herokuapp.com/success')) {
+                                setAction(true)
+                                return
+                            }
+                        }}
+                    />
+                </View>
+            )
+        }
+    }
+
+    useEffect(() => {
+        async function sendPushNotification() {
+            if(action === true) {
+
+                await api.post('/api/payment', {
+                    passenger_id: passengerId,
+                    driver_id: driverId,
+                    payment_status: true
+                })
+
+                setTimeout(() => {
+                    setLink(null)
+                    setName("")
+                    setPrice("")
+                    props.navigation.navigate('Home')
+                }, 3000)
+                
+                return 
+            }
+        }
+
+        sendPushNotification()
+    }, [action])
+
+    return (
+        <Container noPadding={false}>
+            <Header
+                title="Pagamento"
+                onDrawer={onDrawer}
+            />
+
+            { _renderContent()}
         </Container>
     )
 }
