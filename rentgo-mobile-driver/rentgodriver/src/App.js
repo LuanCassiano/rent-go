@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-community/async-storage'
 import Routes from './routes'
 
-import api from './services/api'
-
 import OneSignal from 'react-native-onesignal'
+
+import './config/ReactotronConfig'
 
 function App (props) {
 

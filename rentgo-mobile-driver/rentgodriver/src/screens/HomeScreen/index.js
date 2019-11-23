@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, View, Text } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 
 import api from '../../services/api'
@@ -28,6 +28,7 @@ export default function HomeScreen(props) {
     const [tripAmount, setTripAmount] = useState(0)
     const [trips, setTrips] = useState([])
     const [positiveNotes, setNotes] = useState(0)
+    const [driverMoney, setDriverMoney] = useState(0)
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
@@ -37,6 +38,9 @@ export default function HomeScreen(props) {
         async function loadDriverInfo() {
             const data = await AsyncStorage.getItem('RentGoDriver')
             const info = JSON.parse(data)
+
+            const drvMoney = await api.get(`api/driver-money/${info.id}`)
+            setDriverMoney(drvMoney.data.driver_money)
 
             const response = await api.get(`/api/driver/${info.id}`)
             setDriver(response.data.driver[0])
@@ -67,14 +71,8 @@ export default function HomeScreen(props) {
     }, [])
 
     useEffect(() => {
-        // OneSignal.addEventListener('received', receivedPush)
         OneSignal.addEventListener('opened', openedPush)
     }, [])
-
-    // function receivedPush(push) {
-    //     console.log('push', push)
-    //     console.log('props comp', props)
-    // }
 
     async function openedPush(push) {
         props.navigation.navigate('TravelRequests')
@@ -110,6 +108,10 @@ export default function HomeScreen(props) {
                         </CardInfoContent>
                     </CardInfo>
                 </Row>
+
+                <View>
+                    <Text>{driverMoney}</Text>
+                </View>
             </Section>
 
             <Section>

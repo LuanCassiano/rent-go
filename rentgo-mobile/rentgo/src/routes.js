@@ -15,6 +15,7 @@ import TravelRequests from './screens/TravelRequests'
 import TravelScheduled from './screens/TravelScheduled'
 import TravelCanceled from './screens/TravelCanceled'
 import TravelInProgress from './screens/TravelInProgress'
+import TravelMap from './screens/TravelInProgressMapView'
 import RatingScreen from './screens/RatingScreen'
 
 import SideBar from './components/SideBar'
@@ -121,8 +122,9 @@ TravelCanceledNavigator.navigationOptions = ({ navigation }) => {
 }
 
 const TravelInProgressNavigator = createStackNavigator({
+    TravelDetails: TravelMap,
     TravelInProgress: TravelInProgress,
-    TravelDetails: TravelDetailsScreen
+    
 }, {
     headerMode: 'none',
     defaultNavigationOptions: {

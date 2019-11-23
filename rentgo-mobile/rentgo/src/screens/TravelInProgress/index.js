@@ -19,7 +19,7 @@ import {
 import Header from '../../components/Header'
 import Container from '../../components/Container'
 
-export default function TravelInProgress() {
+export default function TravelInProgress(props) {
 
     const [trips, setTrips] = useState([])
     const [loading, setLoading] = useState(false)
@@ -38,7 +38,7 @@ export default function TravelInProgress() {
     const refreshControl = async () => {
         setRefresh(true)
         setLoading(true)
-        const response = await api.get(`/api/passenger-trips?page=1&status=scheduled`)
+        const response = await api.get(`/api/passenger-trips?page=1&status=in_progress`)
         setTrips(response.data.result.data)
         setRefresh(false)
         setLoading(false)
