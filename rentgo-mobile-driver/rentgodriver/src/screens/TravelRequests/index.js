@@ -40,7 +40,7 @@ export default function TravelRequests(props) {
     const refreshControl = async () => {
         setRefresh(true)
         setLoading(true)
-        const data = await AsyncStorage.getItem('RentGoDriver')
+        const data = await AsyncStorage.getItem('RentGoDriverUser')
         const info = JSON.parse(data)
         const response = await api.get(`/api/driver-trips?status=waiting_driver&driver=${info.id}`)
         setTrips(response.data.result)
@@ -74,7 +74,7 @@ export default function TravelRequests(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
-            const data = await AsyncStorage.getItem('RentGoDriver')
+            const data = await AsyncStorage.getItem('RentGoDriverUser')
             const info = JSON.parse(data)
             const response = await api.get(`/api/driver-trips?status=waiting_driver&driver=${info.id}`)
             setTrips(response.data.result)

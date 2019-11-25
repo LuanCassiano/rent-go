@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Modal, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
+
+import { Creators as AuthActions } from '../../store/ducks/auth'
 
 import api from '../../services/api'
 
@@ -25,67 +28,69 @@ import {
 
 export default function SigninScreen(props) {
 
+    const authState = useSelector(state => state.auth)
+
+    const dispatch = useDispatch()
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const [modalVisible, setModalVisible] = useState(false)
-    const [loading, setLoading] = useState(false)
-
-
-    const goToHome = () => {
-        props.navigation.navigate('Drawer')
-    }
 
     async function handleSignIn() {
-        setLoading(true)
-        if(!email || !password) {
-            setLoading(false)
-            setError('Informe seu e-mail e sua senha para continuar!')
-            setModalVisible(true)
-            setTimeout(() => {
-                setError('')
-                setModalVisible(false)
-            }, 5000)
-        } else {
-            try {
-                const response = await api.post('/api/authentication', {
-                    email: email,
-                    password: password
-                })
-
-                if(response.data.token) {
-                    await AsyncStorage.setItem('RentGoDriverToken', response.data.token)
-                    
-                    const res = await api.get('/api/driver-auth')
-                    await AsyncStorage.setItem('RentGoDriver', JSON.stringify(res.data.result[0]))
-
-
-                    setLoading(false)
-    
-                    goToHome()
-
-                    return
-                }
-
-                setLoading(false)
-                setError('Erro ao fazer login, verifique suas credenciais!')
-                setModalVisible(true)
-
-                setTimeout(() => {
-                    setError('')
-                    setModalVisible(false)
-                }, 5000)
-            } catch (error) {
-                setLoading(false)
-                setError('Erro ao fazer login, verifique suas credenciais!')
-                setModalVisible(true)
-                setTimeout(() => {
-                    setError('')
-                    setModalVisible(false)
-                }, 5000)
-            }
-        }
+        dispatch(AuthActions.signInRequest(email, password))
     }
+
+    // async function handleSignIn() {
+    //     setLoading(true)
+    //     if(!email || !password) {
+    //         setLoading(false)
+    //         setError('Informe seu e-mail e sua senha para continuar!')
+    //         setModalVisible(true)
+    //         setTimeout(() => {
+    //             setError('')
+    //             setModalVisible(false)
+    //         }, 5000)
+    //     } else {
+    //         try {
+    //             const response = await api.post('/api/authentication', {
+    //                 email: email,
+    //                 password: password
+    //             })
+
+    //             if(response.data.token) {
+    //                 await AsyncStorage.setItem('RentGoDriverToken', response.data.token)
+                    
+    //                 const res = await api.get('/api/driver-auth')
+    //                 await AsyncStorage.setItem('RentGoDriver', JSON.stringify(res.data.result[0]))
+
+
+    //                 setLoading(false)
+    
+    //                 goToHome()
+
+    //                 return
+    //             }
+
+    //             setLoading(false)
+    //             setError('Erro ao fazer login, verifique suas credenciais!')
+    //             setModalVisible(true)
+
+    //             setTimeout(() => {
+    //                 setError('')
+    //                 setModalVisible(false)
+    //             }, 5000)
+    //         } catch (error) {
+    //             setLoading(false)
+    //             setError('Erro ao fazer login, verifique suas credenciais!')
+    //             setModalVisible(true)
+    //             setTimeout(() => {
+    //                 setError('')
+    //                 setModalVisible(false)
+    //             }, 5000)
+    //         }
+    //     }
+    // }
 
     return (
         <Container>
@@ -121,7 +126,7 @@ export default function SigninScreen(props) {
             </Form>
 
             <ButtonSubmit onPress={handleSignIn}>
-                { loading ? (
+                { authState.loading ? (
                     <ActivityIndicator size="small" color="#FFFFFF"/>
                 ) : (
                     <TextButton>Entrar</TextButton>

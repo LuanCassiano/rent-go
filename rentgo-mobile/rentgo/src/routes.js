@@ -236,13 +236,13 @@ const DrawerNavigator = createDrawerNavigator({
         }
     },
 
-    Rating: {
-        screen: RatingScreen,
-        navigationOptions: {
-            drawerLabel: 'Avaliações',
+    // Rating: {
+    //     screen: RatingScreen,
+    //     navigationOptions: {
+    //         drawerLabel: 'Avaliações',
             
-        }
-    }
+    //     }
+    // }
 }, {
     drawerPosition: 'left',
     contentComponent: SideBar

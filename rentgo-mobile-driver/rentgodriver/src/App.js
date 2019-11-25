@@ -1,31 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-community/async-storage'
-import Routes from './routes'
+import createNavigator from './routes'
+import NavigationService from './services/navigation'
+
+import { Creators as AuthActions } from './store/ducks/auth'
 
 import OneSignal from 'react-native-onesignal'
 
-import './config/ReactotronConfig'
+function App () {
 
-function App (props) {
+    const auth = useSelector(state => state.auth)
 
-    const [logged, setLogged] = useState(false)
-
-    useEffect(() => {
-        async function loadDataFromStorage() {
-            const data = await AsyncStorage.getItem('RentGoDriverToken')
-            if(data) {
-                setLogged(true)
-                return
-            }
-        }
-
-        loadDataFromStorage()
-    }, [])
+    const registerService = (ref) => {
+        NavigationService.setTopLevelNavigator(ref)
+    }
 
     useEffect(() => {
         OneSignal.init('2b04fa6d-926d-48dc-a434-f8dcd3d61a77')
         OneSignal.addEventListener('ids', idsPush)
-
     }, [])
 
     async function idsPush(push) {
@@ -33,10 +26,10 @@ function App (props) {
         await AsyncStorage.setItem('OneSignalId', push.userId)
     }
 
-	const Screens = Routes(logged)
+    const Routes = createNavigator(auth.authChecked)
 
 	return (
-		<Screens />
+		<Routes ref={registerService}/>
 	)
 }
 

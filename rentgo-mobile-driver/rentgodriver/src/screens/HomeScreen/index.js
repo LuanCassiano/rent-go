@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, View, Text } from 'react-native'
+import { FlatList, View, ActivityIndicator } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { getUniqueId } from 'react-native-device-info'
+import Geolocation from "@react-native-community/geolocation";
 import AsyncStorage from '@react-native-community/async-storage'
+import NumberFormat from 'react-number-format'
 
 import api from '../../services/api'
+import axios from 'axios'
 
 import Header from '../../components/Header'
 import Slider from '../../components/Slider'
 
 import OneSignal from 'react-native-onesignal'
 
-import { 
+import { Creators as DriverActions } from '../../store/ducks/driver'
+import { Creators as DriverMoneyActions } from '../../store/ducks/driver_money_raised'
+import { Creators as DriverRatingActions } from '../../store/ducks/driver_rating'
+import { Creators as DriverVanActions } from '../../store/ducks/driver_van'
+
+import {
     Container,
     Label,
     CardInfo,
@@ -23,12 +33,16 @@ import {
 
 export default function HomeScreen(props) {
 
-    const [vans, setVans] = useState([])
-    const [driver, setDriver] = useState([])
-    const [tripAmount, setTripAmount] = useState(0)
-    const [trips, setTrips] = useState([])
-    const [positiveNotes, setNotes] = useState(0)
-    const [driverMoney, setDriverMoney] = useState(0)
+    const driverState = useSelector(state => state.driver)
+    const driverMoneyState = useSelector(state => state.driver_money)
+    const driverRatingState = useSelector(state => state.driver_rating)
+    const driverVanState = useSelector(state => state.driver_van)
+
+    const dispatch = useDispatch()
+
+    const [latt, setLatt] = useState(0)
+    const [long, setLong] = useState(0)
+    const [vanCurrentPage, setVanCurrentPage] = useState(1)
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
@@ -36,22 +50,13 @@ export default function HomeScreen(props) {
 
     useEffect(() => {
         async function loadDriverInfo() {
-            const data = await AsyncStorage.getItem('RentGoDriver')
+            const data = await AsyncStorage.getItem('RentGoDriverUser')
             const info = JSON.parse(data)
 
-            const drvMoney = await api.get(`api/driver-money/${info.id}`)
-            setDriverMoney(drvMoney.data.driver_money)
-
-            const response = await api.get(`/api/driver/${info.id}`)
-            setDriver(response.data.driver[0])
-
-            setTripAmount(response.data.driver[0].trip.length)
-            setVans(response.data.driver[0].vans)
-            setTrips(response.data.driver[0].trip)
-            setNotes(response.data.positive)
-
-            const travelsFinished = await api.get(`/api/driver-trips?status=finished`)
-            setTripAmount(travelsFinished.data.result.length)
+            dispatch(DriverMoneyActions.getDriverMoneyRaisedRequest(info.id))
+            dispatch(DriverActions.getDriverRequest(info.id))
+            dispatch(DriverRatingActions.getDriverRatingRequest(info.id))
+            dispatch(DriverVanActions.getDriverVanRequest(info.id, vanCurrentPage))
         }
 
         loadDriverInfo()
@@ -64,14 +69,63 @@ export default function HomeScreen(props) {
             await api.post('/api/notification', {
                 player_id: notificationId
             })
-            
+
         }
 
         createPlayerNotify()
     }, [])
 
+    // const updateDriverPosition = async (latt, long) => {
+    //     await axios({
+    //         url: 'https://rentgo-geolocation.herokuapp.com/api/driver-location',
+    //         method: 'PUT',
+    //         data: {
+    //             latitude: latt,
+    //             longitude: long
+    //         }
+    //     })
+    // }
+
     useEffect(() => {
         OneSignal.addEventListener('opened', openedPush)
+
+        // Geolocation.watchPosition(
+        //     pos => {
+                
+        //     },
+        //     e => console.tron.log('e', e.message)
+        // );
+    }, [])
+
+    const currentDriverPosition = async (latt, long, driverId) => {
+        const deviceId = getUniqueId()
+
+        const response = await axios({
+            url: 'https://rentgo-geolocation.herokuapp.com/api/driver-location',
+            method: 'POST',
+            data: {
+                latitude: latt,
+                longitude: long,
+                device_id: deviceId,
+                driver_id: driverId
+            }
+        })
+        console.tron.log('device response', response)
+    }
+
+    useEffect(() => {
+        async function driverLocation() {
+            const data = await AsyncStorage.getItem('RentGoDriverUser')
+            const info = JSON.parse(data)
+
+            Geolocation.getCurrentPosition(
+                pos => {
+                    currentDriverPosition(pos.coords.latitude, pos.coords.longitude, info.id)
+                },
+                e => e.message
+            )
+        }
+        driverLocation()
     }, [])
 
     async function openedPush(push) {
@@ -80,7 +134,7 @@ export default function HomeScreen(props) {
 
     return (
         <Container>
-            <Header 
+            <Header
                 title="RentGo Driver"
                 onDrawer={toggleDrawer}
             />
@@ -91,50 +145,78 @@ export default function HomeScreen(props) {
                 <Row>
                     <CardInfo>
                         <ViewCenter>
-                            <CardInfoMedia source={require('../../assets/icons/myvan.png')}/>
+                            <CardInfoMedia source={require('../../assets/icons/myvan.png')} />
                         </ViewCenter>
                         <CardInfoContent>
-                            <Paragraph>{tripAmount}</Paragraph>
+                            { driverState.loading ? (
+                                <ActivityIndicator size="small" color="#FFFFFF"/>
+                            ) : (
+                                <Paragraph>{driverState.driverTrips.length}</Paragraph>
+                            )}
                             <Paragraph isMargin={true}>Viagens realizadas</Paragraph>
                         </CardInfoContent>
                     </CardInfo>
                     <CardInfo>
                         <ViewCenter>
-                            <CardInfoMedia source={require('../../assets/icons/positive.png')}/>
+                            <CardInfoMedia source={require('../../assets/icons/positive.png')} />
                         </ViewCenter>
                         <CardInfoContent>
-                            <Paragraph>{positiveNotes}</Paragraph>
+                            { driverRatingState.loading ? (
+                                <ActivityIndicator size="small" color="#FFFFFF"/>
+                            ) : (
+                                <Paragraph>{driverRatingState.positiveNotes}</Paragraph>
+                            )}
                             <Paragraph isMargin={true}>Avaliações Positivas</Paragraph>
                         </CardInfoContent>
                     </CardInfo>
                 </Row>
 
-                <View>
-                    <Text>{driverMoney}</Text>
+                <View style={{ marginTop: 20, width: '100%', padding: 15, backgroundColor: '#384662', borderRadius: 5 }}>
+                    <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                        <View style={{ flexDirection: 'column' }}>
+                            <CardInfoMedia source={require('../../assets/icons/money.png')} />
+                            <Paragraph isMargin={true}>Meu dinheiro</Paragraph>
+                        </View>
+
+                        { driverMoneyState.loading ? (
+                            <ActivityIndicator size="small" color="#FFFFFF"/>
+                        ) : (
+                            <NumberFormat
+                                value={driverMoneyState.moneyRaised}
+                                displayType="text"
+                                prefix="R$ "
+                                decimalSeparator=","
+                                decimalScale={2}
+                                fixedDecimalScale
+                                renderText={value => <Paragraph>{value}</Paragraph>}
+                            />
+                        )}
+
+                    </View>
                 </View>
             </Section>
 
             <Section>
                 <Label>Suas Vans</Label>
 
-                <FlatList 
+                <FlatList
                     keyExtractor={item => String(item.id)}
-                    data={vans}
+                    data={driverVanState.data}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => <Slider vans={item}/>}
+                    renderItem={({ item }) => <Slider vans={item} />}
                 />
             </Section>
 
             <Section>
                 <Label>Últimas viagens</Label>
 
-                <FlatList 
+                <FlatList
                     keyExtractor={item => String(item.id)}
-                    data={trips}
+                    data={driverState.driverTrips}
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    renderItem={({ item }) => <Slider trips={item}/>}
+                    renderItem={({ item }) => <Slider trips={item} />}
                 />
             </Section>
         </Container>

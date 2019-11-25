@@ -65,7 +65,7 @@ export default function TravelDetails(props) {
         })
     }
 
-    const startTravel = async (item) => {
+    const startTravel = async (item) => {        
 
         await axios({
             method: 'POST',

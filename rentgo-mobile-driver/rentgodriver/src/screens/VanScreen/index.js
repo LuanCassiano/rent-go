@@ -79,7 +79,7 @@ export default function VanScreen(props) {
 
     useEffect(() => {
         async function loadDataFromStorage() {
-            const data = await AsyncStorage.getItem('RentGoDriver')
+            const data = await AsyncStorage.getItem('RentGoDriverUser')
             const info = JSON.parse(data)
 
             setDriverId(info.id)
