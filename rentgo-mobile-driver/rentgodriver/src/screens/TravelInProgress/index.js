@@ -81,7 +81,7 @@ export default function TravelInProgress(props) {
         }
 
         loadUserTrips()
-    }, [trips])
+    }, [])
 
     return (
         <>

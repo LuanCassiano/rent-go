@@ -80,7 +80,7 @@ export default function TravelsScreen(props) {
         }
 
         loadUserTrips()
-    }, [trips])
+    }, [])
 
     return (
         <>

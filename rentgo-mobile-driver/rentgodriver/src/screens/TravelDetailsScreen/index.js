@@ -15,10 +15,11 @@ import {
 
 import Header from '../../components/Header'
 import Container from '../../components/Container'
+import TravelDetailsActions from './TravelDetailsActions'
 
 export default function TravelDetails(props) {
 
-    const travelStatus = props.navigation.getParam('travel')
+    // const travelStatus = props.navigation.getParam('travel')
 
     const [loading, setLoading] = useState(false)
     const [tripDetails, setTripDetails] = useState([])
@@ -131,7 +132,6 @@ export default function TravelDetails(props) {
     }
 
     _renderTripInfo = (item) => {
-
         return (
             <ViewGeneric>
                 <ViewTripInfoContent>
@@ -170,24 +170,13 @@ export default function TravelDetails(props) {
                 <Divider />
 
                 <ViewTripContent2>
-
-                    {travelStatus === "waiting" &&
-                        <TouchableOpacity style={{ padding: 20, borderRadius: 5, backgroundColor: '#00C851' }} onPress={() => acceptTravel(item)}>
-                            <Span>Aceitar</Span>
-                        </TouchableOpacity>
-                    }
-
-                    {travelStatus === "scheduled" &&
-                        <TouchableOpacity style={{ padding: 20, borderRadius: 5, backgroundColor: '#00C851' }} onPress={() => startTravel(item)}>
-                            <Span>Iniciar viagem</Span>
-                        </TouchableOpacity>
-                    }
-
-                    {travelStatus === "progress" &&
-                        <TouchableOpacity style={{ padding: 20, borderRadius: 5, backgroundColor: '#00C851' }} onPress={() => finishTravel(item)}>
-                            <Span>Finalizar</Span>
-                        </TouchableOpacity>
-                    }
+                    <TravelDetailsActions 
+                        item={item}
+                        finishTravel={finishTravel}
+                        startTravel={startTravel}
+                        acceptTravel={acceptTravel}
+                        travelStatus={item.travel_status}
+                    />
                 </ViewTripContent2>
             </ViewGeneric>
         )

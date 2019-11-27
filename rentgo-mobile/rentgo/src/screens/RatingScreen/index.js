@@ -8,7 +8,11 @@ import {
 import Container from '../../components/Container'
 import Header from '../../components/Header'
 
-export default function RatingScreen() {
+export default function RatingScreen(props) {
+
+    const data = props.navigation.getParam('data')
+
+    console.tron.log('data', data)
 
     const [rating1, setRating1] = useState(false)
     const [rating2, setRating2] = useState(false)
@@ -18,9 +22,6 @@ export default function RatingScreen() {
     const [note, setNote] = useState(0)
 
     const noteSelected = (note) => {
-
-        console.tron.log('note', note)
-
         switch (note) {
             case 1:
                 setRating1(true)

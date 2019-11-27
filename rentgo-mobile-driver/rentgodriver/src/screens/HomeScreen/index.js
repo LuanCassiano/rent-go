@@ -89,18 +89,13 @@ export default function HomeScreen(props) {
     useEffect(() => {
         OneSignal.addEventListener('opened', openedPush)
 
-        // Geolocation.watchPosition(
-        //     pos => {
-                
-        //     },
-        //     e => console.tron.log('e', e.message)
-        // );
+        
     }, [])
 
     const currentDriverPosition = async (latt, long, driverId) => {
         const deviceId = getUniqueId()
 
-        const response = await axios({
+        await axios({
             url: 'https://rentgo-geolocation.herokuapp.com/api/driver-location',
             method: 'POST',
             data: {
@@ -110,7 +105,6 @@ export default function HomeScreen(props) {
                 driver_id: driverId
             }
         })
-        console.tron.log('device response', response)
     }
 
     useEffect(() => {
@@ -129,7 +123,17 @@ export default function HomeScreen(props) {
     }, [])
 
     async function openedPush(push) {
-        props.navigation.navigate('TravelRequests')
+        if(push.notification.payload.actionButtons[0].text === "Aceitar") {
+            props.navigation.navigate('TravelRequests')
+
+            return
+        }
+
+        if(push.notification.payload.actionButtons[0].text === "Visualizar") {
+            props.navigation.navigate('TravelScheduled')
+
+            return
+        }
     }
 
     return (

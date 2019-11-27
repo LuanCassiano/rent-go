@@ -95,7 +95,7 @@ export default function VanScreen(props) {
         }
 
         loadVans()
-    }, [vans, driverId])
+    }, [])
 
     return (
         <Container>

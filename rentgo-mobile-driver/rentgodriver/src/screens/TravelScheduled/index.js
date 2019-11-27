@@ -81,7 +81,7 @@ export default function TravelScheduled(props) {
         }
 
         loadUserTrips()
-    }, [trips])
+    }, [])
 
     return (
         <>

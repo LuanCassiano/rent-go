@@ -25,7 +25,9 @@ const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
     Driver: DriverScreen,
     TravelConfirmation: TravelConfirmationScreen,
-    Payment: PaymentScreen
+    Payment: PaymentScreen,
+    TravelInProgress: TravelInProgress,
+    Rating: RatingScreen
 }, {
     headerMode: 'none',
     defaultNavigationOptions: {

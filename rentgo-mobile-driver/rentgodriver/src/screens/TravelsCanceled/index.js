@@ -80,7 +80,7 @@ export default function TravelsCAnceled(props) {
         }
 
         loadUserTrips()
-    }, [trips])
+    }, [])
 
     return (
         <>

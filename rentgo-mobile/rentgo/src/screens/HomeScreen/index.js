@@ -103,7 +103,7 @@ export default function HomeScreen(props) {
         async function createPlayerNotify() {
             const notificationId = await AsyncStorage.getItem('OneSignalId')
 
-            const res = await api.post('/api/notification', {
+            await api.post('/api/notification', {
                 player_id: notificationId
             })
         }
@@ -116,14 +116,27 @@ export default function HomeScreen(props) {
     }, [])
 
     async function openedPush(push) {
-
-        console.tron.log('chama na notification', push)
-
         if(push.notification.payload.actionButtons[0].text === "Realizar pagamento") {
             props.navigation.navigate('Payment', {
                 data: push.notification.payload.additionalData
             })
+            return
         }
+
+        if(push.notification.payload.actionButtons[0].text === "Visualizar") {
+            props.navigation.navigate('TravelInProgress')
+        
+            return
+        }
+
+        if(push.notification.payload.actionButtons[0].text === "Avaliar") {
+            props.navigation.navigate('Rating', {
+                data: push.notification.payload.additionalData
+            })
+
+            return
+        }
+
     }
 
     return (
