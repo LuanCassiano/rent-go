@@ -25,6 +25,10 @@ import Container from '../../components/Container'
 
 export default function TravelInProgress(props) {
 
+    const [latt, setLatt] = useState(0)
+    const [long, setLong] = useState(0)
+    const [loading, setLoading] = useState(true)
+
     // const [trips, setTrips] = useState([])
     // const [loading, setLoading] = useState(false)
     // const [refresh, setRefresh] = useState(false)
@@ -89,16 +93,23 @@ export default function TravelInProgress(props) {
             const data = await AsyncStorage.getItem('RentGoUser')
             const info = JSON.parse(data)
 
+            setLoading(true)
             const response = await api.get(`/api/passenger-trips?passenger=${info.id}&status=in_progress`)
-            console.tron.log('res', response)
+            const infoId = response.data.result[0].driver_id
 
             // const tripResponse = await api.get(`/api/trip/${tripId}`)
             // setTripDetails(tripResponse.data.result)
 
-            // const response = await axios({
-            //     url: 'https://rentgo-geolocation.herokuapp.com/api/driver-location',
-            //     method: 'GET'
-            // })
+            const responseCoordinates = await axios({
+                url: `https://rentgo-geolocation.herokuapp.com/api/driver-location/${infoId}`,
+                method: 'GET'
+            })
+
+            setLatt(responseCoordinates.data[0].latitude)
+            setLong(responseCoordinates.data[0].longitude)
+            console.tron.log('response coordinates', responseCoordinates)
+            
+            setLoading(false)
         }
 
         getDriverCoordinates()
@@ -108,10 +119,10 @@ export default function TravelInProgress(props) {
 		return (
 			<MapboxGL.PointAnnotation
 				id='rocketseat'
-				coordinate={[-49.6446024, -27.2108001]}
+				coordinate={[long, latt]}
 			>
 				<View>
-					<Image source={require('../../assets/icons/trackingUnselected.png')} />
+					<Image source={require('../../assets/icons/car-pointer.png')} style={{width: 50, height: 50}}/>
 				</View>
 
 				<MapboxGL.Callout title='Rocketseat House' />
@@ -125,16 +136,22 @@ export default function TravelInProgress(props) {
                 title="Minhas viagens"
                 onDrawer={toggleDrawer}
             />
-            <Container>
-                <MapboxGL.MapView
-                    centerCoordinate={[-49.6446024, -27.2108001]}
-                    style={{ flex: 1 }}
-                    showUserLocation
-                    styleURL={MapboxGL.StyleURL.Light}
-                    zoomLevel={4}
-                >
-                    {renderAnnotations()}
-                </MapboxGL.MapView>
+            
+            <Container noPadding={false}>
+                { loading ? (
+                    <ActivityIndicator size="large" color="#E5E9F0"/>
+                ) : (
+
+                    <MapboxGL.MapView
+                        centerCoordinate={[long, latt]}
+                        style={{ flex: 1 }}
+                        showUserLocation
+                        styleURL={MapboxGL.StyleURL.Street}
+                    >
+                        {renderAnnotations()}
+                    </MapboxGL.MapView>
+                )}
+
             </Container>
         </>
     )

@@ -122,7 +122,6 @@ TravelCanceledNavigator.navigationOptions = ({ navigation }) => {
 }
 
 const TravelInProgressNavigator = createStackNavigator({
-    TravelDetails: TravelMap,
     TravelInProgress: TravelInProgress,
     
 }, {

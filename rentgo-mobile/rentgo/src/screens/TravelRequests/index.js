@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, ActivityIndicator, View } from 'react-native'
+import { FlatList, ActivityIndicator, View, AsyncStorage } from 'react-native'
 
 import api from '../../services/api'
 
@@ -38,7 +38,7 @@ export default function TravelRequests(props) {
     const refreshControl = async () => {
         setRefresh(true)
         setLoading(true)
-        const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
+        const response = await api.get(`/api/passenger-trips?status=waiting_driver`)
         setTrips(response.data.result.data)
         setRefresh(false)
         setLoading(false)
@@ -70,8 +70,12 @@ export default function TravelRequests(props) {
 
     useEffect(() => {
         async function loadUserTrips() {
+
+            const data = await AsyncStorage.getItem('RentGoUser')
+            const info = JSON.parse(data)
+
             setLoading(true)
-            const response = await api.get(`/api/passenger-trips?page=1&status=waiting_driver`)
+            const response = await api.get(`/api/passenger-trips?passenger=${info.id}&status=waiting_driver`)
             setTrips(response.data.result.data)
             setLoading(false)
         }
