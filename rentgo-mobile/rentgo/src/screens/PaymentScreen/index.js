@@ -26,7 +26,7 @@ export default function PaymentScreen(props) {
     useEffect(() => {
         const info = props.navigation.getParam('data')
 
-        console.tron.log('info', info)
+        console.log('info', info)
 
         if (info) {
             setName(info.passenger.fullname)
@@ -84,7 +84,7 @@ export default function PaymentScreen(props) {
 
     _renderContent = () => {
 
-        console.tron.log('link', link)
+        console.log('link', link)
 
         if (link === null) {
             return (

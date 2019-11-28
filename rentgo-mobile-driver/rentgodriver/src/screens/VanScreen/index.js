@@ -5,7 +5,7 @@ import api from '../../services/api'
 
 import Header from '../../components/Header'
 
-import { 
+import {
     Container,
     Fab,
     FabIcon,
@@ -30,6 +30,8 @@ export default function VanScreen(props) {
     const [details, setDetails] = useState('')
     const [driverId, setDriverId] = useState(null)
     const [vans, setVans] = useState([])
+    const [air_conditioning, setAir] = useState(false)
+    const [television, setTelevision] = useState(false)
 
     openModal = () => {
         setModalVisible(!modalVisible)
@@ -45,10 +47,10 @@ export default function VanScreen(props) {
 
     _renderVans = (item) => {
         return (
-            <View style={{padding: 20}}>
+            <View style={{ padding: 20 }}>
                 <CardVanContainer>
                     <CardVanContent>
-                        <CardVanMedia source={{ uri: item.photo_van }}/>
+                        <CardVanMedia source={{ uri: item.photo_van }} />
                         <CardVanInfo>
                             <H2>{item.model}</H2>
                             <H2>{item.color}</H2>
@@ -68,13 +70,23 @@ export default function VanScreen(props) {
                 color: color,
                 plate: plate,
                 amount_passenger: numPassenger,
-                details: details
+                details: details,
+                air_conditioning: air_conditioning,
+                television: television
             })
 
             setModalVisible(!modalVisible)
         } catch (error) {
             console.log(error.messages)
         }
+    }
+
+    const handleChangeAir = () => {
+        setAir(!air_conditioning)
+    }
+
+    const handleChangeTelevision = () => {
+        setTelevision(!television)
     }
 
     useEffect(() => {
@@ -90,79 +102,81 @@ export default function VanScreen(props) {
 
     useEffect(() => {
         async function loadVans() {
-            const response = await api.get(`/api/van?driver=${driverId}&page=1`)
+            const data = await AsyncStorage.getItem('RentGoDriverUser')
+            const info = JSON.parse(data)
+            const response = await api.get(`/api/van?driver=${info.id}`)
             setVans(response.data.result.data)
         }
 
         loadVans()
-    }, [])
+    }, [vans])
 
     return (
         <Container>
-            <Header 
+            <Header
                 title="Suas Vans"
                 onDrawer={toggleDrawer}
             />
 
-            <FlatList 
+            <FlatList
                 keyExtractor={item => String(item.id)}
                 data={vans}
                 renderItem={({ item }) => _renderVans(item)}
             />
 
             <Fab onPress={openModal}>
-                <FabIcon source={require('../../assets/icons/plus.png')}/>
+                <FabIcon source={require('../../assets/icons/plus.png')} />
             </Fab>
 
-            <Modal animationType="fade" transparent visible={modalVisible} onRequestClose={() => {}}>
+            <Modal animationType="fade" transparent visible={modalVisible} onRequestClose={() => { }}>
                 <ModalContainer>
                     <ModalContent>
                         <ScrollView showsVerticalScrollIndicator={false}>
                             <ButtonCloseModal onPress={closeModal}>
-                                <Image source={require('../../assets/icons/exit.png')} style={{width: 15, height: 15}}/>
+                                <Image source={require('../../assets/icons/exit.png')} style={{ width: 15, height: 15 }} />
                             </ButtonCloseModal>
 
 
-                            <Input 
+                            <Input
                                 placeholder="Modelo"
-                                autoCapitalize="none" 
-                                autoCorrect={false} 
-                                underlineColorAndroid="transparent" 
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                underlineColorAndroid="transparent"
                                 value={model}
                                 onChangeText={setModel}
                             />
 
-                            <Input 
+                            <Input
                                 placeholder="Cor"
-                                autoCapitalize="none" 
-                                autoCorrect={false} 
-                                underlineColorAndroid="transparent" 
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                underlineColorAndroid="transparent"
                                 value={color}
                                 onChangeText={setColor}
                             />
 
-                            <Input 
+                            <Input
                                 placeholder="Placa"
-                                autoCapitalize="none" 
-                                autoCorrect={false} 
-                                underlineColorAndroid="transparent" 
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                underlineColorAndroid="transparent"
                                 value={plate}
                                 onChangeText={setPlate}
                             />
 
-                            <Input 
+                            <Input
                                 placeholder="Número de passageiros"
-                                autoCapitalize="none" 
-                                autoCorrect={false} 
-                                underlineColorAndroid="transparent" 
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                                underlineColorAndroid="transparent"
                                 value={passengers}
                                 onChangeText={setPassengers}
                             />
 
-                            <Input 
+                            <Input
                                 placeholder="Detalhes e observações"
-                                autoCapitalize="none" 
-                                autoCorrect={false} 
+                                autoCapitalize="none"
+                                autoCorrect={false}
                                 underlineColorAndroid="transparent"
                                 multiline={true}
                                 numberOfLines={4}
@@ -170,8 +184,23 @@ export default function VanScreen(props) {
                                 onChangeText={setDetails}
                             />
 
-                            <TouchableOpacity style={{backgroundColor: '#384662', borderRadius: 30, padding: 15}} onPress={handleSubmitVan}>
-                                <Text style={{color: '#FFFFFF', textAlign: "center"}}>Salvar</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View style={{flexDirection: 'row'}}>
+                                    <TouchableOpacity style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: air_conditioning ? '#1C2331' : '#E5E5E5' }} onPress={handleChangeAir}>
+
+                                    </TouchableOpacity>
+                                    <Text>Possui ar condicionado ?</Text>
+                                </View>
+                                <View style={{flexDirection: 'row'}}>
+                                    <TouchableOpacity style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: television ? '#1C2331' : '#E5E5E5' }} onPress={handleChangeTelevision}>
+
+                                    </TouchableOpacity>
+                                    <Text>Possui televisão ?</Text>
+                                </View>
+                            </View>
+
+                            <TouchableOpacity style={{ backgroundColor: '#384662', borderRadius: 30, padding: 15 }} onPress={handleSubmitVan}>
+                                <Text style={{ color: '#FFFFFF', textAlign: "center" }}>Salvar</Text>
                             </TouchableOpacity>
                         </ScrollView>
                     </ModalContent>

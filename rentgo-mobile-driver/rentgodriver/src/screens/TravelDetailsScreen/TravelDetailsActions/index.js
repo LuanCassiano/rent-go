@@ -3,8 +3,6 @@ import { TouchableOpacity, Text } from 'react-native'
 
 export default function TravelDetailsActions({ travelStatus, item, acceptTravel, startTravel, finishTravel }) {
 
-    console.tron.log('travel', travelStatus)
-
     const _renderActionButton = () => {
         switch (travelStatus) {
             case 'waiting_driver':

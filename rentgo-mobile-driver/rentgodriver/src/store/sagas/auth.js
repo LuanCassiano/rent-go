@@ -33,6 +33,6 @@ export function* signIn(action) {
             return
         }
     } catch (err) {
-        console.tron.log(err.message)
+        return err
     }
 }

@@ -9,6 +9,6 @@ export function* getDriverMoney({ payload: { id }}) {
 
         yield put(DriverMoneyActions.getDriverMoneyRaisedSuccess(response.data.driver_money))
     } catch (error) {
-        console.tron.log('error', error)
+        console.log('error', error)
     }
 }

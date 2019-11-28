@@ -58,6 +58,8 @@ export default function TravelDetails(props) {
         await api.put(`/api/trip/${item.id}`, {
             travel_status: 'scheduled'
         })
+
+        props.navigation.navigate('TravelsScheduled')
     }
 
     rejectTravel = async (id) => {
@@ -97,6 +99,8 @@ export default function TravelDetails(props) {
         await api.put(`/api/trip/${item.id}`, {
             travel_status: 'in_progress'
         })
+
+        props.navigation.navigate('TravelInProgress')
     }
 
     const finishTravel = async (item) => {
@@ -128,6 +132,10 @@ export default function TravelDetails(props) {
 
         await api.put(`/api/trip/${item.id}`, {
             travel_status: 'finished'
+        })
+
+        props.navigation.navigate('Rating', {
+            data: item
         })
     }
 

@@ -9,6 +9,6 @@ export function* getDriverRating({ payload: { id }}) {
 
         yield put(DriverRatingActions.getDriverRatingSuccess(response.data))
     } catch (error) {
-        console.tron.log('error', error)
+        console.log('error', error)
     }
 }

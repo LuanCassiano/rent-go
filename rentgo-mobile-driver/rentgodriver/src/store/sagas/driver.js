@@ -9,6 +9,6 @@ export function* getDriver({ payload: { id }}) {
 
         yield put(DriverActions.getDriverSuccess(response.data))
     } catch (error) {
-        console.tron.log('error', error)
+        console.log('error', error)
     }
 }

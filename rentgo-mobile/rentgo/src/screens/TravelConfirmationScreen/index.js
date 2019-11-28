@@ -171,7 +171,7 @@ export default function TravelConfirmation(props) {
             setModalVisible(true)
 
         } catch (error) {
-            console.tron.log('error', error)
+            console.log('error', error)
         }
     }
 

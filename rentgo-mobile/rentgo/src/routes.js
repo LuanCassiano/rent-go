@@ -17,6 +17,7 @@ import TravelCanceled from './screens/TravelCanceled'
 import TravelInProgress from './screens/TravelInProgress'
 import TravelMap from './screens/TravelInProgressMapView'
 import RatingScreen from './screens/RatingScreen'
+import FavoritesScreen from './screens/Favorites'
 
 import SideBar from './components/SideBar'
 import TabBar from './components/TabBar'
@@ -28,6 +29,15 @@ const HomeNavigator = createStackNavigator({
     Payment: PaymentScreen,
     TravelInProgress: TravelInProgress,
     Rating: RatingScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
+
+const FavoritesNavigator = createStackNavigator({
+    Favorites: FavoritesScreen
 }, {
     headerMode: 'none',
     defaultNavigationOptions: {
@@ -221,6 +231,14 @@ const DrawerNavigator = createDrawerNavigator({
         }
     },
 
+    Favorites: {
+        screen: FavoritesNavigator,
+        navigationOptions: {
+            drawerLabel: 'Favoritos',
+            drawerIcon: <Image source={require('./assets/icons/favorites.png')} style={{width: 25, height: 25}}/>
+        }
+    },
+
     Profile: {
         screen: ProfileNavigator,
         navigationOptions: {
@@ -228,22 +246,6 @@ const DrawerNavigator = createDrawerNavigator({
             drawerIcon: <Image source={require('./assets/icons/profile.png')} style={{width: 25, height: 25}}/>
         }
     },
-
-    Settings: {
-        screen: SettingsNavigator,
-        navigationOptions: {
-            drawerLabel: 'Configurações',
-            drawerIcon: <Image source={require('./assets/icons/settings.png')} style={{width: 25, height: 25}}/>
-        }
-    },
-
-    // Rating: {
-    //     screen: RatingScreen,
-    //     navigationOptions: {
-    //         drawerLabel: 'Avaliações',
-            
-    //     }
-    // }
 }, {
     drawerPosition: 'left',
     contentComponent: SideBar

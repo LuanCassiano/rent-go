@@ -9,6 +9,6 @@ export function* getDriverVan({ payload: { id, page }}) {
 
         yield put(DriverVanActions.getDriverVanSuccess(response.data.result))
     } catch (error) {
-        console.tron.log('error', error)
+        console.log('error', error)
     }
 }

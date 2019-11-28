@@ -14,14 +14,17 @@ import TravelnProgressScreen from './screens/TravelInProgress'
 import TravelsCanceledScreen from './screens/TravelsCanceled'
 import TravelsScheduledScreen from './screens/TravelScheduled'
 import TravelRequestsScreen from './screens/TravelRequests'
+import RatingScreen from './screens/RatingScreen'
 
 import Sidebar from './components/Sidebar'
 import TabBar from './components/TabBar'
 
 const HomeNavigator = createStackNavigator({
     Home: HomeScreen,
-    TravelRequests: TravelScheduledScreen,
-    TravelScheduled: TravelScheduledScreen
+    TravelRequests: TravelRequestsScreen,
+    TravelScheduled: TravelScheduledScreen,
+    TravelDetails: TravelDetailsScreen,
+    Rating: RatingScreen
 }, {
     headerMode: 'none',
     defaultNavigationOptions: {
@@ -116,6 +119,19 @@ TravelInProgressNavigator.navigationOptions = ({ navigation }) => {
         tabBarVisible
     }
 }
+
+const TravelDetailsNavigator = createStackNavigator({
+    TravelDetails: TravelDetailsScreen,
+    TravelsScheduled: TravelsScheduledScreen,
+    TravelInProgress: TravelnProgressScreen,
+    Travels: TravelsScreen,
+    Rating: RatingScreen
+}, {
+    headerMode: 'none',
+    defaultNavigationOptions: {
+        gesturesEnabled: false
+    }
+})
 
 const TravelRequestsNavigator = createStackNavigator({
     TravelRequests: TravelRequestsScreen,
