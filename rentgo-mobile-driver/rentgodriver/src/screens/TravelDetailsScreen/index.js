@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { View, ActivityIndicator, ScrollView, FlatList, TouchableOpacity, Text } from 'react-native'
 import axios from 'axios'
+import moment from 'moment'
+import NumberFormat from 'react-number-format'
+
 
 import api from '../../services/api'
 
@@ -68,7 +71,7 @@ export default function TravelDetails(props) {
         })
     }
 
-    const startTravel = async (item) => {        
+    const startTravel = async (item) => {
 
         await axios({
             method: 'POST',
@@ -140,6 +143,8 @@ export default function TravelDetails(props) {
     }
 
     _renderTripInfo = (item) => {
+        const formattedDate = moment(item.travel_date).format('DD/MM/YYYY HH:mm')
+
         return (
             <ViewGeneric>
                 <ViewTripInfoContent>
@@ -164,13 +169,6 @@ export default function TravelDetails(props) {
                 <Divider />
 
                 <ViewTripContent2>
-                    <Label>R$</Label>
-                    <Span>{item.travel_price}</Span>
-                </ViewTripContent2>
-
-                <Divider />
-
-                <ViewTripContent2>
                     <Label>Qtd. Passageiros</Label>
                     <Span>{item.number_passengers}</Span>
                 </ViewTripContent2>
@@ -178,15 +176,42 @@ export default function TravelDetails(props) {
                 <Divider />
 
                 <ViewTripContent2>
-                    <TravelDetailsActions 
-                        item={item}
-                        finishTravel={finishTravel}
-                        startTravel={startTravel}
-                        acceptTravel={acceptTravel}
-                        travelStatus={item.travel_status}
-                    />
+                    <Label>Data da viagem</Label>
+                    <Span>{formattedDate}</Span>
                 </ViewTripContent2>
-            </ViewGeneric>
+
+                <Divider />
+        
+                <ViewTripContent2>
+                    <Label>Solicitante</Label>
+                    <Span>{item.passenger.fullname}</Span>
+                </ViewTripContent2>
+
+                <Divider />
+
+                <ViewTripContent2>
+                    <Label>Valor da Viagem</Label>
+                    <NumberFormat
+                        value={item.travel_price}
+                        displayType="text"
+                        prefix="R$ "
+                        decimalSeparator=","
+                        decimalScale={2}
+                        fixedDecimalScale
+                        renderText={value => <Span>{value}</Span>} />
+                    
+                </ViewTripContent2>
+
+            <ViewTripContent2>
+                <TravelDetailsActions
+                    item={item}
+                    finishTravel={finishTravel}
+                    startTravel={startTravel}
+                    acceptTravel={acceptTravel}
+                    travelStatus={item.travel_status}
+                />
+            </ViewTripContent2>
+            </ViewGeneric >
         )
     }
 

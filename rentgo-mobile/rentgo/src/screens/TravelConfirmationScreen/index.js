@@ -4,6 +4,7 @@ import axios from 'axios'
 import api from '../../services/api'
 import DateTimePicker from "react-native-modal-datetime-picker"
 import moment from 'moment'
+import NumberFormat from 'react-number-format'
 
 import MapboxGL from '@mapbox/react-native-mapbox-gl'
 MapboxGL.setAccessToken('pk.eyJ1IjoibHV1YW5jYXNzaWFubyIsImEiOiJjanBzeWF4aHcwMGNyM3dwYTYzeTlsY2VmIn0.ReacoepEj0J0hJpbyHogYQ')
@@ -293,7 +294,17 @@ export default function TravelConfirmation(props) {
                                 />
                             </Form>
 
-                            <Label>Valor total da viagem: {travelPrice}</Label>
+                            <Label>Valor total da viagem:
+                                <NumberFormat
+                                    value={travelPrice}
+                                    displayType="text"
+                                    prefix=" R$ "
+                                    decimalSeparator=","
+                                    decimalScale={2}
+                                    fixedDecimalScale
+                                    renderText={value => <Label>{value}</Label>} />
+                            </Label>
+                            
 
                             <ButtonSubmit onPress={travelSolicitation}>
                                 <ButtonText>Solicitar viagem</ButtonText>

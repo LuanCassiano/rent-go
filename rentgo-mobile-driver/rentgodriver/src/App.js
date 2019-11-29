@@ -4,8 +4,6 @@ import AsyncStorage from '@react-native-community/async-storage'
 import createNavigator from './routes'
 import NavigationService from './services/navigation'
 
-import { Creators as AuthActions } from './store/ducks/auth'
-
 import OneSignal from 'react-native-onesignal'
 
 function App () {

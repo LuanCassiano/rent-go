@@ -50,7 +50,7 @@ export default function VanScreen(props) {
             <View style={{ padding: 20 }}>
                 <CardVanContainer>
                     <CardVanContent>
-                        <CardVanMedia source={{ uri: item.photo_van }} />
+                        <CardVanMedia source={require('../../assets/img/van.jpg')} />
                         <CardVanInfo>
                             <H2>{item.model}</H2>
                             <H2>{item.color}</H2>
@@ -184,18 +184,18 @@ export default function VanScreen(props) {
                                 onChangeText={setDetails}
                             />
 
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                                <View style={{flexDirection: 'row'}}>
-                                    <TouchableOpacity style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: air_conditioning ? '#1C2331' : '#E5E5E5' }} onPress={handleChangeAir}>
-
+                            <View>
+                                <View style={{flexDirection: 'row', marginBottom: 20}}>
+                                    <TouchableOpacity style={{ width: 30, height: 30, borderRadius: 5, backgroundColor: air_conditioning ? '#1C2331' : '#E5E5E5', marginRight: 20, justifyContent: "center", alignItems: 'center' }} onPress={handleChangeAir}>
+                                        { air_conditioning && <Image source={require('../../assets/icons/check.png')} style={{ width: 15, height: 15}}/>}
                                     </TouchableOpacity>
-                                    <Text>Possui ar condicionado ?</Text>
+                                    <Text style={{fontFamily: 'Quicksand-Bold', fontSize: 14, color: '#1C2331'}}>Possui ar condicionado ?</Text>
                                 </View>
-                                <View style={{flexDirection: 'row'}}>
-                                    <TouchableOpacity style={{ width: 50, height: 50, borderRadius: 25, backgroundColor: television ? '#1C2331' : '#E5E5E5' }} onPress={handleChangeTelevision}>
-
+                                <View style={{flexDirection: 'row', marginBottom: 20}}>
+                                    <TouchableOpacity style={{ width: 30, height: 30, borderRadius: 5, backgroundColor: television ? '#1C2331' : '#E5E5E5', marginRight: 20, justifyContent: "center", alignItems: 'center' }} onPress={handleChangeTelevision}>
+                                        { television && <Image source={require('../../assets/icons/check.png')} style={{ width: 15, height: 15}}/>}
                                     </TouchableOpacity>
-                                    <Text>Possui televisão ?</Text>
+                                    <Text style={{fontFamily: 'Quicksand-Bold', fontSize: 14, color: '#1C2331'}}>Possui televisão ?</Text>
                                 </View>
                             </View>
 

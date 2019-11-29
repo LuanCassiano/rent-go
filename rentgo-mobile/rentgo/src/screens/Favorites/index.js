@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, FlatList, ActivityIndicator, AsyncStorage, Text, Image, TouchableOpacity } from 'react-native'
 import api from '../../services/api'
+import NumberFormat from 'react-number-format'
 
 // import { Container } from './styles';
 
@@ -23,7 +24,15 @@ export default function Favorites(props) {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{flexDirection: 'column'}}>
                         <Text style={{color: '#1c2331', fontFamily: 'Quicksand-Bold', fontSize: 16}}>{item.fullname}</Text>
-                        <Text>Nota: {item.avg}</Text>
+                        <Text>Nota: <NumberFormat
+                                    value={item.avg}
+                                    displayType="text"
+                                    decimalSeparator="."
+                                    decimalScale={2}
+                                    fixedDecimalScale
+                                    renderText={value => <Text>{value}</Text>} />
+                        </Text>
+                        
                     </View>    
                     <Image source={{ uri: item.profile_image }} style={{width: 60, height: 60, borderRadius: 30}}/>
                 </View>

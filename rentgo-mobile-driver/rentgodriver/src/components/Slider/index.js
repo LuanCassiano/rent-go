@@ -22,7 +22,7 @@ export default function Slider(props) {
             return (
                 <CardVanContainer>
                     <CardVanContent>
-                        <CardVanMedia source={{ uri: props.vans.photo_van }}/>
+                        <CardVanMedia source={require('../../assets/img/van.jpg')}/>
                         <CardVanInfo>
                             <H2>{props.vans.model}</H2>
                             <H2>{props.vans.amount_passenger} lugares</H2>

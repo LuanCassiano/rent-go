@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, View, ActivityIndicator } from 'react-native'
+import { FlatList, View, ActivityIndicator, RefreshControl } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUniqueId } from 'react-native-device-info'
 import Geolocation from "@react-native-community/geolocation";
@@ -43,6 +43,7 @@ export default function HomeScreen(props) {
     const [latt, setLatt] = useState(0)
     const [long, setLong] = useState(0)
     const [vanCurrentPage, setVanCurrentPage] = useState(1)
+    const [refresh, setRefresh] = useState(false)
 
     toggleDrawer = () => {
         props.navigation.toggleDrawer()
@@ -75,21 +76,8 @@ export default function HomeScreen(props) {
         createPlayerNotify()
     }, [])
 
-    // const updateDriverPosition = async (latt, long) => {
-    //     await axios({
-    //         url: 'https://rentgo-geolocation.herokuapp.com/api/driver-location',
-    //         method: 'PUT',
-    //         data: {
-    //             latitude: latt,
-    //             longitude: long
-    //         }
-    //     })
-    // }
-
     useEffect(() => {
         OneSignal.addEventListener('opened', openedPush)
-
-        
     }, [])
 
     const currentDriverPosition = async (latt, long, driverId) => {
@@ -105,6 +93,18 @@ export default function HomeScreen(props) {
                 driver_id: driverId
             }
         })
+    }
+
+    const handleRefresh = async () => {
+        setRefresh(true)
+        const data = await AsyncStorage.getItem('RentGoDriverUser')
+        const info = JSON.parse(data)
+
+        dispatch(DriverMoneyActions.getDriverMoneyRaisedRequest(info.id))
+        dispatch(DriverActions.getDriverRequest(info.id))
+        dispatch(DriverRatingActions.getDriverRatingRequest(info.id))
+        dispatch(DriverVanActions.getDriverVanRequest(info.id, vanCurrentPage))
+        setRefresh(false)
     }
 
     useEffect(() => {
@@ -137,7 +137,9 @@ export default function HomeScreen(props) {
     }
 
     return (
-        <Container>
+        <Container refreshControl={
+            <RefreshControl refreshing={refresh} onRefresh={handleRefresh}/>
+        }>
             <Header
                 title="RentGo Driver"
                 onDrawer={toggleDrawer}

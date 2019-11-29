@@ -6,7 +6,7 @@ import CodePush from 'react-native-code-push'
 
 import OneSignal from 'react-native-onesignal'
 
-import './config/ReactotronConfig'
+// import './config/ReactotronConfig'
 
 function App() {
 

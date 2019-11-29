@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StatusBar, AsyncStorage, ScrollView, TouchableOpacity, Text, Image, View } from 'react-native'
+import { StatusBar, AsyncStorage, ScrollView, TouchableOpacity, Text, Image, View, Modal, FlatList } from 'react-native'
 
 import api from '../../services/api'
 
@@ -14,7 +14,11 @@ import {
 	Label,
 	Row,
 	TextInfo,
-	ViewGeneric
+	ViewGeneric,
+	ModalContainer,
+	ModalContent,
+	ButtonSubmit,
+	TextButton
 } from './styles'
 
 import Header from '../../components/Header'
@@ -28,6 +32,11 @@ export default function DriverScreen(props) {
 	const driverId = props.navigation.getParam('driver')
 
 	const [driver, setDriver] = useState({})
+	const [positive, setPositive] = useState(0)
+	const [negative, setNegative] = useState(0)
+	const [media, setMedia] = useState(0)
+	const [vans, setVans] = useState([])
+	const [modalOpen, setModalOpen] = useState(false)
 
 	goBack = () => {
 		props.navigation.goBack()
@@ -43,6 +52,15 @@ export default function DriverScreen(props) {
 			try {
 				const response = await api.get(`/api/driver/${driverId}`)
 				setDriver(response.data.driver[0])
+
+				const data = await api.get(`/api/driver-rating/${driverId}`)
+				setPositive(data.data.positive)
+				setNegative(data.data.negative)
+				setMedia(data.data.media)
+
+				const driverVans = await api.get(`/api/van?driver=${driverId}&page=1`)
+				setVans(driverVans.data.result.data)
+
 			} catch (error) {
 				console.log(error)
 			}
@@ -51,19 +69,19 @@ export default function DriverScreen(props) {
 		loadDataDriver()
 	}, [])
 
-	useEffect(() => {
-		async function updateDataDriver() {
-			const responseRate = await api.get(`/api/driver-rating?driver_rated=${driverId}`)
-
-			await api.put(`/api/driver/${driverId}`, {
-				rating: responseRate.data.media,
-				positive_notes: responseRate.data.positive_notes,
-				negative_notes: responseRate.data.negative_notes
-			})
-		}
-
-		updateDataDriver()
-	}, [])
+	const _renderVans = (item) => {
+		return (
+			<TouchableOpacity style={{padding: 20, borderRadius: 5, backgroundColor: '#1C2331', marginBottom: 20, marginTop: 10}} onPress={() => setModalOpen(false)}>
+				<View style={{flexDirection: 'row'}}>
+					<Image source={require('../../assets/img/van.jpg')} style={{width: 50, height: 50, borderRadius: 25}}/>
+					<View style={{flexDirection: 'column'}}>
+						<Text style={{ fontFamily: 'Quicksand-Bold', fontSize: 16, color: '#E5E9F0', marginLeft: 10}}>{item.model}</Text>
+						<Text style={{ fontFamily: 'Quicksand-Bold', fontSize: 16, color: '#E5E9F0', marginLeft: 10}}>{item.amount_passenger} lugares</Text>
+					</View>
+				</View>
+			</TouchableOpacity>
+		)
+	}
 
 	return (
 		<Container noPadding={false}>
@@ -84,11 +102,7 @@ export default function DriverScreen(props) {
 
 						<ContentInfo>
 							<Icon source={starIcon} />
-							{driver.rating ? (
-								<Label>{driver.rating}</Label>
-							) : (
-									<Label>0.0</Label>
-								)}
+							<Label>{media}</Label>
 						</ContentInfo>
 					</Row>
 
@@ -101,7 +115,7 @@ export default function DriverScreen(props) {
 
 					<ContentDetails>
 						<TextInfo>Vans</TextInfo>
-						<TouchableOpacity style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 20, paddingRight: 20, borderRadius: 5, backgroundColor: '#E5E9F0', alignItems: "center", justifyContent: "center" }}>
+						<TouchableOpacity onPress={() => setModalOpen(true)} style={{ paddingTop: 10, paddingBottom: 10, paddingLeft: 20, paddingRight: 20, borderRadius: 5, backgroundColor: '#E5E9F0', alignItems: "center", justifyContent: "center" }}>
 							<Image source={require('../../assets/icons/view.png')} style={{ width: 20, height: 20 }} />
 						</TouchableOpacity>
 					</ContentDetails>
@@ -120,11 +134,11 @@ export default function DriverScreen(props) {
 				<View style={{ backgroundColor: '#1C2331', padding: 20, marginBottom: 10 }}>
 					<View style={{ flexDirection: 'row', justifyContent: "space-around" }}>
 						<View style={{ flexDirection: 'column', justifyContent: "center", alignItems: "center", flex: 1 }}>
-							<Text style={{ textAlign: "center", color: "#E5E9F0", fontFamily: 'Quicksand-Medium', fontSize: 14 }}>{driver.positive_notes}</Text>
+							<Text style={{ textAlign: "center", color: "#E5E9F0", fontFamily: 'Quicksand-Medium', fontSize: 14 }}>{positive}</Text>
 							<Text style={{ textAlign: "center", color: "#E5E9F0", fontFamily: 'Quicksand-Medium', fontSize: 14 }}>Avaliações positivas</Text>
 						</View>
 						<View style={{ flexDirection: 'column', justifyContent: "center", alignItems: "center", flex: 1 }}>
-							<Text style={{ textAlign: "center", color: "#E5E9F0", fontFamily: 'Quicksand-Medium', fontSize: 14 }}>{driver.negative_notes}</Text>
+							<Text style={{ textAlign: "center", color: "#E5E9F0", fontFamily: 'Quicksand-Medium', fontSize: 14 }}>{negative}</Text>
 							<Text style={{ textAlign: "center", color: "#E5E9F0", fontFamily: 'Quicksand-Medium', fontSize: 14 }}>Avaliações negativas</Text>
 						</View>
 
@@ -135,10 +149,10 @@ export default function DriverScreen(props) {
 					</View>
 				</View>
 
-				<View style={{ backgroundColor: '#1C2331', padding: 20 }}>
+				{/* <View style={{ backgroundColor: '#1C2331', padding: 20 }}>
 					<Text style={{ textAlign: "center", color: "#E5E9F0", fontFamily: 'Quicksand-Bold', fontSize: 16 }}>Observações</Text>
 					<Text style={{ textAlign: "center", color: "#E5E9F0", fontFamily: 'Quicksand-Medium', fontSize: 14 }}>{driver.observations}</Text>
-				</View>
+				</View> */}
 
 				<ViewGeneric>
 					<ActionButton onPress={goToTravelConfirmation}>
@@ -146,6 +160,19 @@ export default function DriverScreen(props) {
 					</ActionButton>
 				</ViewGeneric>
 			</ScrollView>
+
+			<Modal animationType="fade" transparent visible={modalOpen} onRequestClose={() => {}}>
+                <ModalContainer>
+                    <ModalContent>
+                        
+						<FlatList 
+							keyExtractor={(item) => String(item.id)}
+							data={vans}
+							renderItem={({ item }) => _renderVans(item)}
+						/>
+                    </ModalContent>
+                </ModalContainer>
+            </Modal>
 		</Container>
 	)
 }

@@ -154,21 +154,21 @@ export default function RatingScreen(props) {
                                 </View>
                             </View>
                             { note > 0 && 
-                                <TouchableOpacity style={{backgroundColor: '#E5E0F9', padding: 15, margin: 10, borderRadius: 30, alignSelf: 'stretch'}} onPress={handleAddRating}>
-                                    <Text style={{color: '#1C2331'}}>Avaliar</Text>
+                                <TouchableOpacity style={{backgroundColor: '#E5E9F0', padding: 15, margin: 10, borderRadius: 30, alignSelf: 'stretch'}} onPress={handleAddRating}>
+                                    <Text style={{color: '#1C2331', textAlign: 'center', fontSize: 16, fontFamily: 'Quicksand-Bold'}}>Avaliar</Text>
                                 </TouchableOpacity>
                             }
 
                             {note > 3 &&
                                 <View style={{ marginBottom: 20, marginTop: 20 }}>
-                                    <Text style={{ fontSize: 20, fontFamily: 'Quicksand-Bold', textAlign: 'center', color: '#E5E0F9' }}>Deseja adicionar o motorista {driverName} à sua lista de favoritos ?</Text>
+                                    <Text style={{ fontSize: 20, fontFamily: 'Quicksand-Bold', textAlign: 'center', color: '#E5E9F0' }}>Deseja adicionar o motorista {driverName} à sua lista de favoritos ?</Text>
                                 
                                     <View style={{flexDirection: "row", justifyContent: 'space-between'}}>
-                                        <TouchableOpacity style={{backgroundColor: '#E5E0F9', padding: 15, margin: 10, borderRadius: 5}} onPress={() => handleAddToFavorite(true)}>
+                                        <TouchableOpacity style={{backgroundColor: '#E5E9F0', padding: 15, margin: 10, borderRadius: 5}} onPress={() => handleAddToFavorite(true)}>
                                             <Text style={{color: '#1C2331'}}>Sim</Text>
                                         </TouchableOpacity>
                                         
-                                        <TouchableOpacity style={{backgroundColor: '#E5E0F9', padding: 15, margin: 10, borderRadius: 5}} onPress={() => handleAddToFavorite(false)}>
+                                        <TouchableOpacity style={{backgroundColor: '#E5E9F0', padding: 15, margin: 10, borderRadius: 5}} onPress={() => handleAddToFavorite(false)}>
                                             <Text style={{color: '#1C2331'}}>Não</Text>
                                         </TouchableOpacity>
                                     </View>

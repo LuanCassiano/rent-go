@@ -29,6 +29,7 @@ export default function CardDrivers(props) {
     }
 
     _renderCards = (item) => {
+
         return (
             <Card onPress={() => goToDriverInfo(item.id)}>
                 <CardBody>
@@ -37,16 +38,12 @@ export default function CardDrivers(props) {
                             <Image source={require('../../assets/icons/driver.png')} style={{ width: 18, height: 18, marginTop: 6 }} />
                             <CardTitle>{item.fullname}</CardTitle>
                         </Row>
-                        <Row>
-                            <Image source={require('../../assets/icons/star.png')} style={{ width: 15, height: 15 }} />
-                            <CardText>{item.rating}</CardText>
-                        </Row>
                     </ViewInfo>
                     <CardImage source={{ uri: item.profile_image }} />
                 </CardBody>
                 <CardFooter>
                     <CardText>Viagens</CardText>
-                    <CardText>408</CardText>
+                    <CardText>{item.trip.length}</CardText>
                 </CardFooter>
             </Card>
         )

@@ -107,7 +107,6 @@ export default function TravelInProgress(props) {
 
             setLatt(responseCoordinates.data[0].latitude)
             setLong(responseCoordinates.data[0].longitude)
-            console.log('response coordinates', responseCoordinates)
             
             setLoading(false)
         }

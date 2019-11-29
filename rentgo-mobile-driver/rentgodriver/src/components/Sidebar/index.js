@@ -38,9 +38,6 @@ export default function SideBar(props) {
             const info = JSON.parse(data)
             
             setLoading(true)
-            const response = await api.get(`/api/driver/${info.id}`)
-
-            setRating(response.data.media)
             setUsername(info.username)
             setImage(info.profile_image)
             setLoading(false)
@@ -48,6 +45,18 @@ export default function SideBar(props) {
 
         getDriverAuth()
     }, [])
+
+    useEffect(() => {
+        async function getDriverRating() {
+            const data = await AsyncStorage.getItem('RentGoDriverUser')
+            const info = JSON.parse(data)
+
+            const response = await api.get(`api/driver-rating/${info.id}`)
+            setRating(response.data.media)
+        }
+
+        getDriverRating()
+    }, [rating])
 
     return (
         <Container>
